@@ -50,8 +50,8 @@ public class Scale extends MarvinAbstractPluginImage{
 	
 	public void load(){
 		attributes = getAttributes();
-		newWidth = getImagePanel().getImage().getWidth();
-		newHeight = getImagePanel().getImage().getHeight();
+		newWidth = 0;
+		newHeight = 0;
 		attributes.set("newWidth", newWidth);
 		attributes.set("newHeight", newHeight);
 	}

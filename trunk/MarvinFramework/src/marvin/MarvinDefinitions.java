@@ -31,5 +31,5 @@ package marvin;
 
 public class MarvinDefinitions{
 	
-	public static String PLUGIN_IMAGE_PATH = ".\\marvin\\plugins\\image\\";
+	public static String PLUGIN_IMAGE_PATH = "./marvin/plugins/image/";
 }

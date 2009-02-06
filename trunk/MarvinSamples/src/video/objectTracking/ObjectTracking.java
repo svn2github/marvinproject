@@ -15,7 +15,6 @@ import javax.swing.event.ChangeListener;
 
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
-import marvin.plugin.MarvinPluginImage;
 import marvin.video.MarvinVideoManager;
 
 public class ObjectTracking extends JFrame implements Runnable{
@@ -58,7 +57,7 @@ public class ObjectTracking extends JFrame implements Runnable{
 		videoManager = new MarvinVideoManager(videoPanel);	
 		videoManager.connect();
 		
-		imageLastFrame = new MarvinImage(640,480);
+		imageLastFrame = new MarvinImage(videoManager.getCameraWidth(),videoManager.getCameraHeight());
 		
 		loadGUI();
 		

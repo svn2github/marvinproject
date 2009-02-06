@@ -128,7 +128,6 @@ public class MarvinVideoManager{
 		{
 			// search for video device
 			deviceInfo = (CaptureDeviceInfo)deviceList.elementAt(i);
-			if(deviceInfo.getName().indexOf("vfw:")<0)continue;
 			
 			Format deviceFormat[] = deviceInfo.getFormats();
 			RGBFormat imgFormat = new RGBFormat(null,-1,Format.intArray,-1,32,0x00FF0000,0x0000FF00,0x000000FF,-1,-1,Format.FALSE,-1);
@@ -320,7 +319,6 @@ public class MarvinVideoManager{
 		try
 		{
 			pbs = ((PushBufferDataSource)dataSource).getStreams()[0];
-			((com.sun.media.protocol.vfw.VFWSourceStream) pbs ).DEBUG = true;
 		}
 		catch(Exception e){}
 	}
