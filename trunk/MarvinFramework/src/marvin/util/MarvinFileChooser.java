@@ -67,7 +67,6 @@ public class MarvinFileChooser extends JDialog{
 	 */
 	public static String select(Component a_parent, boolean a_forceExistingFile, int a_dialogType, FileNameExtensionFilter[] a_arrExtensions) throws IOException{
 		int l_result=0;
-		String[] l_arrExtensions;
 		
 		if(chooser == null)
 		{
@@ -106,7 +105,6 @@ public class MarvinFileChooser extends JDialog{
 		if(a_dialogType == SAVE_DIALOG)
 		{
 			int l_lastIndex;
-			l_arrExtensions = ((FileNameExtensionFilter)chooser.getFileFilter()).getExtensions();
 			l_lastIndex = path.lastIndexOf('.');
 			if(l_lastIndex == -1)
 			{

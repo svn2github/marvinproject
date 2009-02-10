@@ -95,7 +95,7 @@ public class Correlation extends MarvinAbstractPluginImage {
 			img_teste = new MarvinImage(ImageIO.read(new File(novaImagem)));
 		}catch(Exception e)
 		{
-			System.out.println("Erro ao selecionar nova imagem");
+			System.out.println("Error while selecting image");
 		}
 		// the image have to same size
 		if(img_teste.getWidth() == a_imageIn.getWidth() && img_teste.getHeight() == a_imageIn.getHeight()){

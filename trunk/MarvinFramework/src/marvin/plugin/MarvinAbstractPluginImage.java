@@ -30,13 +30,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 package marvin.plugin;
 
 import marvin.gui.MarvinImagePanel;
-import marvin.image.MarvinImage;
 import marvin.util.MarvinAttributes;
 
 public abstract class MarvinAbstractPluginImage implements MarvinPluginImage
 {
 	//private Marvin marvinApplication;
-	private MarvinImage image;
 	private MarvinAttributes marvinAttributes;
 	private MarvinImagePanel imagePanel;
 

@@ -175,8 +175,6 @@ public class AlphaBlending extends MarvinAbstractPluginImage {
 		MarvinImage image3 = new MarvinImage(maxW, maxH);
 		a_imageOut.setDimension(maxW, maxH);
 		
-		System.out.println("maxW:"+maxW);
-		
 		//Get MarvinAttributes
 		int xi = verify((Integer) attributes.get("xi"));
 		int yi = verify((Integer) attributes.get("yi"));

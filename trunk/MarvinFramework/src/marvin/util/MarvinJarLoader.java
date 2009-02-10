@@ -37,7 +37,7 @@ public class MarvinJarLoader extends ClassLoader {
 	 * jar file.
 	 */
 	public Object getObject(String a_className){
-		Class l_class = getClass(a_className);
+		Class<?> l_class = getClass(a_className);
 		try{
 			Constructor<?> l_con = l_class.getConstructor();
 			return l_con.newInstance();
@@ -58,12 +58,11 @@ public class MarvinJarLoader extends ClassLoader {
 		eJarEntries = jarFile.entries();
 		JarEntry l_entry = null;
 		byte[] l_arrBuffer=null;
-		String l_name;
 		while(eJarEntries.hasMoreElements()){
 			l_entry = eJarEntries.nextElement();
 			if(l_entry.getName().contains(a_name+".class")){
 				l_arrBuffer = getEntryBytes(l_entry);
-				Class l_class = super.defineClass(null, l_arrBuffer, 0, (int)l_entry.getSize());
+				Class<?> l_class = super.defineClass(null, l_arrBuffer, 0, (int)l_entry.getSize());
 				return l_class;
 			}
 		}

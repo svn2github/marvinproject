@@ -148,7 +148,7 @@ public class ChromaKey extends JFrame implements Runnable{
 		l_container.add(panelBottom, BorderLayout.SOUTH);
 		
 		
-		setSize(640,580);
+		setSize(videoManager.getCameraWidth(),videoManager.getCameraHeight()+100);
 		setVisible(true);
 	}
 	

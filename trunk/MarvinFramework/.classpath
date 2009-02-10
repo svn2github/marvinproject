@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="var" path="JMF"/>
+	<classpathentry kind="var" path="JMF" sourcepath="/JMF"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

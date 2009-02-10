@@ -71,8 +71,8 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		videoManager = new MarvinVideoManager(videoPanel);	
 		videoManager.connect();
 		
-		imageHat = MarvinImageIO.loadImage("hat.png");
-		imageBall = MarvinImageIO.loadImage("ball.png");
+		imageHat = MarvinImageIO.loadImage("./res/hat.png");
+		imageBall = MarvinImageIO.loadImage("./res/ball.png");
 		loadGUI();
 		
 		arrBall = new Ball[5]; 
@@ -447,7 +447,6 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 	}
 	
 	private void gameLoop(){
-		combineImage(imageHat,objectPx-30,objectPy-60);
 		
 		maskPx = objectPx-12;
 		maskPy = objectPy-58;
@@ -465,6 +464,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		
 		updateBalls();
 		collisionDetection();
+		combineImage(imageHat,objectPx-30,objectPy-60);
 	}
 	
 	public void collisionDetection(){

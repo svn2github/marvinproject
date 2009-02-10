@@ -67,6 +67,10 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 								imageOut,
 								imageLastFrame;
 	
+	private int					imageWidth,
+								imageHeight;
+								
+	
 	private MarvinAttributes 	attributesOut;
 	
 	private Thread 				thread;
@@ -81,7 +85,10 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 		videoManager = new MarvinVideoManager(videoPanel);	
 		videoManager.connect();
 		
-		imageLastFrame = new MarvinImage(640,480);
+		imageWidth = videoManager.getCameraWidth();
+		imageHeight = videoManager.getCameraHeight();
+		
+		imageLastFrame = new MarvinImage(imageWidth,imageHeight);
 		
 		attributesOut = new MarvinAttributes();
 		
@@ -113,7 +120,7 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 		l_container.add(videoPanel, BorderLayout.NORTH);
 		l_container.add(panelSlider, BorderLayout.SOUTH);
 		
-		setSize(640,570);
+		setSize(imageWidth,imageHeight+90);
 		setVisible(true);	
 	}
 	

@@ -59,7 +59,6 @@ public class Scale extends MarvinAbstractPluginImage{
 	public void show(){
 		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Scale - Nearest Neighbor", 270,100, getImagePanel(), this);
 		l_filterWindow.disablePreview();
-		System.out.println("attr:"+attributes);
 		l_filterWindow.addLabel("lblWidth", "Width:");
 		l_filterWindow.addTextField("txtWidth", "newWidth", attributes);
 		l_filterWindow.addPanelBelow();

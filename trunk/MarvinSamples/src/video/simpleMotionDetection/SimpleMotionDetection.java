@@ -65,6 +65,9 @@ public class SimpleMotionDetection extends JFrame implements Runnable{
 	private MarvinVideoManager	videoManager;
 	private MarvinImagePanel 	videoPanel;
 	
+	private int					imageWidth,
+								imageHeight;
+	
 	private Thread 				thread;
 	
 	private MarvinImage 		imageIn, 
@@ -81,7 +84,10 @@ public class SimpleMotionDetection extends JFrame implements Runnable{
 		videoManager = new MarvinVideoManager(videoPanel);	
 		videoManager.connect();
 		
-		imageLastFrame = new MarvinImage(640,480);
+		imageWidth = videoManager.getCameraWidth();
+		imageHeight = videoManager.getCameraHeight();
+		
+		imageLastFrame = new MarvinImage(imageWidth,imageHeight);
 		
 		loadGUI();
 		
@@ -121,7 +127,7 @@ public class SimpleMotionDetection extends JFrame implements Runnable{
 		l_container.add(panelSlider, BorderLayout.SOUTH);
 		
 		
-		setSize(640,580);
+		setSize(imageWidth,imageHeight+100);
 		setVisible(true);
 	}
 	

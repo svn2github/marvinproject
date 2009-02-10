@@ -78,7 +78,7 @@ public class TrackingPong extends JFrame implements Runnable{
 		videoManager = new MarvinVideoManager(videoPanel);	
 		videoManager.connect();
 		
-		imageLastFrame = new MarvinImage(640,480);
+		imageLastFrame = new MarvinImage(videoManager.getCameraWidth(),videoManager.getCameraHeight());
 		
 		screenWidth = videoManager.getCameraWidth();
 		screenHeight = videoManager.getCameraHeight();
@@ -420,6 +420,8 @@ public class TrackingPong extends JFrame implements Runnable{
 		ballPx+=ballIncX;
 		ballPy+=ballIncY;
 		
+		paddlePlayer.px = objectPx+((objectWidth-paddlePlayer.width)/2);
+		
 		computerAI();
 		checkPaddlePosition(paddlePlayer);
 		checkPaddlePosition(paddleComputer);
@@ -429,7 +431,7 @@ public class TrackingPong extends JFrame implements Runnable{
 		
 		imageOut.fillRect(horizontalMargin, 0, 5, screenHeight, Color.black);
 		imageOut.fillRect(screenWidth-horizontalMargin, 0, 5, screenHeight, Color.black);
-		paddlePlayer.px = objectPx+((objectWidth-paddlePlayer.width)/2);
+		
 		imageOut.fillRect(paddlePlayer.px, paddlePlayer.py, paddlePlayer.width, paddlePlayer.height, Color.green);
 		imageOut.fillRect(paddleComputer.px, paddleComputer.py, paddleComputer.width, paddleComputer.height, Color.red);
 		imageOut.fillRect((int)ballPx, (int)ballPy, ballSide, ballSide, Color.yellow);
