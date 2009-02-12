@@ -43,7 +43,7 @@ public class MarvinPluginWindowComponent
 	
 	public enum ComponentType{
 		COMPONENT_TEXTFIELD, COMPONENT_SLIDER, COMPONENT_COMBOBOX, 
-		COMPONENT_LABEL, COMPONENT_IMAGE, COMPONENT_TEXTAREA
+		COMPONENT_LABEL, COMPONENT_IMAGE, COMPONENT_TEXTAREA, COMPONENT_CHECKBOX
 	};
 	
 	protected String id;
@@ -69,16 +69,14 @@ public class MarvinPluginWindowComponent
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the component´s ID
 	 */
 	public String getID(){
 		return id;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the ID of the attribute associated with the component.
 	 */
 	public String getAttributeID(){
 		return attributeID;
@@ -86,23 +84,21 @@ public class MarvinPluginWindowComponent
 
 	/**
 	 * 
-	 * @return
+	 * @return atribute object´s reference.
 	 */
 	public MarvinAttributes getAttributes(){
 		return attributes;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the Swing component
 	 */
 	public JComponent getComponent(){
 		return component;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the component´s type.
 	 */
 	public ComponentType getType(){
 		return type;

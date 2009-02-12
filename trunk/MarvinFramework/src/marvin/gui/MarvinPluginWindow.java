@@ -38,6 +38,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -246,15 +247,28 @@ public class MarvinPluginWindow extends JFrame
 	
 	/**
 	 * Add VerticalSlider
-	 * @param a_id			- component큦 ID.
-	 * @param a_attributeID	- attribute큦 ID.
-	 * @param a_min			- minimum value.
-	 * @param a_max			- maximum value.
-	 * @param a_value		- initial value.
+	 * @param a_id			- component큦 ID
+	 * @param a_attributeID	- attribute큦 ID
+	 * @param a_min			- minimum value
+	 * @param a_max			- maximum value
+	 * @param a_value		- initial value
 	 * @param a_attributes	- MarvinAttributes object
 	 */
 	public void addVerticalSlider(String a_id, String a_attributeID, int a_min, int a_max, int a_value, MarvinAttributes a_attributes){
 		addSlider(a_id, a_attributeID, SwingConstants.VERTICAL, a_min, a_max, a_value, a_attributes);
+	}
+	
+	/**
+	 * Add CheckBox
+	 * @param a_id				- component큦 ID
+	 * @param a_checkBoxText	- CheckBox큦 text attribute  
+	 * @param a_attirbuteID		- attribute큦 ID
+	 * @param a_attributes		- MarvinAttributes object
+	 */	
+	public void addCheckBox(String a_id, String a_checkBoxText, String a_attributeID,MarvinAttributes a_attributes){
+		JComponent l_component = new JCheckBox(a_checkBoxText);
+		panelCurrent.add(l_component);
+		plugComponent(a_id, l_component, a_attributeID, a_attributes, ComponentType.COMPONENT_CHECKBOX);
 	}
 
 	/**
@@ -291,6 +305,9 @@ public class MarvinPluginWindow extends JFrame
 		else if(l_class == String.class){
 			return a_value.toString();
 		}
+		else if(l_class == Boolean.class){
+			return Boolean.parseBoolean(a_value);
+		}
 		return null;
 	}
 
@@ -312,6 +329,8 @@ public class MarvinPluginWindow extends JFrame
 				return ( ((JSlider)l_component).getValue());
 			case COMPONENT_TEXTAREA:
 				return ( ((JTextArea)l_component).getText());
+			case COMPONENT_CHECKBOX:
+				return ( ((JCheckBox)l_component).isSelected());
 		}
 		return null;		
 	}

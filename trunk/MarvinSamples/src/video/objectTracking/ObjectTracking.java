@@ -15,7 +15,16 @@ import javax.swing.event.ChangeListener;
 
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
+import marvin.image.MarvinImageMask;
+import marvin.plugin.MarvinPluginImage;
+import marvin.util.MarvinAttributes;
+import marvin.util.MarvinPluginLoader;
 import marvin.video.MarvinVideoManager;
+
+/**
+ * Object tracking by color pattern
+ * @author Gabriel Ambrosio Archanjo
+ */
 
 public class ObjectTracking extends JFrame implements Runnable{
 
@@ -25,8 +34,7 @@ public class ObjectTracking extends JFrame implements Runnable{
 	private Thread 				thread;
 	
 	private MarvinImage 		imageIn, 
-								imageOut, 
-								imageLastFrame;
+								imageOut;
 	
 	private JPanel				panelSlider;
 	
@@ -34,42 +42,25 @@ public class ObjectTracking extends JFrame implements Runnable{
 	
 	private JLabel				labelSlider;
 	
-	private boolean				objectCaptured;
-	
-	private int					objectPx,
-								objectPy,
-								objectWidth,
-								objectHeight;
-	
-	private int[]				arrObjectPixels,
-								arrRegionPixels;
-	
-	private int					patternWidth=60;
-	private int					patternHeight=60;
+	private MarvinPluginImage	pluginImage;
+	private MarvinAttributes	attributesOut;
 	
 	private int					sensibility=30;
 	
 	private boolean				regionSelected=false;
-	private int[]				firstClick;
+	private int[]				arrInitialRegion;
 	
 	public ObjectTracking(){
 		videoPanel = new MarvinImagePanel();
 		videoManager = new MarvinVideoManager(videoPanel);	
 		videoManager.connect();
 		
-		imageLastFrame = new MarvinImage(videoManager.getCameraWidth(),videoManager.getCameraHeight());
-		
 		loadGUI();
 		
-		/*
-		objectPx = 300;
-		objectPy = 200;
-		objectWidth = 120;
-		objectHeight = 180;
-		*/
-				
-		objectCaptured = false;
+		pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.pattern.findColorPattern.jar");
 		
+		attributesOut = new MarvinAttributes();
+
 		thread = new Thread(this);
 		thread.start();
 	}
@@ -97,253 +88,7 @@ public class ObjectTracking extends JFrame implements Runnable{
 		setSize(1000,700);
 		setVisible(true);
 	}
-	
-	private void initPattern(int a_x, int a_y, int a_width, int a_height){
-		objectPx = a_x;
-		objectPy = a_y;
-		objectWidth = a_width;
-		objectHeight = a_height;
 		
-		patternWidth = a_width/2;
-		patternHeight = a_height/2;
-		
-		arrObjectPixels = new int[patternWidth*patternHeight];
-		arrRegionPixels = new int[patternWidth*patternHeight];
-		
-		captureObject(objectPx, objectPy, objectWidth, objectHeight);
-	}
-	
-	private void captureObject(int a_x, int a_y, int a_width, int a_height){
-		double l_xFactor = (double)a_width/patternWidth;
-		double l_yFactor = (double)a_height/patternHeight;
-		
-		double l_dX=a_x,l_dY=a_y;
-		int l_iX,l_iY;
-		
-		
-		for(int l_h=0; l_h<patternHeight; l_h++){
-			l_dY+=l_yFactor;
-			for(int l_w=0; l_w<patternWidth; l_w++){
-				l_dX+=l_xFactor;
-				
-				l_iX = (int)l_dX;
-				l_iY = (int)l_dY;
-				
-				arrObjectPixels[((l_h)*patternWidth)+l_w] = imageOut.getRGB(l_iX, l_iY);
-			}
-			l_dX=a_x;
-		}
-		objectCaptured = true;
-	}
-	
-	private void process(){		
-		
-		int l_arrRegion[] = new int[]{objectPx, objectPy, objectWidth, objectHeight};
-		
-		newRegion(l_arrRegion, objectWidth/10,0,4);
-		newRegion(l_arrRegion, objectWidth/20,0,5);
-		newRegion(l_arrRegion, 2,0,20);
-		newRegionSize(l_arrRegion, 0,8);
-		
-		objectPx = l_arrRegion[0];
-		objectPy = l_arrRegion[1];
-		objectWidth = l_arrRegion[2];
-		objectHeight = l_arrRegion[3];
-		
-		imageOut.drawRect(objectPx, objectPy, objectWidth, objectHeight, Color.red);
-	}
-	
-	private void newRegionSize(int[] a_arrRegion, int a_depth, int a_maxDepth){
-		double l_arrMatch[] = new double[3];
-		double l_tempMatch;
-		double l_betterMatch=0;
-		int l_betterIndex=0;
-		
-		l_tempMatch = matchRegion(a_arrRegion[0], a_arrRegion[1], a_arrRegion[2], a_arrRegion[3]);
-		if(l_tempMatch > l_betterMatch){
-			l_betterMatch = l_tempMatch;
-			l_betterIndex = 0;
-		}
-		
-		l_tempMatch = matchRegion(a_arrRegion[0]-3, a_arrRegion[1]-3, a_arrRegion[2]+6, a_arrRegion[3]+6);
-		if(l_tempMatch > l_betterMatch){
-			l_betterMatch = l_tempMatch;
-			l_betterIndex = 1;
-		}
-		
-		l_tempMatch = matchRegion(a_arrRegion[0]+3, a_arrRegion[1]+3, a_arrRegion[2]-6, a_arrRegion[3]-6);
-		if(l_tempMatch > l_betterMatch){
-			l_betterMatch = l_tempMatch;
-			l_betterIndex = 2;
-		}
-		
-		l_tempMatch = matchRegion(a_arrRegion[0], a_arrRegion[1], a_arrRegion[2], a_arrRegion[3]);
-		if(l_tempMatch >= l_betterMatch){
-			
-			return;
-		}
-		
-		switch(l_betterIndex){
-			case 1: 	
-				a_arrRegion[0]-=3;	
-				a_arrRegion[1]-=3;
-				a_arrRegion[2]+=6;	
-				a_arrRegion[3]+=6;
-				break;
-			case 2: 	
-				a_arrRegion[0]+=3;	
-				a_arrRegion[1]+=3;
-				a_arrRegion[2]-=6;	
-				a_arrRegion[3]-=6;				
-				break;
-		}
-		
-		if(a_depth < a_maxDepth){
-			newRegionSize(a_arrRegion, a_depth+1, a_maxDepth);
-		}	
-		
-		
-		
-	}
-	
-	private void newRegion(int[] a_arrRegion, int a_pixelShift, int a_depth, int a_maxDepth){
-		double l_arrMatch[] = new double[8];
-		double l_tempMatch;
-		double l_betterMatch=0;
-		int l_betterIndex=0;
-		
-		l_tempMatch = matchRegion(a_arrRegion[0]-a_pixelShift, a_arrRegion[1], a_arrRegion[2], a_arrRegion[3]);
-		if(l_tempMatch > l_betterMatch){
-			l_betterMatch = l_tempMatch;
-			l_betterIndex = 0;
-		}
-		
-		l_tempMatch = matchRegion(a_arrRegion[0]+a_pixelShift, a_arrRegion[1], a_arrRegion[2], a_arrRegion[3]);
-		if(l_tempMatch > l_betterMatch){
-			l_betterMatch = l_tempMatch;
-			l_betterIndex = 1;
-		}
-		
-		l_tempMatch = matchRegion(a_arrRegion[0], a_arrRegion[1]-a_pixelShift, a_arrRegion[2], a_arrRegion[3]);
-		if(l_tempMatch > l_betterMatch){
-			l_betterMatch = l_tempMatch;
-			l_betterIndex = 2;
-		}
-		
-		l_tempMatch = matchRegion(a_arrRegion[0], a_arrRegion[1]+a_pixelShift, a_arrRegion[2], a_arrRegion[3]);
-		if(l_tempMatch > l_betterMatch){
-			l_betterMatch = l_tempMatch;
-			l_betterIndex = 3;
-		}
-		l_tempMatch = matchRegion(a_arrRegion[0]-a_pixelShift, a_arrRegion[1]-a_pixelShift, a_arrRegion[2], a_arrRegion[3]);
-		if(l_tempMatch > l_betterMatch){
-			l_betterMatch = l_tempMatch;
-			l_betterIndex = 4;
-		}
-		
-		l_tempMatch = matchRegion(a_arrRegion[0]-a_pixelShift, a_arrRegion[1]-a_pixelShift, a_arrRegion[2], a_arrRegion[3]);
-		if(l_tempMatch > l_betterMatch){
-			l_betterMatch = l_tempMatch;
-			l_betterIndex = 5;
-		}
-		
-		l_tempMatch = matchRegion(a_arrRegion[0]+a_pixelShift, a_arrRegion[1]-a_pixelShift, a_arrRegion[2], a_arrRegion[3]);
-		if(l_tempMatch > l_betterMatch){
-			l_betterMatch = l_tempMatch;
-			l_betterIndex = 6;
-		}
-		
-		l_tempMatch = matchRegion(a_arrRegion[0]+a_pixelShift, a_arrRegion[1]+a_pixelShift, a_arrRegion[2], a_arrRegion[3]);
-		if(l_tempMatch > l_betterMatch){
-			l_betterMatch = l_tempMatch;
-			l_betterIndex = 7;
-		}
-		
-		l_tempMatch = matchRegion(a_arrRegion[0], a_arrRegion[1], a_arrRegion[2], a_arrRegion[3]);
-		if(l_tempMatch >= l_betterMatch){
-			return;
-		}
-		
-		
-		switch(l_betterIndex){
-			case 0: 	a_arrRegion[0]-=a_pixelShift;									break;
-			case 1: 	a_arrRegion[0]+=a_pixelShift;									break;
-			case 2: 									a_arrRegion[1]-=a_pixelShift;	break;
-			case 3: 									a_arrRegion[1]+=a_pixelShift;	break;
-			case 4: 	a_arrRegion[0]-=a_pixelShift;	a_arrRegion[1]-=a_pixelShift;	break;
-			case 5: 	a_arrRegion[0]-=a_pixelShift;	a_arrRegion[1]+=a_pixelShift;	break;
-			case 6: 	a_arrRegion[0]+=a_pixelShift;	a_arrRegion[1]-=a_pixelShift;	break;
-			case 7: 	a_arrRegion[0]+=a_pixelShift;	a_arrRegion[1]+=a_pixelShift;	break;
-		}
-		
-		if(a_depth < a_maxDepth){
-			newRegion(a_arrRegion, a_pixelShift, a_depth+1, a_maxDepth);
-		}
-	}	
-	
-	private double matchRegion(int a_x, int a_y, int a_width, int a_height){
-		double l_xFactor = (double)a_width/patternWidth;
-		double l_yFactor = (double)a_height/patternHeight;
-		
-		double l_dX=a_x,l_dY=a_y;
-		int l_iX,l_iY;
-		
-		if
-		(
-			a_x < 0 ||
-			a_y < 0 ||
-			a_x+a_width+1 > videoManager.getCameraWidth() || 
-			a_y+a_height+1 > videoManager.getCameraHeight()
-		){
-			return 0;
-		}
-		
-		for(int l_h=0; l_h<patternHeight; l_h++){
-			l_dY+=l_yFactor;
-			for(int l_w=0; l_w<patternWidth; l_w++){
-				l_dX+=l_xFactor;
-				
-				l_iX = (int)l_dX;
-				l_iY = (int)l_dY;
-				
-				arrRegionPixels[((l_h)*patternWidth)+l_w] = imageOut.getRGB(l_iX, l_iY);
-			}
-			l_dX=a_x;
-		}
-		
-		int l_diffPixels=0,
-			l_redA,
-			l_redB,
-			l_greenA,
-			l_greenB,
-			l_blueA,
-			l_blueB;
-		
-		for(int l_h=0; l_h<patternHeight; l_h++){
-			for(int l_w=0; l_w<patternWidth; l_w++){
-		
-				l_redA 		= (arrObjectPixels[(l_h*patternWidth)+l_w] 	& 0x00FF0000) >>> 16;
-				l_redB 		= (arrRegionPixels[(l_h*patternWidth)+l_w] 	& 0x00FF0000) >>> 16;
-				l_greenA 	= (arrObjectPixels[(l_h*patternWidth)+l_w] 	& 0x0000FF00) >>> 8;
-				l_greenB 	= (arrRegionPixels[(l_h*patternWidth)+l_w] 	& 0x0000FF00) >>> 8;
-				l_blueA		= (arrObjectPixels[(l_h*patternWidth)+l_w] 	& 0x000000FF);
-				l_blueB		= (arrRegionPixels[(l_h*patternWidth)+l_w] 	& 0x000000FF);
-				
-				if
-				(
-					Math.abs(l_redA-l_redB) > sensibility ||
-					Math.abs(l_greenA-l_greenB) > sensibility ||
-					Math.abs(l_blueA-l_blueB) > sensibility
-				){
-					l_diffPixels++;
-				}
-				
-			}
-		}
-		
-		return 100-(((double)l_diffPixels/(patternWidth*patternHeight))*100);		
-	}
-	
 	public void run(){
 		long time = System.currentTimeMillis();
 		int ticks=0;
@@ -362,12 +107,19 @@ public class ObjectTracking extends JFrame implements Runnable{
 						
 			MarvinImage.copyRGBArray(imageIn, imageOut);
 			
-			if(objectCaptured){
-				process();
+			if(regionSelected){
+				pluginImage.setAttribute("differenceColorRange", sensibility);
+				pluginImage.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
+				
+				imageOut.drawRect
+				(
+					(Integer)attributesOut.get("regionPx"), 
+					(Integer)attributesOut.get("regionPy"),
+					(Integer)attributesOut.get("regionWidth"),
+					(Integer)attributesOut.get("regionHeight"),
+					Color.red
+				);
 			}
-			
-			imageOut.drawRect(objectPx, objectPy, objectWidth, objectHeight, Color.red);
-			
 			videoManager.updatePanel();
 		}
 	}
@@ -391,11 +143,17 @@ public class ObjectTracking extends JFrame implements Runnable{
 		
 		public void mouseReleased(MouseEvent a_event){
 			if(!regionSelected){
-				if(firstClick == null){
-					firstClick = new int[]{a_event.getX(), a_event.getY()};
+				if(arrInitialRegion == null){
+					arrInitialRegion = new int[]{a_event.getX(), a_event.getY(),0,0};
 				}
 				else{
-					initPattern(firstClick[0], firstClick[1], a_event.getX()-firstClick[0], a_event.getY()-firstClick[1]);
+					arrInitialRegion[2] = a_event.getX()-arrInitialRegion[0];
+					arrInitialRegion[3] = a_event.getY()-arrInitialRegion[1];
+					
+					pluginImage.setAttribute("regionPx", arrInitialRegion[0]);
+					pluginImage.setAttribute("regionPy", arrInitialRegion[1]);
+					pluginImage.setAttribute("regionWidth", arrInitialRegion[2]);
+					pluginImage.setAttribute("regionHeight", arrInitialRegion[3]);
 					regionSelected = true;
 				}	
 			}

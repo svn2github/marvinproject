@@ -27,7 +27,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-package net.sourceforge.marvinproject.render.degrade;
+package net.sourceforge.marvinproject.render.grayGradient;
 
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
@@ -43,7 +43,7 @@ import marvin.util.MarvinAttributes;
  * @version 1.0 02/28/2008
  * @author Gabriel Ambrósio Archanjo
  */
-public class Degrade extends MarvinAbstractPluginImage
+public class GrayGradient extends MarvinAbstractPluginImage
 {
 	
 	public void load(){}

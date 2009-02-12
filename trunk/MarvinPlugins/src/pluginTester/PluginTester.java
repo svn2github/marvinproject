@@ -44,7 +44,7 @@ import marvin.image.MarvinImage;
 import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinPlugin;
 import marvin.plugin.MarvinPluginImage;
-import net.sourceforge.marvinproject.transform.rotate.Rotate;
+import net.sourceforge.marvinproject.interfaceTest.InterfaceTest;
 
 /**
  * Test plug-ins and generate .jar files
@@ -70,7 +70,7 @@ public class PluginTester extends JFrame{
 	 * @Load plug-in to test
 	 */
 	private void loadPlugin(){
-		MarvinPluginImage l_plugin = new Rotate();
+		MarvinPluginImage l_plugin = new InterfaceTest();
 		l_plugin.setImagePanel(imagePanel);
 		l_plugin.load();
 		l_plugin.show();

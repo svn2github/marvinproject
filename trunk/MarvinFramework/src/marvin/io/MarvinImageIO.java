@@ -50,6 +50,11 @@ import marvin.util.MarvinErrorHandler;
  */
 public class MarvinImageIO {
 	
+	/**
+	 * Loads a MarvinImage from a filesystem path.
+	 * @param a_filePath	- image´s path
+	 * @return
+	 */
 	public static MarvinImage loadImage(String a_filePath){
 		MarvinImage l_marvinImage = null;
 		BufferedImage l_bufferedImage=null;
@@ -98,6 +103,11 @@ public class MarvinImageIO {
 		return l_marvinImage;
 	}
 	
+	/**
+	 * Saves a MarvinImage via file system path. 
+	 * @param a_marvinImage	- MarvinImage object
+	 * @param a_filePath	- file path
+	 */
 	public static void saveImage(MarvinImage a_marvinImage, String a_filePath){
 		File l_file = new File(a_filePath);
 		String l_fileFormat = a_filePath.substring(a_filePath.lastIndexOf('.')+1);

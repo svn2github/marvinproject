@@ -31,7 +31,7 @@
 				<entry name="Rylanders" package="net.sourceforge.marvinproject.halftone.rylanders.jar" icon="rylanders.png"></entry>			
 			</item>
 			<item name="Render">
-				<entry name="Degrade" package="net.sourceforge.marvinproject.render.degrade.jar"></entry>			
+				<entry name="Gray Gradient" package="net.sourceforge.marvinproject.render.grayGradient.jar"></entry>			
 			</item>
 			<item name="Segmentation">
 				<entry name="Image Slicer" package="net.sourceforge.marvinproject.segmentation.imageSlicer.jar"></entry>			

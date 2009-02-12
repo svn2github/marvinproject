@@ -30,6 +30,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package net.sourceforge.marvinproject.interfaceTest;
 
+import javax.swing.JCheckBox;
+
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -70,6 +72,10 @@ public class InterfaceTest extends MarvinAbstractPluginImage
 		l_filterWindow.addPanelBelow();
 		l_filterWindow.addLabel("labelIntensity", "Intensity:");
 		l_filterWindow.addHorizontalSlider("sliderIntensity", "intensity", 0,100,0, attributes);
+		
+		l_filterWindow.addPanelBelow();
+		l_filterWindow.addCheckBox("checkboxTest", "Check Me!", "checkbox1", attributes);
+		
 		l_filterWindow.setVisible(true);
 	}
 
@@ -88,6 +94,7 @@ public class InterfaceTest extends MarvinAbstractPluginImage
 		System.out.println("blue:"+(Integer)attributes.get("blue"));
 		System.out.println("filter:"+(String)attributes.get("filter"));
 		System.out.println("intensity:"+(Integer)attributes.get("intensity"));
+		System.out.println("checkbox checked:"+(Boolean)attributes.get("checkbox1"));
 		
 		a_imageOut.setRGBArray(a_imageIn.getRGBArray());
 	}
