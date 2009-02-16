@@ -13,7 +13,7 @@
 				<entry name="Brightness and Constrast" package="net.sourceforge.marvinproject.color.brightnessAndContrast.jar" icon="brightnessContrast.png"></entry>
 				<entry name="Gray Scale" package="net.sourceforge.marvinproject.color.grayScale.jar" icon="gray.png"></entry>
 				<entry name="Invert" package="net.sourceforge.marvinproject.color.invert.jar" icon="negative.png"></entry>
-				<entry name="Sepia" package="net.sourceforge.marvinproject.transform.sepia.jar"></entry>
+				<entry name="Sepia" package="net.sourceforge.marvinproject.color.sepia.jar"></entry>
 			</item>
 			<item name="Combination">
 				<entry name="Combine" package="net.sourceforge.marvinproject.combine.jar"></entry>
@@ -47,6 +47,8 @@
 			</item>
 			<item name="Transform">
 				<entry name="Flip" package="net.sourceforge.marvinproject.transform.flip.jar"></entry>
+				<entry name="Rotate" package="net.sourceforge.marvinproject.transform.rotate.jar"></entry>
+				<entry name="Scale" package="net.sourceforge.marvinproject.transform.scale.jar"></entry>
 				<entry name="Skew" package="net.sourceforge.marvinproject.transform.skew.jar"></entry>
 			</item>
 		</filters>

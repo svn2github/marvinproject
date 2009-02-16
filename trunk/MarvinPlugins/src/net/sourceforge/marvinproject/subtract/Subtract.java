@@ -52,7 +52,15 @@ public class Subtract extends MarvinAbstractPluginImage{
 	public void show(){}
     
     
-    public void process(MarvinImage a_imageIn, MarvinImage a_imageOut, MarvinAttributes a_attributesOut, MarvinImageMask a_mask, boolean a_previewMode){
+    public void process
+    (
+    	MarvinImage a_imageIn, 
+    	MarvinImage a_imageOut, 
+    	MarvinAttributes a_attributesOut, 
+    	MarvinImageMask a_mask,
+    	boolean a_previewMode
+    )
+    {
     	imageBackground = (MarvinImage)attributes.get("backgroundImage");
     	colorRange = (Integer)attributes.get("colorRange");
     	
