@@ -108,6 +108,7 @@ public class TrackingPong extends JFrame implements Runnable{
 	}
 	
 	private void loadGUI(){	
+		setTitle("Video Sample - Tracking Pong");
 		
 		videoPanel.addMouseListener(new MouseHandler());
 		
@@ -127,7 +128,7 @@ public class TrackingPong extends JFrame implements Runnable{
 		l_container.add(videoPanel, BorderLayout.NORTH);
 		l_container.add(panelSlider, BorderLayout.SOUTH);
 		
-		setSize(1000,700);
+		setSize(videoManager.getCameraWidth()+20,videoManager.getCameraHeight()+100);
 		setVisible(true);
 	}
 	

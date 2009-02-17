@@ -106,6 +106,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 	}
 	
 	private void loadGUI(){	
+		setTitle("Video Sample - Tracking Game");
 		
 		sliderSensibility = new JSlider(JSlider.HORIZONTAL, 0, 60, 30);
 		sliderSensibility.setMinorTickSpacing(2);
@@ -127,7 +128,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		l_container.add(panelSlider, BorderLayout.CENTER);
 		l_container.add(buttonStart, BorderLayout.SOUTH);
 		
-		setSize(1000,700);
+		setSize(videoManager.getCameraWidth()+20,videoManager.getCameraHeight()+100);
 		setVisible(true);
 	}
 	
