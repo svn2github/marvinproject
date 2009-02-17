@@ -14,6 +14,7 @@
 				<entry name="Gray Scale" package="net.sourceforge.marvinproject.color.grayScale.jar" icon="gray.png"></entry>
 				<entry name="Invert" package="net.sourceforge.marvinproject.color.invert.jar" icon="negative.png"></entry>
 				<entry name="Sepia" package="net.sourceforge.marvinproject.color.sepia.jar"></entry>
+				<entry name="Thresholding" package="net.sourceforge.marvinproject.color.thresholding.jar"></entry>
 			</item>
 			<item name="Combination">
 				<entry name="Combine" package="net.sourceforge.marvinproject.combine.jar"></entry>

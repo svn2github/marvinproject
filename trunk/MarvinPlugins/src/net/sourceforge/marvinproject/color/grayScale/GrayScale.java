@@ -46,7 +46,6 @@ public class GrayScale extends MarvinAbstractPluginImage
 	MarvinPerformanceMeter performanceMeter;
 	MarvinAttributes attributes;
 	public void load(){
-		//@old version: performanceMeter = getApplication().getPerformanceMeter();
 		performanceMeter = new MarvinPerformanceMeter();
 		attributes = getAttributes();
 	}

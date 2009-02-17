@@ -59,8 +59,8 @@ public class Sepia extends MarvinAbstractPluginImage implements ChangeListener, 
 	public void load() {
 		attributes = getAttributes();
 		attributes.set("txtValue", "20");
-		attributes.set("hsIntensidade", 20);
-		//@old versionperformanceMeter = getApplication().getPerformanceMeter();
+		attributes.set("intensity", 20);
+		//performanceMeter = getApplication().getPerformanceMeter();
 	}
 
 	@Override
@@ -76,12 +76,12 @@ public class Sepia extends MarvinAbstractPluginImage implements ChangeListener, 
 		int r, g, b, depth, corfinal;
 		
 		//Define a intensidade do filtro...
-		depth = Integer.parseInt(attributes.get("hsIntensidade").toString());
+		depth = Integer.parseInt(attributes.get("intensity").toString());
 		
 		int width    = a_imageIn.getWidth();
 		int height   = a_imageIn.getHeight();
 		
-		//@old versionperformanceMeter.enableProgressBar("Filtro de Teste", ((height-2)*(width-2)));
+		//performanceMeter.enableProgressBar("Filtro de Teste", ((height-2)*(width-2)));
 		
 		boolean[][] l_arrMask = a_mask.getMaskArray();
 		
@@ -105,9 +105,9 @@ public class Sepia extends MarvinAbstractPluginImage implements ChangeListener, 
 				//Define a nova cor do ponto...
 				a_imageOut.setRGB(x, y, r, g, b);
 			}
-			//@old versionperformanceMeter.incProgressBar(width-2);
+			//performanceMeter.incProgressBar(width-2);
 		}
-		//@old versionperformanceMeter.finish();
+		//performanceMeter.finish();
 	}
 
 	/**

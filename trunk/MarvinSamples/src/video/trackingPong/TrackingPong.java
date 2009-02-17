@@ -20,7 +20,6 @@ import marvin.plugin.MarvinPluginImage;
 import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
 import marvin.video.MarvinVideoManager;
-import video.objectTracking.FindColorPattern;
 
 /**
  * Tracking game sample

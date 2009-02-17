@@ -170,13 +170,13 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 	 */
 	public void preview(){
 		try{
-			//@old version marvinApplication.getPerformanceMeter().disable();
+			//marvinApplication.getPerformanceMeter().disable();
 			imageThumbnail = imageResetBuffer.clone();
 			MarvinImage l_imageOut = new MarvinImage(imageThumbnail.getWidth(), imageThumbnail.getHeight());
 			plugin.process(imageThumbnail, l_imageOut, null, MarvinImageMask.NULL_MASK, true);
 			l_imageOut.update();
 			imageThumbnail = l_imageOut.clone();
-			//@old version marvinApplication.getPerformanceMeter().enable();
+			//marvinApplication.getPerformanceMeter().enable();
 			
 		}
 		catch(Exception e){

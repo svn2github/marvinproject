@@ -2,9 +2,12 @@ package video.trackingGameBalls;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +23,6 @@ import marvin.plugin.MarvinPluginImage;
 import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
 import marvin.video.MarvinVideoManager;
-import video.objectTracking.FindColorPattern;
 
 /**
  * Tracking game sample
@@ -43,6 +45,8 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 	private JPanel				panelSlider;
 	
 	private JSlider				sliderSensibility;
+	
+	private JButton				buttonStart;
 	
 	private JLabel				labelSlider;
 	
@@ -103,8 +107,6 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 	
 	private void loadGUI(){	
 		
-		videoPanel.addMouseListener(new MouseHandler());
-		
 		sliderSensibility = new JSlider(JSlider.HORIZONTAL, 0, 60, 30);
 		sliderSensibility.setMinorTickSpacing(2);
 		sliderSensibility.setPaintTicks(true);
@@ -116,10 +118,14 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		panelSlider.add(labelSlider);
 		panelSlider.add(sliderSensibility);
 		
+		buttonStart = new JButton("Start");
+		buttonStart.addActionListener(new ButtonHandler());
+		
 		Container l_container = getContentPane();
 		l_container.setLayout(new BorderLayout());
 		l_container.add(videoPanel, BorderLayout.NORTH);
-		l_container.add(panelSlider, BorderLayout.SOUTH);
+		l_container.add(panelSlider, BorderLayout.CENTER);
+		l_container.add(buttonStart, BorderLayout.SOUTH);
 		
 		setSize(1000,700);
 		setVisible(true);
@@ -201,6 +207,9 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 				regionPy 		= (Integer)attributesOut.get("regionPy");
 				gameLoop();				
 			}
+			else{
+				combineImage(imageHat,300,200);
+			}
 			
 			videoManager.updatePanel();
 		}
@@ -213,7 +222,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		
 		updateBalls();
 		collisionDetection();
-		combineImage(imageHat,regionPx-30,regionPy-60);
+		combineImage(imageHat,regionPx-14,regionPy-95);
 	}
 	
 	public void collisionDetection(){
@@ -260,31 +269,16 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 			sensibility = (60-sliderSensibility.getValue());
 		}
 	}
-	
-	private class MouseHandler implements MouseListener{
-		public void mouseEntered(MouseEvent a_event){}
-		public void mouseExited(MouseEvent a_event){}
-		public void mousePressed(MouseEvent a_event){}
-		public void mouseClicked(MouseEvent a_event){}
-		
-		public void mouseReleased(MouseEvent a_event){
-			if(!regionSelected){
-				if(arrInitialRegion == null){
-					arrInitialRegion = new int[]{a_event.getX(), a_event.getY(),0,0};
-				}
-				else{
-					arrInitialRegion[2] = a_event.getX()-arrInitialRegion[0];
-					arrInitialRegion[3] = a_event.getY()-arrInitialRegion[1];
-					
-					pluginImage.setAttribute("regionPx", arrInitialRegion[0]);
-					pluginImage.setAttribute("regionPy", arrInitialRegion[1]);
-					pluginImage.setAttribute("regionWidth", arrInitialRegion[2]);
-					pluginImage.setAttribute("regionHeight", arrInitialRegion[3]);
-					
-					regionSelected = true;
-				}	
-			}
-		}		
+
+	private class ButtonHandler implements ActionListener{
+		public void actionPerformed(ActionEvent a_event){
+			pluginImage.setAttribute("regionPx", 310);
+			pluginImage.setAttribute("regionPy", 295);
+			pluginImage.setAttribute("regionWidth", 118);
+			pluginImage.setAttribute("regionHeight", 134);
+			
+			regionSelected = true;
+		}
 	}
 	
 	private class Ball{
