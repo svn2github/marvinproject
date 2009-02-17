@@ -109,7 +109,7 @@ public class DifferenceGray extends MarvinAbstractPluginImage{
 	            int v = (diff / 2);
 				
 	            //Sets the value to the new image
-				a_imageIn.setRGB(x, y, v, v, v);
+				a_imageOut.setRGB(x, y, v, v, v);
 			}
 		}
 	}
