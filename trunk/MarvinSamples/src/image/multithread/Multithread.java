@@ -69,7 +69,7 @@ public class Multithread extends JFrame implements MarvinThreadListener{
 	private long				processStartTime;
 		
 	public Multithread(){
-		super("Multthread Sample");
+		super("Multithread Sample");
 		
 		// Buttons
 		ButtonHandler buttonHandler = new ButtonHandler();

@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="JMF"/>
-	<classpathentry kind="lib" path="lib/Marvin.jar"/>
+	<classpathentry kind="lib" path="marvin/framework/Marvin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
