@@ -7,14 +7,14 @@
 			</item>
 			<item name="Blur">
 				<entry name="Gaussian Blur" package="net.sourceforge.marvinproject.blur.gaussianBlur.jar" icon="gaussianBlur.png"></entry>
-				<entry name="Pixelize" package="net.sourceforge.marvinproject.blur.pixelize.jar"></entry>
+				<entry name="Pixelize" package="net.sourceforge.marvinproject.blur.pixelize.jar" icon="pixelize.png"></entry>
 			</item>
 			<item name="Color">
 				<entry name="Brightness and Constrast" package="net.sourceforge.marvinproject.color.brightnessAndContrast.jar" icon="brightnessContrast.png"></entry>
 				<entry name="Gray Scale" package="net.sourceforge.marvinproject.color.grayScale.jar" icon="gray.png"></entry>
 				<entry name="Invert" package="net.sourceforge.marvinproject.color.invert.jar" icon="negative.png"></entry>
 				<entry name="Sepia" package="net.sourceforge.marvinproject.color.sepia.jar"></entry>
-				<entry name="Thresholding" package="net.sourceforge.marvinproject.color.thresholding.jar"></entry>
+				<entry name="Thresholding" package="net.sourceforge.marvinproject.color.thresholding.jar" icon="thresholding.png"></entry>
 			</item>
 			<item name="Comparision">
 				<entry name="Difference" package="net.sourceforge.marvinproject.difference.differenceGray.jar" icon="difference.png"></entry>
@@ -29,13 +29,13 @@
 				<entry name="Rylanders" package="net.sourceforge.marvinproject.halftone.rylanders.jar" icon="rylanders.png"></entry>			
 			</item>
 			<item name="Render">
-				<entry name="Gray Gradient" package="net.sourceforge.marvinproject.render.grayGradient.jar"></entry>			
+				<entry name="Gray Gradient" package="net.sourceforge.marvinproject.render.grayGradient.jar" icon="grayGradient.png"></entry>			
 			</item>
 			<item name="Restoration">
-				<entry name="Noise Reduction" package="net.sourceforge.marvinproject.restoration.noiseReduction.jar"></entry>	
+				<entry name="Noise Reduction" package="net.sourceforge.marvinproject.restoration.noiseReduction.jar" icon="noiseReduction.png"></entry>	
 			</item>
 			<item name="Segmentation">
-				<entry name="Image Slicer" package="net.sourceforge.marvinproject.segmentation.imageSlicer.jar"></entry>			
+				<entry name="Image Slicer" package="net.sourceforge.marvinproject.segmentation.imageSlicer.jar" icon="imageSlicer.png"></entry>			
 			</item>
 			<item name="Statistical">
 				<entry name="Minimum" package="net.sourceforge.marvinproject.statistical.minimum.jar"></entry>
@@ -44,13 +44,13 @@
 				<entry name="Mode" package="net.sourceforge.marvinproject.statistical.mode.jar"></entry>
 			</item>
 			<item name="Steganography">
-				<entry name="Steganography" package="net.sourceforge.marvinproject.steganography.jar"></entry>
+				<entry name="Steganography" package="net.sourceforge.marvinproject.steganography.jar" icon="steganography.png"></entry>
 			</item>
 			<item name="Transform">
-				<entry name="Flip" package="net.sourceforge.marvinproject.transform.flip.jar"></entry>
-				<entry name="Rotate" package="net.sourceforge.marvinproject.transform.rotate.jar"></entry>
-				<entry name="Scale" package="net.sourceforge.marvinproject.transform.scale.jar"></entry>
-				<entry name="Skew" package="net.sourceforge.marvinproject.transform.skew.jar"></entry>
+				<entry name="Flip" package="net.sourceforge.marvinproject.transform.flip.jar" icon="flip.png"></entry>
+				<entry name="Rotate" package="net.sourceforge.marvinproject.transform.rotate.jar" icon="rotate.png"></entry>
+				<entry name="Scale" package="net.sourceforge.marvinproject.transform.scale.jar" icon="scale.png"></entry>
+				<entry name="Skew" package="net.sourceforge.marvinproject.transform.skew.jar" icon="skew.png"></entry>
 			</item>
 		</filters>
 		<analyses>

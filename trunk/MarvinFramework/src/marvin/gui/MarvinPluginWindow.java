@@ -142,8 +142,8 @@ public class MarvinPluginWindow extends JFrame
 	}
 	
 	/**
-	 * Gets Component
-	 * @param a_id
+	 * Returns a component by its id.
+	 * @param MarvinPluginWindowComponent reference. 
 	 */	
 	public MarvinPluginWindowComponent getComponent(String a_strComponentID){
 		return hashComponents.get(a_strComponentID);
@@ -151,19 +151,19 @@ public class MarvinPluginWindow extends JFrame
 	
 	/**
 	 * Adds label
-	 * @param a_id
-	 * @param a_label
+	 * @param a_id		- component큦 id.
+	 * @param a_text	- label큦 text attribute.
 	 */
-	public void addLabel(String a_id, String a_label){
-		JComponent l_component = new JLabel(a_label);
+	public void addLabel(String a_id, String a_text){
+		JComponent l_component = new JLabel(a_text);
 		panelCurrent.add(l_component);
 		plugComponent(a_id, l_component, null, null, ComponentType.COMPONENT_LABEL);
 	}
 	
 	/**
 	 * Adds image
-	 * @param a_id
-	 * @param a_image
+	 * @param a_id		- component큦 id.
+	 * @param a_image	- image to be displayed.
 	 */
 	public void addImage(String a_id, BufferedImage a_image){
 		JComponent l_component = new JLabel(new ImageIcon(a_image));
@@ -173,9 +173,9 @@ public class MarvinPluginWindow extends JFrame
 	
 	/**
 	 * Adds TextField
-	 * @param a_id
-	 * @param a_attributeID
-	 * @param a_attributes
+	 * @param a_id				- component큦 id.
+	 * @param a_attributeID		- attribute큦 id.
+	 * @param a_attributes		- MarivnAttributes Object.
 	 */
 	public void addTextField(String a_id, String a_attributeID, MarvinAttributes a_attributes)
 	{
@@ -189,8 +189,8 @@ public class MarvinPluginWindow extends JFrame
 	 * @param a_id				- component큦 id.
 	 * @param a_attributeID		- attribute큦 id.
 	 * @param a_lines			- number of lines.
-	 * @param a_columns			- number of columns
-	 * @param a_attributes		- MarivnAttributes Object
+	 * @param a_columns			- number of columns.
+	 * @param a_attributes		- MarivnAttributes Object.
 	 */
 	public void addTextArea(String a_id, String a_attributeID, int a_lines, int a_columns, MarvinAttributes a_attributes)
 	{

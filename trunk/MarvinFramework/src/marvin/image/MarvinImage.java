@@ -156,7 +156,7 @@ public class MarvinImage implements Cloneable {
 		image = new BufferedImage(a_width, a_height, BufferedImage.TYPE_INT_RGB);
 		width = a_width;
 		height = a_height;
-		arrColor = new int[width*height];
+		arrColor = new int[width*height];		
 	}
 
 	/**
@@ -358,7 +358,7 @@ public class MarvinImage implements Cloneable {
 	 * @param width
 	 * @return
 	 */
-	public BufferedImage getImage(int width, int height)
+	public BufferedImage getBufferedImage(int width, int height)
 	{
 		// using the new approach of Java 2D API 
 		BufferedImage buf = new BufferedImage(width,height, BufferedImage.TYPE_INT_RGB);
@@ -368,14 +368,14 @@ public class MarvinImage implements Cloneable {
 		g2d.dispose();
 		return(buf);
 	}
-
+	
 	/**
 	 * Resize and return the image passing the new height and width, but maintains width/height factor
 	 * @param height
 	 * @param width
 	 * @return
 	 */
-	 public BufferedImage getImage(int width, int height, int type){
+	 public BufferedImage getBufferedImage(int width, int height, int type){
 		 int	l_widthDif, 
 				l_heightDif,				
 				l_finalWidth = 0, 
@@ -404,20 +404,19 @@ public class MarvinImage implements Cloneable {
 				 l_finalHeight = (int)Math.floor(l_imageHeight*l_factor);
 				 break;
 		 }
-		 return getImage(l_finalWidth, l_finalHeight);
+		 return getBufferedImage(l_finalWidth, l_finalHeight);
 	 }
-
 	/**
 	 * Resize the image passing the new height and width
 	 * @param height
 	 * @param width
 	 * @return
 	 */
-	public void resizeCurrentImg(int a_height, int a_width)
+	public void resize(int a_width, int a_height)
 	{
 
 		// using the new approach of Java 2D API 
-		BufferedImage buf = new BufferedImage(a_height,a_width, image.getType());
+		BufferedImage buf = new BufferedImage(a_width,a_height, image.getType());
 		Graphics2D g2d = (Graphics2D) buf.getGraphics();
 		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		g2d.drawImage(image,0,0,a_height,a_width,null);
@@ -426,45 +425,6 @@ public class MarvinImage implements Cloneable {
 		width = a_width;
 		height = a_height;
 		updateColorArray();
-	}
-	/**
-	 * Resize and return the image passing the percent of the image
-	 * @param height
-	 * @param width
-	 * @return
-	 */
-	public BufferedImage getImage(float height, float width)
-	{
-
-		// using the new approach of Java 2D API 
-		int newHeight = (int)((image.getHeight() * height) / 100);
-		int newWidth = (int)((image.getWidth() * width) / 100);
-		BufferedImage buf = new BufferedImage(newHeight,newWidth, image.getType());
-		Graphics2D g2d = (Graphics2D) buf.getGraphics();
-		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g2d.drawImage(image,0,0,newHeight,newWidth,null);
-		g2d.dispose();
-		return(buf);
-	}
-
-	/**
-	 * Resize the image passing the new height and width
-	 * @param height
-	 * @param width
-	 * @return
-	 */
-	public void resizeCurrentImg(float height, float width)
-	{
-
-		// using the new approach of Java 2D API
-		int newHeight = (int)((image.getHeight() * height) / 100);
-		int newWidth = (int)((image.getWidth() * width) / 100);
-		BufferedImage buf = new BufferedImage(newHeight,newWidth, image.getType());
-		Graphics2D g2d = (Graphics2D) buf.getGraphics();
-		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g2d.drawImage(image,0,0,newHeight,newWidth,null);
-		g2d.dispose();
-		image = buf;
 	}
 	
 	/**

@@ -55,7 +55,7 @@ public class Thresholding extends MarvinAbstractPluginImage{
 	}
 	
 	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Sepia", 400,350, getImagePanel(), this);
+		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Thresholding", 400,350, getImagePanel(), this);
 		l_filterWindow.addLabel("lblThreshold", "Threshold");
 		l_filterWindow.addTextField("txtThreshold", "threshold", attributes);		
 		l_filterWindow.setVisible(true);

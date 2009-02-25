@@ -101,14 +101,14 @@ public class MarvinHistogram
 		arrPaintedColumns = new int[a_width+1];
 		for (Enumeration<MarvinHistogramEntry> e = hashEntries.elements(); e.hasMoreElements();){
 			l_entry = e.nextElement();
-			drawEntry(a_px,a_py,a_width,a_height,l_entry,a_graphics);			
+			drawEntry(a_px+2,a_py,a_width-2,a_height,l_entry,a_graphics);			
 		}
 
 		for(int i=0; i<a_width; i++){
 			if(arrPaintedColumns[i] == 0){
 				if(i > 0){
 					l_entry = hashEntries.get(arrPaintedColumns[i-1]);
-					redrawEntry(a_px,i,a_py,a_height, l_entry,a_graphics);
+					redrawEntry(a_px+2,i,a_py,a_height, l_entry,a_graphics);
 				}
 			}
 		}

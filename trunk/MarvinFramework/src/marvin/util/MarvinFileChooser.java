@@ -1,12 +1,13 @@
 /**
-MARVIN Project
+Marvin Project <2007-2009>
 
-Initial version by: 
-Danilo Rosetto Muñoz
-Fábio Andrijauskas
-Gabriel Ambrósio Archanjo
+Initial version by:
 
-site: http://marvin.incubadora.fapesp.br/
+Danilo Rosetto Munoz
+Fabio Andrijauskas
+Gabriel Ambrosio Archanjo
+
+site: http://marvinproject.sourceforge.net
 
 GPL
 Copyright (C) <2007>  

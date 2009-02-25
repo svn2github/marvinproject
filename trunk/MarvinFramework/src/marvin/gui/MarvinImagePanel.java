@@ -71,14 +71,16 @@ public class MarvinImagePanel extends JPanel{
 	}
 	
 	/**
-	 * @return if the history is enabled.
+	 * Returns if the history is enabled.
+	 * @return true if the history is enabled, false otherwise
 	 */
 	public boolean isHistoryEnabled(){
 		return (history != null);
 	}
 	
 	/**
-	 * @return MarvinPluginHistory associated with this panel
+	 * Returns the MarvinPluginHistory associated with this panel.
+	 * @return MarvinPluginHistory reference
 	 */
 	public MarvinPluginHistory getHistory(){
 		return history;
@@ -92,23 +94,8 @@ public class MarvinImagePanel extends JPanel{
 	 */
 	public Image createImage(int a_width, int a_height){
 		image = new MarvinImage(a_width, a_height);		
-		setPrefferedSize(new Dimension(a_width, a_height));		
+		setPreferredSize(new Dimension(a_width, a_height));		
 		return image.getBufferedImage();
-	}
-	
-	/**
-	 * Set panel´s preferred size
-	 * @param 	a_dimension	- new panel´s preferred dimensions
-	 */
-	public void setPrefferedSize(Dimension a_dimension){
-		setPreferredSize(a_dimension);
-	}
-	
-	/**
-	 * @return panel´s size
-	 */
-	public Dimension getSize(){
-		return getPreferredSize();
 	}
 	
 	/**
@@ -124,7 +111,8 @@ public class MarvinImagePanel extends JPanel{
 	}
 	
 	/**
-	 * @return the MarvinImage associated with this MarvinImagePanel
+	 * Returns the MarvinImage associated with this panel.
+	 * @return MarvinImage reference.
 	 */
 	public MarvinImage getImage(){
 		return image;

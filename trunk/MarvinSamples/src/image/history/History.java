@@ -63,7 +63,8 @@ public class History extends JFrame {
 	MarvinImage 		originalImage;
 	MarvinImage			resultImage;
 	
-	MarvinImagePanel 	imagePanelOriginal,imagePanelNew;
+	MarvinImagePanel 	imagePanelOriginal,
+						imagePanelNew;
 	
 	public History(){
 		super("Plug-in History Sample");
@@ -83,8 +84,7 @@ public class History extends JFrame {
 		
 		JPanel l_panelTop = new JPanel();
 		l_panelTop.add(imagePanelOriginal);
-		l_panelTop.add(imagePanelNew);
-		
+		l_panelTop.add(imagePanelNew);		
 		
 		Container l_c = getContentPane();
 		l_c.setLayout(new BorderLayout());
@@ -125,6 +125,7 @@ public class History extends JFrame {
 		tempPlugin.process(resultImage, resultImage, null, new MarvinImageMask(), false);
 		resultImage.update();
 		history.addEntry("Invert", resultImage, tempPlugin.getAttributes());
+		
 		
 		imagePanelNew.setImage(resultImage);
 	}

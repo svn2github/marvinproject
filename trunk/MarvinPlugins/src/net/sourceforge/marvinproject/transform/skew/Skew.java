@@ -154,7 +154,7 @@ public class Skew extends MarvinAbstractPluginImage
 			}
 				
 		}
-		a_imageOut.resizeCurrentImg(l_newWidth, l_aHeight);
+		a_imageOut.resize(l_newWidth, l_aHeight);
 		
 		//The top of the image is being moved to the right.
 		//The amount each row moves depends on its height, calculated as l_newXcoordinate.
@@ -219,7 +219,7 @@ public class Skew extends MarvinAbstractPluginImage
 				a_imageOut.setRGB(xx, yy, 000000);
 			}
 		}
-		a_imageOut.resizeCurrentImg(l_aWidth, l_newHeight);
+		a_imageOut.resize(l_aWidth, l_newHeight);
 		
 		
 		//Calculate the new coordinate of each pixel. If the image is being skewed

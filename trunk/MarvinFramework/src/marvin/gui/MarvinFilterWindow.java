@@ -135,7 +135,7 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 
 		// Image
 		if(a_thumbnailWidth > 0 && a_thumbnailHeight > 0){
-			imageThumbnail = new MarvinImage(imagePanel.getImage().getImage(a_thumbnailWidth, a_thumbnailHeight, MarvinImage.PROPORTIONAL));			
+			imageThumbnail = new MarvinImage(imagePanel.getImage().getBufferedImage(a_thumbnailWidth, a_thumbnailHeight, MarvinImage.PROPORTIONAL));			
 			imageResetBuffer = imageThumbnail.clone();
 			labelImage = new JLabel(new ImageIcon(imageThumbnail.getBufferedImage()));
 			panelImage.add(labelImage);
@@ -159,6 +159,7 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 	}
 	
 	/**
+	 * Returns the reference to "Apply" button.
 	 * @return a reference to "Apply" button
 	 */
 	public JButton getApplyButton(){
