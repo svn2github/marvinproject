@@ -76,7 +76,7 @@ public class MarvinImage implements Cloneable {
 	public MarvinImage(BufferedImage a_image){		
 		this.image =  a_image;
 		filePath = "";
-		formatName = "JPG";
+		formatName = "jpg";
 		width = a_image.getWidth();
 		height = a_image.getHeight();
 		updateColorArray();
@@ -106,12 +106,12 @@ public class MarvinImage implements Cloneable {
 	public MarvinImage(int a_width, int a_height){
 		image = new BufferedImage(a_width, a_height, BufferedImage.TYPE_INT_RGB);
 		filePath = "";
-		formatName = "JPG";
+		formatName = "jpg";
 		setDimension(a_width, a_height);		
 	}
 	
-	public MarvinImage crop(int x,int y,int altura, int largura){		 
-		return(new MarvinImage(image.getSubimage(x, y, altura, largura)));
+	public MarvinImage crop(int a_x, int a_y, int a_width, int a_height){		 
+		return(new MarvinImage(image.getSubimage(a_x, a_y, a_width, a_height)));
 	}
 	
 	public void updateColorArray(){

@@ -99,7 +99,7 @@ public class MarvinImageIO {
 		}
 		
 		// 5. Create MarvinImage object
-		l_marvinImage = new MarvinImage(l_bufferedImage, l_format);		
+		l_marvinImage = new MarvinImage(l_bufferedImage, l_format);
 		return l_marvinImage;
 	}
 	

@@ -55,7 +55,6 @@ public class Sepia extends MarvinAbstractPluginImage implements ChangeListener, 
 	private MarvinPerformanceMeter performanceMeter;
 	private MarvinPluginWindow Tela;
 	
-	@Override
 	public void load() {
 		attributes = getAttributes();
 		attributes.set("txtValue", "20");
@@ -63,7 +62,6 @@ public class Sepia extends MarvinAbstractPluginImage implements ChangeListener, 
 		//performanceMeter = getApplication().getPerformanceMeter();
 	}
 
-	@Override
 	public void process
 	(
 		MarvinImage a_imageIn, 

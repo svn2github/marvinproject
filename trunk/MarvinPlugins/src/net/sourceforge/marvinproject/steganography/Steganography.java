@@ -88,13 +88,11 @@ public class Steganography extends MarvinAbstractPluginImage implements ActionLi
 	private String ext;
 	private int xH, yH = 0;
 	
-	@Override
 	public void load() {
 		attributes = new MarvinAttributes();
 		attributes.set("txtLines", "");
 		attributes.set("cbSelecao", "Gravar na Imagem");
 		attributes.set("cbTipo", "Gravar Arquivo");
-		
 	}
 		
 	public Action getAction(){
@@ -457,7 +455,6 @@ public class Steganography extends MarvinAbstractPluginImage implements ActionLi
 		else              return a;
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource() == buttonOK){
@@ -473,9 +470,8 @@ public class Steganography extends MarvinAbstractPluginImage implements ActionLi
 	}
 
 	private boolean isPng(MarvinImage a_image){
-		String ext = "";		
-        ext = a_image.getFilePath().substring(a_image.getFilePath().lastIndexOf(".")+1);
-		if((ext != null)&&(ext.equals("png"))){
+		String ext = a_image.getFormatName();		
+        if((ext != null)&&(ext.equals("png"))){
 			return true;
 		}else{
 			return false;

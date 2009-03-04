@@ -57,7 +57,6 @@ public class ImageSlicer extends MarvinAbstractPluginImage {
 	private MarvinPerformanceMeter performanceMeter;
 	private DecimalFormat df = new DecimalFormat("000");
 	
-	@Override
 	public void load() {
 		attributes = new MarvinAttributes();
 		attributes.set("txtLines", 1);
@@ -65,7 +64,6 @@ public class ImageSlicer extends MarvinAbstractPluginImage {
 		performanceMeter = new MarvinPerformanceMeter();
 	}
 
-	@Override
 	public void process
 	(
 		MarvinImage a_imageIn, 
@@ -179,12 +177,12 @@ public class ImageSlicer extends MarvinAbstractPluginImage {
 		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Image Slicer",400,350,getImagePanel(),this);
 		
 		//Create the objects to set the number of lines and collumns to slice the image...
-		l_filterWindow.addLabel("lblLinhas", "Número de Linhas:");
+		l_filterWindow.addLabel("lblLinhas", "Number of rows:");
 		l_filterWindow.addTextField("txtLines", "txtLines", attributes);
 		//l_filterWindow.addHorizontalSlider("txtLines", "txtLines", 1, 10, 2, attributes);
 		l_filterWindow.addPanelBelow();
 		
-		l_filterWindow.addLabel("lblCols", "Número de Colunas:");
+		l_filterWindow.addLabel("lblCols", "Number of columns:");
 		l_filterWindow.addTextField("txtCols", "txtCols", attributes);
 		//l_filterWindow.addHorizontalSlider("txtCols", "txtCols", 1, 10, 2, attributes);
 		l_filterWindow.addPanelBelow();
