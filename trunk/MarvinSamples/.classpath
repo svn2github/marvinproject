@@ -3,6 +3,10 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="JMF"/>
-	<classpathentry kind="lib" path="marvin/framework/Marvin.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MarvinFramework"/>
+	<classpathentry kind="lib" path="src/test/pen/icon.png"/>
+	<classpathentry kind="lib" path="src/test/eraser/icon.png"/>
+	<classpathentry kind="lib" path="src/test/rectangleSelect/icon.png"/>
+	<classpathentry kind="lib" path="src/test/rectangleSelect/cursorIcon.png"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -30,6 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 package marvin.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -37,6 +38,7 @@ import java.awt.image.BufferedImage;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -151,8 +153,8 @@ public class MarvinPluginWindow extends JFrame
 	
 	/**
 	 * Adds label
-	 * @param a_id		- component큦 id.
-	 * @param a_text	- label큦 text attribute.
+	 * @param a_id		- component id.
+	 * @param a_text	- label text attribute.
 	 */
 	public void addLabel(String a_id, String a_text){
 		JComponent l_component = new JLabel(a_text);
@@ -162,7 +164,7 @@ public class MarvinPluginWindow extends JFrame
 	
 	/**
 	 * Adds image
-	 * @param a_id		- component큦 id.
+	 * @param a_id		- component id.
 	 * @param a_image	- image to be displayed.
 	 */
 	public void addImage(String a_id, BufferedImage a_image){
@@ -173,8 +175,8 @@ public class MarvinPluginWindow extends JFrame
 	
 	/**
 	 * Adds TextField
-	 * @param a_id				- component큦 id.
-	 * @param a_attributeID		- attribute큦 id.
+	 * @param a_id				- component id.
+	 * @param a_attributeID		- attribute id.
 	 * @param a_attributes		- MarivnAttributes Object.
 	 */
 	public void addTextField(String a_id, String a_attributeID, MarvinAttributes a_attributes)
@@ -186,8 +188,8 @@ public class MarvinPluginWindow extends JFrame
 	
 	/**
 	 * 
-	 * @param a_id				- component큦 id.
-	 * @param a_attributeID		- attribute큦 id.
+	 * @param a_id				- component id.
+	 * @param a_attributeID		- attribute id.
 	 * @param a_lines			- number of lines.
 	 * @param a_columns			- number of columns.
 	 * @param a_attributes		- MarivnAttributes Object.
@@ -219,8 +221,8 @@ public class MarvinPluginWindow extends JFrame
 	
 	/**
 	 * Add Slider
-	 * @param a_id				- component큦 id.
-	 * @param a_attributeID		- attribute큦 id.
+	 * @param a_id				- component id.
+	 * @param a_attributeID		- attribute id.
 	 * @param a_orientation		- slider orientation
 	 * @param a_min				- minimum value.
 	 * @param a_max				- maximum value.
@@ -234,8 +236,8 @@ public class MarvinPluginWindow extends JFrame
 
 	/**
 	 * Add HorizontalSlider
-	 * @param a_id			- component큦 ID.
-	 * @param a_attributeID	- attribute큦 ID.
+	 * @param a_id			- component ID.
+	 * @param a_attributeID	- attribute ID.
 	 * @param a_min			- minimum value.
 	 * @param a_max			- maximum value.
 	 * @param a_value		- initial value.
@@ -247,8 +249,8 @@ public class MarvinPluginWindow extends JFrame
 	
 	/**
 	 * Add VerticalSlider
-	 * @param a_id			- component큦 ID
-	 * @param a_attributeID	- attribute큦 ID
+	 * @param a_id			- component ID
+	 * @param a_attributeID	- attribute ID
 	 * @param a_min			- minimum value
 	 * @param a_max			- maximum value
 	 * @param a_value		- initial value
@@ -260,15 +262,22 @@ public class MarvinPluginWindow extends JFrame
 	
 	/**
 	 * Add CheckBox
-	 * @param a_id				- component큦 ID
-	 * @param a_checkBoxText	- CheckBox큦 text attribute  
-	 * @param a_attirbuteID		- attribute큦 ID
+	 * @param a_id				- component ID
+	 * @param a_checkBoxText	- CheckBox text attribute  
+	 * @param a_attirbuteID		- attribute ID
 	 * @param a_attributes		- MarvinAttributes object
 	 */	
 	public void addCheckBox(String a_id, String a_checkBoxText, String a_attributeID,MarvinAttributes a_attributes){
 		JComponent l_component = new JCheckBox(a_checkBoxText);
 		panelCurrent.add(l_component);
 		plugComponent(a_id, l_component, a_attributeID, a_attributes, ComponentType.COMPONENT_CHECKBOX);
+	}
+	
+	/**
+	 * Add ButtonGroup
+	 */
+	public void addButtonGroup(String a_id, String a_attributeID, MarvinAttributes a_atributes){
+		
 	}
 
 	/**

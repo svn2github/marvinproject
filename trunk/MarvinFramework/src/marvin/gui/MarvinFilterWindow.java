@@ -202,7 +202,7 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 		plugin.process(imagePanel.getImage(), imageOut, null, MarvinImageMask.NULL_MASK, false);
 		
 		if(imagePanel.isHistoryEnabled()){
-			imagePanel.getHistory().addEntry("name", imageOut, plugin.getAttributes());
+			imagePanel.getHistory().addEntry(plugin.getClass().getSimpleName(), imageOut, plugin.getAttributes());
 		}
 		imageOut.update();
 		imagePanel.setImage(imageOut);

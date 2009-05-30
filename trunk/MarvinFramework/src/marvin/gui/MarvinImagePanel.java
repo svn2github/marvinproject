@@ -44,9 +44,9 @@ import marvin.util.MarvinPluginHistory;
  */
 public class MarvinImagePanel extends JPanel{
 	
-	private MarvinImage 		image;
-	private MarvinPluginHistory history;
-	private boolean				fitSizeToImage;
+	protected MarvinImage 			image;
+	protected MarvinPluginHistory 	history;
+	private boolean					fitSizeToImage;
 	
 	/**
 	 * Constructor
@@ -109,6 +109,7 @@ public class MarvinImagePanel extends JPanel{
 		}		
 		repaint();
 	}
+	
 	
 	/**
 	 * Returns the MarvinImage associated with this panel.

@@ -44,7 +44,7 @@ import marvin.image.MarvinImage;
 import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinPlugin;
 import marvin.plugin.MarvinPluginImage;
-import net.sourceforge.marvinproject.color.thresholding.Thresholding;
+import net.sourceforge.marvinproject.interfaceTest.InterfaceTest;
 
 /**
  * Test plug-ins and generate .jar files
@@ -54,6 +54,7 @@ public class PluginTester extends JFrame{
 	
 	// Definitions
 	private final static String PACKAGE_NET_FOLDER = "./bin/net/";
+	private final static String INITIAL_IMAGE = "./res/gesture.png";
 	
 	// Attributes
 	JButton						buttonReset,
@@ -63,14 +64,14 @@ public class PluginTester extends JFrame{
 	private MarvinImage 		originalImage,
 								newImage;
 	
-	private MarvinImagePanel	imagePanel;						
+	private MarvinImagePanel	imagePanel;			
 	
 
 	/*
 	 * @Load plug-in to test
 	 */
 	private void loadPlugin(){
-		MarvinPluginImage l_plugin = new Thresholding();
+		MarvinPluginImage l_plugin = new InterfaceTest();
 		l_plugin.setImagePanel(imagePanel);
 		l_plugin.load();
 		l_plugin.show();
@@ -105,7 +106,7 @@ public class PluginTester extends JFrame{
 		
 		
 		// Load image
-		originalImage = MarvinImageIO.loadImage("./res/tucano.jpg");
+		originalImage = MarvinImageIO.loadImage(INITIAL_IMAGE);
 		newImage = originalImage.clone();
 		
 		imagePanel.setImage(newImage);

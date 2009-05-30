@@ -105,7 +105,7 @@ public class ObjectTracking extends JFrame implements Runnable{
 			
 			imageIn = videoManager.getCapturedImage();
 			imageOut = videoManager.getResultImage();
-						
+			
 			MarvinImage.copyRGBArray(imageIn, imageOut);
 			
 			if(regionSelected){

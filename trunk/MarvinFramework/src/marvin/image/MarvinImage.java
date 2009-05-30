@@ -31,7 +31,6 @@ package marvin.image;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
@@ -311,17 +310,17 @@ public class MarvinImage implements Cloneable {
 		//g h i
 		int aR = getRed(x-1,y-1);   int bR = getRed(x-1,y);  int cR = getRed(x-1,y+1);
 		int aG = getGreen(x-1,y-1);   int bG = getGreen(x-1,y);  int cG = getGreen(x-1,y+1);
-		int aB = getGreen(x-1,y-1);   int bB = getGreen(x-1,y);  int cB = getGreen(x-1,y+1);
+		int aB = getBlue(x-1,y-1);   int bB = getBlue(x-1,y);  int cB = getBlue(x-1,y+1);
 
 
 		int dR = getRed(x,y-1);      int eR = getRed(x,y);   int fR = getRed(x,y+1);
 		int dG = getGreen(x,y-1);      int eG = getGreen(x,y);   int fG = getGreen(x,y+1);
-		int dB = getGreen(x,y-1);      int eB = getGreen(x,y);   int fB = getGreen(x,y+1);
+		int dB = getBlue(x,y-1);      int eB = getBlue(x,y);   int fB = getBlue(x,y+1);
 
 
 		int gR = getRed(x+1,y-1);    int hR = getRed(x+1,y);   int iR = getRed(x+1,y+1);
 		int gG = getGreen(x+1,y-1);    int hG = getGreen(x+1,y);   int iG = getGreen(x+1,y+1);
-		int gB = getGreen(x+1,y-1);    int hB = getGreen(x+1,y);   int iB = getGreen(x+1,y+1);
+		int gB = getBlue(x+1,y-1);    int hB = getBlue(x+1,y);   int iB = getBlue(x+1,y+1);
 
 		int rgb[] = new int[3];
 
@@ -485,6 +484,54 @@ public class MarvinImage implements Cloneable {
 		}
 		return rgb;
 	}
+	
+	/**
+	 * Bresenham´s Line Drawing implementation
+	 */
+	public void drawLine(int a_x0, int a_y0, int a_x1, int a_y1, Color a_color) {
+		int l_colorRGB = a_color.getRGB();
+		int l_dy = a_y1 - a_y0;
+		int a_dx = a_x1 - a_x0;
+		int l_stepx, l_stepy;
+		int l_fraction;
+		
+		
+		if (l_dy < 0) { l_dy = -l_dy; l_stepy = -1; 
+		} else { l_stepy = 1; 
+		}
+	 	if (a_dx < 0) { a_dx = -a_dx; l_stepx = -1; 
+		} else { l_stepx = 1; 
+		}
+		l_dy <<= 1; 							// dy is now 2*dy
+		a_dx <<= 1; 							// dx is now 2*dx
+	 
+		setRGB(a_x0, a_y0, l_colorRGB);
+
+		if (a_dx > l_dy) {
+			l_fraction = l_dy - (a_dx >> 1);	// same as 2*dy - dx
+			while (a_x0 != a_x1) {
+				if (l_fraction >= 0) {
+					a_y0 += l_stepy;
+					l_fraction -= a_dx; 		// same as fraction -= 2*dx
+				}
+				a_x0 += l_stepx;
+	   		l_fraction += l_dy; 				// same as fraction -= 2*dy
+	   		setRGB(a_x0, a_y0, l_colorRGB);
+			}
+		} else {
+			int fraction = a_dx - (l_dy >> 1);
+			while (a_y0 != a_y1) {
+				if (fraction >= 0) {
+					a_x0 += l_stepx;
+					fraction -= l_dy;
+				}
+			a_y0 += l_stepy;
+			fraction += a_dx;
+			setRGB(a_x0, a_y0, l_colorRGB);
+			}
+		}
+	} 
+
 	
 	/**
 	 * Draws a rectangle in the image. It´s useful for debugging purposes.
