@@ -89,14 +89,14 @@ public class ChromaKey extends JFrame implements Runnable{
 		
 		loadGUI();
 		
-		pluginChroma = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.subtract.jar");
-		pluginCombine = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.combine.combineByMask.jar");
+		pluginChroma = MarvinPluginLoader.loadPluginImage("org.marvinproject.subtract.jar");
+		pluginCombine = MarvinPluginLoader.loadPluginImage("org.marvinproject.combine.combineByMask.jar");
 		
 		MarvinImage l_imageParadise = MarvinImageIO.loadImage("./res/paradise.jpg");
 		Integer cameraWidth = videoManager.getCameraWidth();
 		Integer cameraHeight = videoManager.getCameraHeight();
 		 		
-		MarvinPluginImage pluginScale = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.transform.scale.jar");
+		MarvinPluginImage pluginScale = MarvinPluginLoader.loadPluginImage("org.marvinproject.transform.scale.jar");
 		pluginScale.setAttribute("newWidth", cameraWidth);
 		pluginScale.setAttribute("newHeight", cameraHeight);
 		

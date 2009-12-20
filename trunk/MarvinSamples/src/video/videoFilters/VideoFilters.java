@@ -261,53 +261,53 @@ public class VideoFilters extends JFrame implements Runnable{
 				labelCurrentPlugin.setText("Current plug-in: none");
 			}
 			else if(a_event.getSource() == buttonPluginGray){
-				pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.color.grayScale.jar");
+				pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.grayScale.jar");
 				labelCurrentPlugin.setText("Current plug-in: Gray Scale");
 			}
 			else if(a_event.getSource() == buttonPluginSepia){
-				pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.color.sepia.jar");
+				pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.sepia.jar");
 				labelCurrentPlugin.setText("Current plug-in: Sepia");
 			}
 			else if(a_event.getSource() == buttonPluginInvert){
-				pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.color.invert.jar");
+				pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.invert.jar");
 				labelCurrentPlugin.setText("Current plug-in: Negative");
 			}
 			else if(a_event.getSource() == buttonPluginPixelize){
-				pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.blur.pixelize.jar");
+				pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.blur.pixelize.jar");
 				labelCurrentPlugin.setText("Current plug-in: Pixelize");
 			}
 			else if(a_event.getSource() == buttonThresholding){
-				pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.color.thresholding.jar");
+				pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.thresholding.jar");
 				labelCurrentPlugin.setText("Current plug-in: Thresholding");
 			}
 			else if(a_event.getSource() == buttonPluginHalftone){
-				pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.halftone.dithering.jar");
+				pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.halftone.dithering.jar");
 				labelCurrentPlugin.setText("Current plug-in: Halftone");
 			}
 			else if(a_event.getSource() == buttonPluginMinimum){
-				pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.statistical.minimum.jar");
+				pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.statistical.minimum.jar");
 				pluginImage.setAttribute("size", 2);
 				labelCurrentPlugin.setText("Current plug-in: Minimum");
 			}
 			else if(a_event.getSource() == buttonPluginMaximum){
-				pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.statistical.maximum.jar");
+				pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.statistical.maximum.jar");
 				pluginImage.setAttribute("size", 2);
 				labelCurrentPlugin.setText("Current plug-in: Maximum");
 			}
 			else if(a_event.getSource() == buttonPluginFlip){
-				pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.transform.flip.jar");
+				pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.transform.flip.jar");
 				labelCurrentPlugin.setText("Current plug-in: Flip");
 			}
 			else if(a_event.getSource() == buttonPluginTelevision){
-				pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.artistic.television.jar");
+				pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.artistic.television.jar");
 				labelCurrentPlugin.setText("Current plug-in: Television");
 			}
 			else if(a_event.getSource() == buttonPluginEdgeDetector){
-				pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.edge.edgeDetector.jar");
+				pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.edge.edgeDetector.jar");
 				labelCurrentPlugin.setText("Current plug-in: Edge Detector");
 			}	
 			else if(a_event.getSource() == buttonPluginDifference){
-				pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.difference.differenceColor.jar");
+				pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.difference.differenceColor.jar");
 				pluginImage.setAttribute("comparisonImage", imageLastFrame);
 				labelCurrentPlugin.setText("Current plug-in: Difference");
 			}

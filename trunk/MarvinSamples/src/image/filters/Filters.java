@@ -109,16 +109,16 @@ public class Filters extends JFrame
 		public void actionPerformed(ActionEvent a_event){
 			image = backupImage.clone();
 			if(a_event.getSource() == buttonGray){
-				MarvinPluginImage l_pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.color.grayScale.jar");
+				MarvinPluginImage l_pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.grayScale.jar");
 				l_pluginImage.process(image, image, null, MarvinImageMask.NULL_MASK, false);
 			}
 			else if(a_event.getSource() == buttonSepia){
-				MarvinPluginImage l_pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.color.sepia.jar");
+				MarvinPluginImage l_pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.sepia.jar");
 				l_pluginImage.setAttribute("hsIntensidade", 50);				
 				l_pluginImage.process(image, image, null, MarvinImageMask.NULL_MASK, false);
 			}
 			else if(a_event.getSource() == buttonInvert){
-				MarvinPluginImage l_pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.color.invert.jar");
+				MarvinPluginImage l_pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.invert.jar");
 				l_pluginImage.process(image, image, null, MarvinImageMask.NULL_MASK, false);
 			}
 			image.update();

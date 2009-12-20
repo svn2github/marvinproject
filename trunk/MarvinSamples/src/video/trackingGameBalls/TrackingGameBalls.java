@@ -97,7 +97,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		screenWidth = videoManager.getCameraWidth();
 		screenHeight = videoManager.getCameraHeight();
 		
-		pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.pattern.findColorPattern.jar");
+		pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.pattern.findColorPattern.jar");
 		
 		attributesOut = new MarvinAttributes();
 				

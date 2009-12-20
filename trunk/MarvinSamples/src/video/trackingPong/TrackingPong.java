@@ -87,7 +87,7 @@ public class TrackingPong extends JFrame implements Runnable{
 		
 		loadGUI();
 		
-		pluginImage = MarvinPluginLoader.loadPluginImage("net.sourceforge.marvinproject.pattern.findColorPattern.jar");
+		pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.pattern.findColorPattern.jar");
 		
 		attributesOut = new MarvinAttributes();
 		

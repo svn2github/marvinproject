@@ -58,11 +58,39 @@ public class MarvinErrorHandler {
 	};
 	
 	/**
+	 * Handles error returning a new RuntimeException
+	 * @param type Error type
+	 * @param complement complementary message
+	 */
+	public static RuntimeException handle(TYPE type, String complement){
+		return new RuntimeException(getErrorMessage(type)+complement);
+	}
+	
+	/**
+	 * Handles error returning a new RuntimeException
+	 * @param type Error type
+	 * @param complement complementary message
+	 * @param e exception
+	 */
+	public static RuntimeException handle(TYPE type, String complement, Exception e){
+		return new RuntimeException(getErrorMessage(type)+complement, e);
+	}
+	
+	/**
+	 * Handles error returning a new RuntimeException
+	 * @param type Error type
+	 * @param e exception
+	 */
+	public static RuntimeException handle(TYPE type, Exception e){
+		return new RuntimeException(getErrorMessage(type), e);
+	}
+	
+	/**
 	 * Handles error showing the message based on the enum error types
 	 * @param type Error type
 	 */
-	public static void handle(TYPE a_type){
-		handle(getErrorMessage(a_type));
+	public static void handleDialog(TYPE a_type){
+		handleDialog(getErrorMessage(a_type));
 	}
 	
 	/**
@@ -70,8 +98,8 @@ public class MarvinErrorHandler {
 	 * @param type Error type
 	 * @param err Error object
 	 */
-	public static void handle(TYPE a_type, Exception a_err){
-		handle(getErrorMessage(a_type), a_err);
+	public static void handleDialog(TYPE a_type, Exception a_err){
+		handleDialog(getErrorMessage(a_type), a_err);
 	}
 	
 	/**
@@ -79,17 +107,17 @@ public class MarvinErrorHandler {
 	 * @param type Error type
 	 * @param err Error message
 	 */
-	public static void handle(TYPE a_type, String a_args){
-		handle(getErrorMessage(a_type), a_args);
+	public static void handleDialog(TYPE a_type, String a_args){
+		handleDialog(getErrorMessage(a_type), a_args);
 	}
 	
 	private static String getErrorMessage(TYPE a_type){
 		switch(a_type){
 			case BAD_FILE: 					return "Bad file format!";							
-			case ERROR_FILE_OPEN:			return "Error while opening the file!";
+			case ERROR_FILE_OPEN:			return "Error while opening the file:";
 			case ERROR_FILE_SAVE:			return "Error while saving the image!";
 			case ERROR_FILE_CHOOSE:			return "Error while choosing the file!";
-			case ERROR_FILE_NOT_FOUND: 		return "Error: File not found!"; 
+			case ERROR_FILE_NOT_FOUND: 		return "Error! File not found:"; 
 			case NO_IMAGE_LOADED:			return "No image loaded!";			
 			case IMAGE_RELOAD:				return "Error while reloading the image!";
 			case ERROR_PLUGIN_NOT_FOUND:	return "Error: plug-in not found!";
@@ -102,7 +130,7 @@ public class MarvinErrorHandler {
 	 * @param msg Message about the error
 	 * @param err Error object
 	 */
-	public static void handle(String a_msg, Exception a_err){
+	public static void handleDialog(String a_msg, Exception a_err){
 		//Show the error message
 		JOptionPane.showMessageDialog(null, a_msg, "Marvin - Error", JOptionPane.ERROR_MESSAGE);
 		
@@ -116,7 +144,7 @@ public class MarvinErrorHandler {
 	 * Handles error showing the message
 	 * @param msg Message about the error
 	 */
-	public static void handle(String a_msg){
+	public static void handleDialog(String a_msg){
 		//Show the error message
 		JOptionPane.showMessageDialog(null, a_msg, "Marvin - Error", JOptionPane.ERROR_MESSAGE);		
 	}	
@@ -126,7 +154,7 @@ public class MarvinErrorHandler {
 	 * @param msg Message about the error
 	 * @param erro Error message
 	 */
-	public static void handle(String a_msg, String a_err){
+	public static void handleDialog(String a_msg, String a_err){
 		//Show the error message 
 		JOptionPane.showMessageDialog(null, a_msg+" "+a_err, "Marvin - Error", JOptionPane.ERROR_MESSAGE);		
 	}

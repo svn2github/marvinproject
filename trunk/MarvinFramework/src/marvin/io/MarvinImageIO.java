@@ -64,8 +64,7 @@ public class MarvinImageIO {
 		File l_file = new File(a_filePath);
 		
 		if(!l_file.exists()){
-			MarvinErrorHandler.handle(MarvinErrorHandler.TYPE.ERROR_FILE_NOT_FOUND);
-			return null;
+			throw MarvinErrorHandler.handle(MarvinErrorHandler.TYPE.ERROR_FILE_NOT_FOUND,a_filePath);
 		}
 		
 		// 2. Create ImageReader
@@ -74,7 +73,7 @@ public class MarvinImageIO {
 		
 		l_reader.addIIOReadWarningListener(new IIOReadWarningListener() {
 			public void warningOccurred(ImageReader source, String warning) {
-				MarvinErrorHandler.handle(MarvinErrorHandler.TYPE.BAD_FILE, warning);
+				MarvinErrorHandler.handleDialog(MarvinErrorHandler.TYPE.BAD_FILE, warning);
 			}
 		});		
 		
@@ -84,9 +83,10 @@ public class MarvinImageIO {
 			l_reader.setInput(l_imageInputStream);
 			l_bufferedImage = l_reader.read(0);
 		}catch(Exception e){
-			e.printStackTrace();
-			MarvinErrorHandler.handle(MarvinErrorHandler.TYPE.ERROR_FILE_OPEN, e);
-			return null;
+			throw MarvinErrorHandler.handle(MarvinErrorHandler.TYPE.ERROR_FILE_OPEN, a_filePath, e);
+			
+			//MarvinErrorHandler.handle(, e);
+			//return null;
 		}
 		
 		// 4. Get format
@@ -115,7 +115,7 @@ public class MarvinImageIO {
 		try{
 			ImageIO.write(a_marvinImage.getBufferedImage(), l_fileFormat, l_file);			
 		} catch(Exception e){
-			MarvinErrorHandler.handle(MarvinErrorHandler.TYPE.ERROR_FILE_SAVE, e);
+			throw MarvinErrorHandler.handle(MarvinErrorHandler.TYPE.ERROR_FILE_SAVE, a_filePath, e);
 		}
 	}
 }

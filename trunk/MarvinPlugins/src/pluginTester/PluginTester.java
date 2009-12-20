@@ -34,8 +34,7 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -46,26 +45,8 @@ import marvin.image.MarvinImage;
 import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinPlugin;
 import marvin.plugin.MarvinPluginImage;
-import net.sourceforge.marvinproject.artistic.mosaic.Mosaic;
-import net.sourceforge.marvinproject.artistic.television.Television;
-import net.sourceforge.marvinproject.blur.gaussianBlur.GaussianBlur;
-import net.sourceforge.marvinproject.blur.pixelize.Pixelize;
-import net.sourceforge.marvinproject.color.brightnessAndContrast.BrightnessAndContrast;
-import net.sourceforge.marvinproject.color.grayScale.GrayScale;
-import net.sourceforge.marvinproject.color.invert.Invert;
-import net.sourceforge.marvinproject.color.sepia.Sepia;
-import net.sourceforge.marvinproject.color.thresholding.Thresholding;
-import net.sourceforge.marvinproject.edge.edgeDetector.EdgeDetector;
-import net.sourceforge.marvinproject.halftone.circles.Circles;
-import net.sourceforge.marvinproject.halftone.dithering.Dithering;
-import net.sourceforge.marvinproject.halftone.errorDiffusion.ErrorDiffusion;
-import net.sourceforge.marvinproject.halftone.rylanders.Rylanders;
-import net.sourceforge.marvinproject.interfaceTest.InterfaceTest;
-import net.sourceforge.marvinproject.pattern.harrisPlessey.HarrisPlessey;
-import net.sourceforge.marvinproject.statistical.maximum.Maximum;
-import net.sourceforge.marvinproject.statistical.median.Median;
-import net.sourceforge.marvinproject.statistical.minimum.Minimum;
-import net.sourceforge.marvinproject.statistical.mode.Mode;
+
+import org.marvinproject.texture.tileTexture.TileTexture;
 
 /**
  * Test plug-ins and generate .jar files
@@ -74,7 +55,7 @@ import net.sourceforge.marvinproject.statistical.mode.Mode;
 public class PluginTester extends JFrame{
 	
 	// Definitions
-	private final static String PACKAGE_NET_FOLDER = "./bin/net/";
+	private final static String PACKAGE_NET_FOLDER = "./bin/org/";
 	private final static String INITIAL_IMAGE = "./res/tucano.jpg";
 	
 	// Attributes
@@ -94,10 +75,31 @@ public class PluginTester extends JFrame{
 	 * @Load plug-in to test
 	 */
 	private void loadPlugin(){
-		MarvinPluginImage l_plugin = new InterfaceTest();
+		HashMap<Object,Object> test = new HashMap<Object,Object>();
+		test.put("key", null);
+		
+		MarvinPluginImage l_plugin = new TileTexture();
+		
 		l_plugin.setImagePanel(imagePanel);
+		MarvinImage i=null; 
+		try{
+			i = MarvinImageIO.loadImage("./res/tile01.png");
+		}
+		catch(Exception e){
+			
+		}
+		System.out.println("continue running");
+		
+		l_plugin.load();
+		l_plugin.setAttribute("tile", i);
+		l_plugin.show();
+		
+		
+		
+		/*
 		l_plugin.load();
 		l_plugin.show();
+		*/
 	}
 	
 	public PluginTester(){
