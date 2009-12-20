@@ -95,12 +95,12 @@ public class Pixelize extends MarvinAbstractPluginImage
 						continue;
 					}
 					
-					if(l_red == -1)		l_red = a_image.getRed(x,y);
-					else				l_red = (l_red+a_image.getRed(x,y))/2;
-					if(l_green == -1)	l_green = a_image.getGreen(x,y);
-					else				l_green = (l_green+a_image.getGreen(x,y))/2;
-					if(l_blue == -1)	l_blue = a_image.getBlue(x,y);
-					else				l_blue = (l_blue+a_image.getBlue(x,y))/2;	
+					if(l_red == -1)		l_red = a_image.getIntComponent0(x,y);
+					else				l_red = (l_red+a_image.getIntComponent0(x,y))/2;
+					if(l_green == -1)	l_green = a_image.getIntComponent1(x,y);
+					else				l_green = (l_green+a_image.getIntComponent1(x,y))/2;
+					if(l_blue == -1)	l_blue = a_image.getIntComponent2(x,y);
+					else				l_blue = (l_blue+a_image.getIntComponent2(x,y))/2;	
 				}				
 			} 
 		}
@@ -115,7 +115,7 @@ public class Pixelize extends MarvinAbstractPluginImage
 						continue;
 					}
 					
-					a_image.setRGB(x,y,a_rgb);
+					a_image.setIntColor(x,y,a_rgb);
 				}
 			}
 		}					

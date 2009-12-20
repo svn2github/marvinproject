@@ -295,12 +295,12 @@ public class MarvinVideoManager{
 			}
 		}
 
-		imageIn.setRGBArray((int[]) buffer.getData());
+		imageIn.setIntColorArray((int[]) buffer.getData());
 		return imageIn;
 	}
 	
 	public MarvinImage getResultImage(){
-		imageOut.setRGBArray(outpix);
+		imageOut.setIntColorArray(outpix);
 		return imageOut;
 	}
 	

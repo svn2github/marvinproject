@@ -145,11 +145,11 @@ public class HarrisPlessey extends MarvinAbstractPluginImage{
 		for (int x = 0; x < a_imageIn.getWidth(); x++) {
 			for (int y = 0; y < a_imageIn.getHeight(); y++) {
 				//Red - 30% / Blue - 59% / Green - 11%
-				r = a_imageIn.getRed(x, y);
-				g = a_imageIn.getGreen(x, y);
-				b = a_imageIn.getBlue(x, y);
+				r = a_imageIn.getIntComponent0(x, y);
+				g = a_imageIn.getIntComponent1(x, y);
+				b = a_imageIn.getIntComponent2(x, y);
 				corfinal = (int)((r*0.3)+(b*0.59)+(g*0.11));
-				a_imageOut.setRGB(x,y,corfinal,corfinal,corfinal);
+				a_imageOut.setIntColor(x,y,corfinal,corfinal,corfinal);
 			}
 			performanceMeter.stepsFinished(a_imageIn.getHeight());
 			performanceMeter.incProgressBar(a_imageIn.getHeight());			
@@ -175,9 +175,9 @@ public class HarrisPlessey extends MarvinAbstractPluginImage{
 			for (int y =  1; y < a_imageOut.getHeight()-1; y++) {
 
 				// pega o r , g ,e b
-				r = a_imageIn.getRed(x, y);
-				g = a_imageIn.getGreen(x, y);
-				b = a_imageIn.getBlue(x, y);
+				r = a_imageIn.getIntComponent0(x, y);
+				g = a_imageIn.getIntComponent1(x, y);
+				b = a_imageIn.getIntComponent2(x, y);
 
 				//a b c
 				// d e f
@@ -198,7 +198,7 @@ public class HarrisPlessey extends MarvinAbstractPluginImage{
 				bn = a_imageOut.boundRGB(bn);
 
 				// defini os rgb novos
-				a_imageOut.setRGB(x, y, rn,gn,bn);
+				a_imageOut.setIntColor(x, y, rn,gn,bn);
 
 			}
 			performanceMeter.stepsFinished(a_imageOut.getHeight()-2);
@@ -211,20 +211,20 @@ public class HarrisPlessey extends MarvinAbstractPluginImage{
 		for (int x = 0; x < a_imageOut.getWidth(); x++) {
 			for (int y =  0; y < a_imageOut.getHeight(); y++) {
 
-				if(a_imageOut.getRed(x, y) > limiar ||a_imageOut.getRed(x, y)+20 > limiar ||a_imageOut.getRed(x, y)-20 > limiar ){
+				if(a_imageOut.getIntComponent0(x, y) > limiar ||a_imageOut.getIntComponent0(x, y)+20 > limiar ||a_imageOut.getIntComponent0(x, y)-20 > limiar ){
 
-					if(a_imageOut.getGreen(x, y) > limiar ||a_imageOut.getGreen(x, y)+20 > limiar ||a_imageOut.getGreen(x, y)-20 > limiar ){
+					if(a_imageOut.getIntComponent1(x, y) > limiar ||a_imageOut.getIntComponent1(x, y)+20 > limiar ||a_imageOut.getIntComponent1(x, y)-20 > limiar ){
 
-						if(a_imageOut.getBlue(x, y) > limiar ||a_imageOut.getBlue(x, y)+20 > limiar ||a_imageOut.getBlue(x, y)-20 > limiar ){
+						if(a_imageOut.getIntComponent2(x, y) > limiar ||a_imageOut.getIntComponent2(x, y)+20 > limiar ||a_imageOut.getIntComponent2(x, y)-20 > limiar ){
 
-							a_imageOut.setRGB(x, y, 255,255,255);
+							a_imageOut.setIntColor(x, y, 255,255,255);
 
 						}
 					}
 
 				}else{
 
-					a_imageOut.setRGB(x, y, 0,0,0);
+					a_imageOut.setIntColor(x, y, 0,0,0);
 				}
 
 
@@ -248,9 +248,9 @@ public class HarrisPlessey extends MarvinAbstractPluginImage{
 				// 3  3  3 
 				// 3  3  3 * (-1 ,0 ,1)  matriz (janela da imagem, o valor dos pixels mesmo) convulacionaod com (-1,0,1)
 				// 3  3  3  
-				Gx = (a_imageOut.getRed(x-1,y-1) * 1) + (a_imageOut.getRed(x-1,y) * 0) + (a_imageOut.getRed(x-1,y+1) * -1);
-				Gx = (a_imageOut.getRed(x,y-1) * 1) + (a_imageOut.getRed(x,y) * 0) + (a_imageOut.getRed(x,y+1) * -1);
-				Gx = Gx + (a_imageOut.getRed(x+1,y-1) * 1) + (a_imageOut.getRed(x+1,y) * 0) + (a_imageOut.getRed(x+1,y+1) * -1);
+				Gx = (a_imageOut.getIntComponent0(x-1,y-1) * 1) + (a_imageOut.getIntComponent0(x-1,y) * 0) + (a_imageOut.getIntComponent0(x-1,y+1) * -1);
+				Gx = (a_imageOut.getIntComponent0(x,y-1) * 1) + (a_imageOut.getIntComponent0(x,y) * 0) + (a_imageOut.getIntComponent0(x,y+1) * -1);
+				Gx = Gx + (a_imageOut.getIntComponent0(x+1,y-1) * 1) + (a_imageOut.getIntComponent0(x+1,y) * 0) + (a_imageOut.getIntComponent0(x+1,y+1) * -1);
 
 
 
@@ -259,9 +259,9 @@ public class HarrisPlessey extends MarvinAbstractPluginImage{
 				// 3  3  3 
 				// 3  3  3 * (-1 ,0 ,1)  matriz (janela da imagem, o valor dos pixels mesmo) convulacionaod com (-1,0,1)
 				// 3  3  3  
-				Gy = (a_imageOut.getRed(x-1,y-1) * -1) + (a_imageOut.getRed(x,y-1) * 0) + (a_imageOut.getRed(x+1,y-1) * 1);
-				Gy = (a_imageOut.getRed(x-1,y) * -1) + (a_imageOut.getRed(x,y) * 0) + (a_imageOut.getRed(x+1,y) * 1);
-				Gy = Gy + (a_imageOut.getRed(x-1,y+1) * -1) + (a_imageOut.getRed(x,y+1) * 0) + (a_imageOut.getRed(x+1,y+1) * 1);
+				Gy = (a_imageOut.getIntComponent0(x-1,y-1) * -1) + (a_imageOut.getIntComponent0(x,y-1) * 0) + (a_imageOut.getIntComponent0(x+1,y-1) * 1);
+				Gy = (a_imageOut.getIntComponent0(x-1,y) * -1) + (a_imageOut.getIntComponent0(x,y) * 0) + (a_imageOut.getIntComponent0(x+1,y) * 1);
+				Gy = Gy + (a_imageOut.getIntComponent0(x-1,y+1) * -1) + (a_imageOut.getIntComponent0(x,y+1) * 0) + (a_imageOut.getIntComponent0(x+1,y+1) * 1);
 
 
 				// calcula o valor da matriz de auto correlacao
@@ -282,7 +282,7 @@ public class HarrisPlessey extends MarvinAbstractPluginImage{
 				if( E > th ){
 					cantos[x][y] = 1;
 					numeroCantos++;
-					a_imageOut.setRGB(x, y, 255, 0, 0);
+					a_imageOut.setIntColor(x, y, 255, 0, 0);
 				}
 
 				// zera todos os itens da matriz de auto correlação
@@ -313,7 +313,7 @@ public class HarrisPlessey extends MarvinAbstractPluginImage{
 					if(x+40 < a_imageOut.getWidth() && y+40 < a_imageOut.getHeight())
 					{
 
-						a_imageOut.setRGB(x, y, 255,0,0);
+						a_imageOut.setIntColor(x, y, 255,0,0);
 						MarvinImage imgTmp = a_imageIn.crop(x, y, 40, 40);
 						if(!a_previewMode){
 							try{

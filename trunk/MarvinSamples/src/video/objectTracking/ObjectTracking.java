@@ -106,7 +106,7 @@ public class ObjectTracking extends JFrame implements Runnable{
 			imageIn = videoManager.getCapturedImage();
 			imageOut = videoManager.getResultImage();
 			
-			MarvinImage.copyRGBArray(imageIn, imageOut);
+			MarvinImage.copyIntColorArray(imageIn, imageOut);
 			
 			if(regionSelected){
 				pluginImage.setAttribute("differenceColorRange", sensibility);

@@ -101,15 +101,15 @@ public class DifferenceGray extends MarvinAbstractPluginImage{
 				//Calculate the difference
 				
 				//Gets the gray scale value
-				int gray = (int)((a_imageIn.getRed(x, y)*0.3) + (a_imageIn.getGreen(x, y)*0.11) + (a_imageIn.getBlue(x, y)*0.59));
-				int gray1 = (int)((image2.getRed(x, y)*0.3) + (image2.getGreen(x, y)*0.11) + (image2.getBlue(x, y)*0.59));
+				int gray = (int)((a_imageIn.getIntComponent0(x, y)*0.3) + (a_imageIn.getIntComponent1(x, y)*0.11) + (a_imageIn.getIntComponent2(x, y)*0.59));
+				int gray1 = (int)((image2.getIntComponent0(x, y)*0.3) + (image2.getIntComponent1(x, y)*0.11) + (image2.getIntComponent2(x, y)*0.59));
 				
 				//Makes the absolute difference
 				int diff = Math.abs(gray - gray1);
 	            int v = (diff / 2);
 				
 	            //Sets the value to the new image
-				a_imageOut.setRGB(x, y, v, v, v);
+				a_imageOut.setIntColor(x, y, v, v, v);
 			}
 		}
 	}

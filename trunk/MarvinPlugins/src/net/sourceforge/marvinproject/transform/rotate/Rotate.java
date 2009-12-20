@@ -136,7 +136,7 @@ public class Rotate extends MarvinAbstractPluginImage
 			{
 				for(int yy =l_aImageHeight-1; yy >= 0; yy--)
 				{
-					a_imageOut.setRGB(l_aImageHeight-1 - yy, xx, a_imageIn.getRGB(xx, yy));
+					a_imageOut.setIntColor(l_aImageHeight-1 - yy, xx, a_imageIn.getIntColor(xx, yy));
 				}
 			}
 		}
@@ -151,7 +151,7 @@ public class Rotate extends MarvinAbstractPluginImage
 			{
 				for(int yy = 0; yy < l_aImageHeight; yy++)
 				{
-					a_imageOut.setRGB(yy, l_aImageWidth -1 - xx, a_imageIn.getRGB(xx, yy));
+					a_imageOut.setIntColor(yy, l_aImageWidth -1 - xx, a_imageIn.getIntColor(xx, yy));
 				}
 			}
 		}
@@ -188,7 +188,7 @@ public class Rotate extends MarvinAbstractPluginImage
 					int l_leftValue = a_LookUpArray[xx-1][yy][2];
 					int l_rightValue = a_LookUpArray[xx-1][yy][2];
 					int l_difference = l_rightValue - l_leftValue;
-					a_image.setRGB(xx, yy, l_leftValue + (l_difference+2));
+					a_image.setIntColor(xx, yy, l_leftValue + (l_difference+2));
 				}		
 			}
 		}
@@ -252,10 +252,10 @@ public class Rotate extends MarvinAbstractPluginImage
 				int l_newYCoordinate = (int)( (Math.sin(a_rotateAngleRads)* (xx - (l_aimageWidth/2))) + ((Math.cos(a_rotateAngleRads) * (yy - (l_aimageHeight/2)))) + (l_newHeight/2));
 				try
 				{
-					a_imageOut.setRGB(l_newXCoordinate, l_newYCoordinate, a_imageIn.getRGB(xx, yy));
+					a_imageOut.setIntColor(l_newXCoordinate, l_newYCoordinate, a_imageIn.getIntColor(xx, yy));
 					l_LookUpArray[l_newXCoordinate][l_newYCoordinate][0] = xx;
 					l_LookUpArray[l_newXCoordinate][l_newYCoordinate][1] = yy;
-					l_LookUpArray[l_newXCoordinate][l_newYCoordinate][2] = a_imageIn.getRGB(xx, yy);
+					l_LookUpArray[l_newXCoordinate][l_newYCoordinate][2] = a_imageIn.getIntColor(xx, yy);
 				}
 				catch(Exception e)
 				{

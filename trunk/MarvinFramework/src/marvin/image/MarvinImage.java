@@ -45,6 +45,8 @@ import java.awt.image.BufferedImage;
  */
 public class MarvinImage implements Cloneable {
 	// Definitions
+	public final static int TYPE_INT_RGB	= 0;
+	
 	public final static int PROPORTIONAL = 0;	
 
 	// Image
@@ -63,6 +65,8 @@ public class MarvinImage implements Cloneable {
 	// Format
 	protected String formatName;
 	
+	// Components
+	protected int numComponents;
 	
 	// Dimension
 	int width;
@@ -107,6 +111,11 @@ public class MarvinImage implements Cloneable {
 		filePath = "";
 		formatName = "jpg";
 		setDimension(a_width, a_height);		
+	}
+	
+	
+	public int getComponents(){
+		return numComponents;
 	}
 	
 	public MarvinImage crop(int a_x, int a_y, int a_width, int a_height){		 
@@ -159,67 +168,65 @@ public class MarvinImage implements Cloneable {
 	}
 
 	/**
-	 * @return RGB array for the entire image
+	 * @return integer color array for the entire image.
 	 */
-	public int[] getRGBArray(){
-		//return image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, 0);
+	public int[] getIntColorArray(){
 		return arrColor;
 	}
 	
 	/**
-	 *	Set the RGB array for the entire image 
+	 *	Set the integer color array for the entire image.
 	 **/
-	public void setRGBArray(int[] a_arrRGB){
-		//image.setRGB(0, 0, image.getWidth(), image.getHeight(), a_arrRGB,0,0);
-		arrColor = a_arrRGB;
+	public void setIntColorArray(int[] a_arr){
+		arrColor = a_arr;
 	}
 	
 	/**
 	 * 
 	 */
-	public static void copyRGBArray(MarvinImage a_imageSource, MarvinImage a_imageDestine){
-		System.arraycopy(a_imageSource.getRGBArray(), 0, a_imageDestine.getRGBArray(), 0, a_imageSource.getWidth()*a_imageSource.getHeight());
+	public static void copyIntColorArray(MarvinImage a_imageSource, MarvinImage a_imageDestine){
+		System.arraycopy(a_imageSource.getIntColorArray(), 0, a_imageDestine.getIntColorArray(), 0, a_imageSource.getWidth()*a_imageSource.getHeight());
 	}
 	
 	
 	/**
-	 * Gets the rgb for x, y position
+	 * Gets the integer color composition for x, y position
 	 * @param int - x 
 	 * @param int - y
-	 * @return int rgb
+	 * @return int color
 	 */
-	public int getRGB(int x, int y){
+	public int getIntColor(int x, int y){
 		return arrColor[y*width+x];
 	}
 	
 	
 	/**
-	 * Gets the red component in the x and y position
+	 * Gets the integer color component 0  in the x and y position
 	 * @param int - x 
 	 * @param int - y
 	 * @return int red color
 	 */	
-	public int getRed(int x, int y){
+	public int getIntComponent0(int x, int y){
 		return (arrColor[((y*width+x))]& 0x00FF0000) >>> 16;
 	}
 
 	/**
-	 * Gets the green component in the x and y position
+	 * Gets the integer color component 1 in the x and y position
 	 * @param int - x 
 	 * @param int - y
 	 * @return int green color
 	 */	
-	public int getGreen(int x, int y){
+	public int getIntComponent1(int x, int y){
 		return (arrColor[((y*width+x))]& 0x0000FF00) >>> 8;
 	}
 
 	/**
-	 * Gets the blue component in the x and y position
+	 * Gets the integer color component 2 in the x and y position
 	 * @param int - x 
 	 * @param int - y
 	 * @return int blue color
 	 */	
-	public int getBlue(int x, int y){
+	public int getIntComponent2(int x, int y){
 		return (arrColor[((y*width+x))] & 0x000000FF);
 	}
 
@@ -240,24 +247,24 @@ public class MarvinImage implements Cloneable {
 	}
 
 	/**
-	 * Sets the RGB in X an Y position
+	 * Sets the integer color composition in X an Y position
 	 * @param x position
 	 * @param y position
-	 * @param rgb RGB value
+	 * @param color color value
 	 */
-	public void setRGB(int x, int y, int rgb){
-		arrColor[((y*image.getWidth()+x))] = rgb;
+	public void setIntColor(int x, int y, int color){
+		arrColor[((y*image.getWidth()+x))] = color;
 	}
 
 	/**
-	 * Sets the RGB in X an Y position
+	 * Sets the integer color in X an Y position
 	 * @param x position
 	 * @param y position
 	 * @param r Red color
 	 * @param g Green color
 	 * @param b Blue Color
 	 */
-	public void setRGB(int x, int y, int r, int g, int b){
+	public void setIntColor(int x, int y, int r, int g, int b){
 		arrColor[((y*image.getWidth()+x))] = (255 << 24)+
 		(r << 16)+
 		(g << 8)+
@@ -283,21 +290,21 @@ public class MarvinImage implements Cloneable {
 	}
 	
 	/**
-	 * Set the value of RGB in the 0 to 255
-	 * @return int - the RGB value
+	 * Limits the color value between 0 and 255.
+	 * @return int - the color value
 	 */
-	public int limitRgb(int rgb){
+	public int limit8bitsColor(int color){
 
-		if(rgb > 255){
-			rgb = 255;
-			return(rgb);
+		if(color > 255){
+			color = 255;
+			return(color);
 		}
 
-		if(rgb < 0){
-			rgb = 0;
-			return(rgb);
+		if(color < 0){
+			color = 0;
+			return(color);
 		}
-		return rgb;
+		return color;
 	}
 
 	/**
@@ -308,19 +315,19 @@ public class MarvinImage implements Cloneable {
 		//a b c
 		//d e f
 		//g h i
-		int aR = getRed(x-1,y-1);   int bR = getRed(x-1,y);  int cR = getRed(x-1,y+1);
-		int aG = getGreen(x-1,y-1);   int bG = getGreen(x-1,y);  int cG = getGreen(x-1,y+1);
-		int aB = getBlue(x-1,y-1);   int bB = getBlue(x-1,y);  int cB = getBlue(x-1,y+1);
+		int aR = getIntComponent0(x-1,y-1);   int bR = getIntComponent0(x-1,y);  int cR = getIntComponent0(x-1,y+1);
+		int aG = getIntComponent1(x-1,y-1);   int bG = getIntComponent1(x-1,y);  int cG = getIntComponent1(x-1,y+1);
+		int aB = getIntComponent2(x-1,y-1);   int bB = getIntComponent2(x-1,y);  int cB = getIntComponent2(x-1,y+1);
 
 
-		int dR = getRed(x,y-1);      int eR = getRed(x,y);   int fR = getRed(x,y+1);
-		int dG = getGreen(x,y-1);      int eG = getGreen(x,y);   int fG = getGreen(x,y+1);
-		int dB = getBlue(x,y-1);      int eB = getBlue(x,y);   int fB = getBlue(x,y+1);
+		int dR = getIntComponent0(x,y-1);      int eR = getIntComponent0(x,y);   int fR = getIntComponent0(x,y+1);
+		int dG = getIntComponent1(x,y-1);      int eG = getIntComponent1(x,y);   int fG = getIntComponent1(x,y+1);
+		int dB = getIntComponent2(x,y-1);      int eB = getIntComponent2(x,y);   int fB = getIntComponent2(x,y+1);
 
 
-		int gR = getRed(x+1,y-1);    int hR = getRed(x+1,y);   int iR = getRed(x+1,y+1);
-		int gG = getGreen(x+1,y-1);    int hG = getGreen(x+1,y);   int iG = getGreen(x+1,y+1);
-		int gB = getBlue(x+1,y-1);    int hB = getBlue(x+1,y);   int iB = getBlue(x+1,y+1);
+		int gR = getIntComponent0(x+1,y-1);    int hR = getIntComponent0(x+1,y);   int iR = getIntComponent0(x+1,y+1);
+		int gG = getIntComponent1(x+1,y-1);    int hG = getIntComponent1(x+1,y);   int iG = getIntComponent1(x+1,y+1);
+		int gB = getIntComponent2(x+1,y-1);    int hB = getIntComponent2(x+1,y);   int iB = getIntComponent2(x+1,y+1);
 
 		int rgb[] = new int[3];
 
@@ -434,7 +441,7 @@ public class MarvinImage implements Cloneable {
 			MarvinImage newMarvinImg = (MarvinImage)super.clone();
 			BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
 			newMarvinImg.setBufferedImage(newImage);
-			MarvinImage.copyRGBArray(this, newMarvinImg);
+			MarvinImage.copyIntColorArray(this, newMarvinImg);
 			newMarvinImg.update();
 			return newMarvinImg;
 
@@ -448,19 +455,19 @@ public class MarvinImage implements Cloneable {
 	 * @return int[]
 	 */
 	public double Multi8p(int x, int y,double masc){
-		int aR = getRed(x-1,y-1);     int bR = getRed(x-1,y);    int cR = getRed(x-1,y+1);
-		int aG = getGreen(x-1,y-1);   int bG = getGreen(x-1,y);  int cG = getGreen(x-1,y+1);
-		int aB = getGreen(x-1,y-1);   int bB = getGreen(x-1,y);  int cB = getGreen(x-1,y+1);
+		int aR = getIntComponent0(x-1,y-1);     int bR = getIntComponent0(x-1,y);    int cR = getIntComponent0(x-1,y+1);
+		int aG = getIntComponent1(x-1,y-1);   int bG = getIntComponent1(x-1,y);  int cG = getIntComponent1(x-1,y+1);
+		int aB = getIntComponent1(x-1,y-1);   int bB = getIntComponent1(x-1,y);  int cB = getIntComponent1(x-1,y+1);
 
 		
-		int dR = getRed(x,y-1);        int eR = getRed(x,y);     int fR = getRed(x,y+1);
-		int dG = getGreen(x,y-1);      int eG = getGreen(x,y);   int fG = getGreen(x,y+1);
-		int dB = getGreen(x,y-1);      int eB = getGreen(x,y);   int fB = getGreen(x,y+1);
+		int dR = getIntComponent0(x,y-1);        int eR = getIntComponent0(x,y);     int fR = getIntComponent0(x,y+1);
+		int dG = getIntComponent1(x,y-1);      int eG = getIntComponent1(x,y);   int fG = getIntComponent1(x,y+1);
+		int dB = getIntComponent1(x,y-1);      int eB = getIntComponent1(x,y);   int fB = getIntComponent1(x,y+1);
 
 		
-		int gR = getRed(x+1,y-1);      int hR = getRed(x+1,y);     int iR = getRed(x+1,y+1);
-		int gG = getGreen(x+1,y-1);    int hG = getGreen(x+1,y);   int iG = getGreen(x+1,y+1);
-		int gB = getGreen(x+1,y-1);    int hB = getGreen(x+1,y);   int iB = getGreen(x+1,y+1);
+		int gR = getIntComponent0(x+1,y-1);      int hR = getIntComponent0(x+1,y);     int iR = getIntComponent0(x+1,y+1);
+		int gG = getIntComponent1(x+1,y-1);    int hG = getIntComponent1(x+1,y);   int iG = getIntComponent1(x+1,y+1);
+		int gB = getIntComponent1(x+1,y-1);    int hB = getIntComponent1(x+1,y);   int iB = getIntComponent1(x+1,y+1);
 
 		double rgb = 0;
 
@@ -505,7 +512,7 @@ public class MarvinImage implements Cloneable {
 		l_dy <<= 1; 							// dy is now 2*dy
 		a_dx <<= 1; 							// dx is now 2*dx
 	 
-		setRGB(a_x0, a_y0, l_colorRGB);
+		setIntColor(a_x0, a_y0, l_colorRGB);
 
 		if (a_dx > l_dy) {
 			l_fraction = l_dy - (a_dx >> 1);	// same as 2*dy - dx
@@ -516,7 +523,7 @@ public class MarvinImage implements Cloneable {
 				}
 				a_x0 += l_stepx;
 	   		l_fraction += l_dy; 				// same as fraction -= 2*dy
-	   		setRGB(a_x0, a_y0, l_colorRGB);
+	   		setIntColor(a_x0, a_y0, l_colorRGB);
 			}
 		} else {
 			int fraction = a_dx - (l_dy >> 1);
@@ -527,7 +534,7 @@ public class MarvinImage implements Cloneable {
 				}
 			a_y0 += l_stepy;
 			fraction += a_dx;
-			setRGB(a_x0, a_y0, l_colorRGB);
+			setIntColor(a_x0, a_y0, l_colorRGB);
 			}
 		}
 	} 
@@ -544,13 +551,13 @@ public class MarvinImage implements Cloneable {
 	public void drawRect(int a_x, int a_y, int a_width, int a_height, Color a_color){
 		int l_colorRGB = a_color.getRGB();
 		for(int i=a_x; i<a_x+a_width; i++){
-			setRGB(i, a_y, l_colorRGB);
-			setRGB(i, a_y+(a_height-1), l_colorRGB);
+			setIntColor(i, a_y, l_colorRGB);
+			setIntColor(i, a_y+(a_height-1), l_colorRGB);
 		}
 		
 		for(int i=a_y; i<a_y+a_height; i++){
-			setRGB(a_x, i, l_colorRGB);
-			setRGB(a_x+(a_width-1), i, l_colorRGB);
+			setIntColor(a_x, i, l_colorRGB);
+			setIntColor(a_x+(a_width-1), i, l_colorRGB);
 		}
 	}
 	
@@ -566,7 +573,7 @@ public class MarvinImage implements Cloneable {
 		int l_colorRGB = a_color.getRGB();
 		for(int l_x=a_x; l_x<a_x+a_width; l_x++){
 			for(int l_y=a_y; l_y<a_y+a_height; l_y++){
-				setRGB(l_x,l_y,l_colorRGB);
+				setIntColor(l_x,l_y,l_colorRGB);
 			}
 		}
 	}
@@ -577,7 +584,7 @@ public class MarvinImage implements Cloneable {
 	 */
 	public boolean equals(Object a_object){
 		MarvinImage l_image = (MarvinImage) a_object;
-		int[] l_arrColor = l_image.getRGBArray();
+		int[] l_arrColor = l_image.getIntColorArray();
 		
 		if(getWidth() != l_image.getWidth() || getHeight() != l_image.getHeight()){
 			return false;

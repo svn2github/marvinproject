@@ -119,7 +119,7 @@ public class FindColorPattern extends MarvinAbstractPluginImage{
 				l_iX = (int)l_dX;
 				l_iY = (int)l_dY;
 				
-				arrTargetPattern[((l_h)*patternWidth)+l_w] = image.getRGB(l_iX, l_iY);
+				arrTargetPattern[((l_h)*patternWidth)+l_w] = image.getIntColor(l_iX, l_iY);
 			}
 			l_dX=a_x;
 		}
@@ -273,7 +273,7 @@ public class FindColorPattern extends MarvinAbstractPluginImage{
 				l_iX = (int)l_dX;
 				l_iY = (int)l_dY;
 				
-				arrTempPattern[((l_h)*patternWidth)+l_w] = image.getRGB(l_iX, l_iY);
+				arrTempPattern[((l_h)*patternWidth)+l_w] = image.getIntColor(l_iX, l_iY);
 			}
 			l_dX=a_x;
 		}

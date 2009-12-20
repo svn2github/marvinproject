@@ -73,9 +73,9 @@ public class Television extends MarvinAbstractPluginImage
 					
 				for(int w=0; w<3; w++){
 					if(y+w < a_imageIn.getHeight() ){
-						r += (a_imageIn.getRed(x, y+w))/2;
-						g += (a_imageIn.getGreen(x, y+w))/2;
-						b += (a_imageIn.getBlue(x, y+w))/2;						
+						r += (a_imageIn.getIntComponent0(x, y+w))/2;
+						g += (a_imageIn.getIntComponent1(x, y+w))/2;
+						b += (a_imageIn.getIntComponent2(x, y+w))/2;						
 					}
 				}
 				r = getValidInterval(r);
@@ -85,13 +85,13 @@ public class Television extends MarvinAbstractPluginImage
 				for(int w=0; w<3; w++){
 					if(y+w < a_imageOut.getHeight()){
 						if(w == 0){
-							a_imageOut.setRGB(x,y+w,r,0,0);
+							a_imageOut.setIntColor(x,y+w,r,0,0);
 						}
 						else if(w ==1){
-							a_imageOut.setRGB(x,y+w,0,g,0);
+							a_imageOut.setIntColor(x,y+w,0,g,0);
 						}
 						else if(w==2){
-							a_imageOut.setRGB(x,y+w,0,0,b);
+							a_imageOut.setIntColor(x,y+w,0,0,b);
 						}
 					}
 				}				

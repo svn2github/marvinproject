@@ -146,7 +146,7 @@ public class MarvinEditableImagePanel extends MarvinImagePanel implements Runnab
 				if(!l_arrMask[l_x][l_y]){
 					continue;
 				}
-				image.setRGB(l_x, l_y, 0xFFFFFFFF);
+				image.setIntColor(l_x, l_y, 0xFFFFFFFF);
 			}
 		}
 		

@@ -78,9 +78,9 @@ public class ColorHistogram extends MarvinAbstractPluginImage
 
         for (int x = 0; x < a_imageIn.getWidth(); x++) {
             for (int y = 0; y < a_imageIn.getHeight(); y++) {
-                l_arrRed[a_imageIn.getRed(x, y)]++;
-                l_arrGreen[a_imageIn.getGreen(x, y)]++;
-                l_arrBlue[a_imageIn.getBlue(x, y)]++;
+                l_arrRed[a_imageIn.getIntComponent0(x, y)]++;
+                l_arrGreen[a_imageIn.getIntComponent1(x, y)]++;
+                l_arrBlue[a_imageIn.getIntComponent2(x, y)]++;
             }
         }
 

@@ -78,9 +78,9 @@ public class BrightnessAndContrast extends MarvinAbstractPluginImage
 		// Brightness
 		for (int x = 0; x < a_imageIn.getWidth(); x++) {
 			for (int y = 0; y < a_imageIn.getHeight(); y++) {
-				r = a_imageIn.getRed(x, y);
-				g = a_imageIn.getGreen(x, y);
-				b = a_imageIn.getBlue(x, y);
+				r = a_imageIn.getIntComponent0(x, y);
+				g = a_imageIn.getIntComponent1(x, y);
+				b = a_imageIn.getIntComponent2(x, y);
 
 				r+= (1-(r/255))*l_brightness;
 				g+= (1-(g/255))*l_brightness;
@@ -92,16 +92,16 @@ public class BrightnessAndContrast extends MarvinAbstractPluginImage
 				if(b < 0) b=0;
 				if(b > 255) b=255;
 
-				a_imageOut.setRGB(x,y,(int)r,(int)g,(int)b);
+				a_imageOut.setIntColor(x,y,(int)r,(int)g,(int)b);
 			}
 		}
 
 		// Contrast
 		for (int x = 0; x < a_imageIn.getWidth(); x++) {
 			for (int y = 0; y < a_imageIn.getHeight(); y++) {
-				r = a_imageOut.getRed(x, y);
-				g = a_imageOut.getGreen(x, y);
-				b = a_imageOut.getBlue(x, y);
+				r = a_imageOut.getIntComponent0(x, y);
+				g = a_imageOut.getIntComponent1(x, y);
+				b = a_imageOut.getIntComponent2(x, y);
 
 				
 				r /= 255.0;
@@ -130,7 +130,7 @@ public class BrightnessAndContrast extends MarvinAbstractPluginImage
 				if(b < 0) b=0;
 				if(b > 255) b=255;
 
-				a_imageOut.setRGB(x,y,(int)r,(int)g,(int)b);
+				a_imageOut.setIntColor(x,y,(int)r,(int)g,(int)b);
 			}
 		}
 	}

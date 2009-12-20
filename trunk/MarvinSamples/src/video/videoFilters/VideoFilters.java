@@ -224,14 +224,14 @@ public class VideoFilters extends JFrame implements Runnable{
 				imageOut = videoManager.getResultImage();
 				
 				if(pluginImage == null || rect){
-					MarvinImage.copyRGBArray(imageIn, imageOut);
+					MarvinImage.copyIntColorArray(imageIn, imageOut);
 				}
 				
 				if(pluginImage != null){					
 					pluginImage.process(imageIn, imageOut, null, imageMask, false);
 				}
 				
-				MarvinImage.copyRGBArray(imageIn, imageLastFrame);
+				MarvinImage.copyIntColorArray(imageIn, imageLastFrame);
 				videoManager.updatePanel();
 			}
 		}

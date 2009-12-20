@@ -79,11 +79,11 @@ public class GrayScale extends MarvinAbstractPluginImage
 					continue;
 				}
 				//Red - 30% / Blue - 59% / Green - 11%
-				r = a_imageIn.getRed(x, y);
-				g = a_imageIn.getGreen(x, y);
-				b = a_imageIn.getBlue(x, y);
+				r = a_imageIn.getIntComponent0(x, y);
+				g = a_imageIn.getIntComponent1(x, y);
+				b = a_imageIn.getIntComponent2(x, y);
 				corfinal = (int)((r*0.3)+(b*0.59)+(g*0.11));
-				a_imageOut.setRGB(x,y,corfinal,corfinal,corfinal);
+				a_imageOut.setIntColor(x,y,corfinal,corfinal,corfinal);
 								
 			}
 			performanceMeter.stepsFinished(a_imageIn.getHeight());

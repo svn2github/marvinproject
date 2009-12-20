@@ -74,13 +74,13 @@ public class Subtract extends MarvinAbstractPluginImage{
     	for(int y=0; y<a_imageIn.getHeight(); y++){
     		for(int x=0; x<a_imageIn.getWidth(); x++){
     			
-    			l_redBg = imageBackground.getRed(x, y);
-    			l_greenBg = imageBackground.getGreen(x, y);
-    			l_blueBg = imageBackground.getBlue(x, y);
+    			l_redBg = imageBackground.getIntComponent0(x, y);
+    			l_greenBg = imageBackground.getIntComponent1(x, y);
+    			l_blueBg = imageBackground.getIntComponent2(x, y);
     			
-    			l_red = a_imageIn.getRed(x, y);
-    			l_green = a_imageIn.getGreen(x, y);
-    			l_blue = a_imageIn.getBlue(x, y);    			
+    			l_red = a_imageIn.getIntComponent0(x, y);
+    			l_green = a_imageIn.getIntComponent1(x, y);
+    			l_blue = a_imageIn.getIntComponent2(x, y);    			
     			
     			if
     			(
@@ -89,10 +89,10 @@ public class Subtract extends MarvinAbstractPluginImage{
     				Math.abs(l_blueBg-l_blue)> colorRange
     			)
     			{
-    				a_imageOut.setRGB(x, y, a_imageIn.getRGB(x, y));
+    				a_imageOut.setIntColor(x, y, a_imageIn.getIntColor(x, y));
     			}
     			else{
-    				a_imageOut.setRGB(x, y, 0,0,255);
+    				a_imageOut.setIntColor(x, y, 0,0,255);
     			}	
     		}
     	}

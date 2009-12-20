@@ -89,9 +89,9 @@ public class Sepia extends MarvinAbstractPluginImage implements ChangeListener, 
 					continue;
 				}
 				//Captura o RGB do ponto...
-				r = a_imageIn.getRed(x, y);
-				g = a_imageIn.getGreen(x, y);
-				b = a_imageIn.getBlue(x, y);
+				r = a_imageIn.getIntComponent0(x, y);
+				g = a_imageIn.getIntComponent1(x, y);
+				b = a_imageIn.getIntComponent2(x, y);
 				
 				//Define a cor como a média aritmética do pixel...
 				corfinal = (r + g + b) / 3;
@@ -101,7 +101,7 @@ public class Sepia extends MarvinAbstractPluginImage implements ChangeListener, 
 				g = truncate(g + depth);
 			
 				//Define a nova cor do ponto...
-				a_imageOut.setRGB(x, y, r, g, b);
+				a_imageOut.setIntColor(x, y, r, g, b);
 			}
 			//performanceMeter.incProgressBar(width-2);
 		}

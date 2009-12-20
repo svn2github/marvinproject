@@ -143,7 +143,7 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 				pluginMotionRegions.setAttribute("comparisonImage", imageLastFrame);
 				pluginMotionRegions.setAttribute("colorRange", sensibility);
 				
-				MarvinImage.copyRGBArray(imageIn, imageOut);
+				MarvinImage.copyIntColorArray(imageIn, imageOut);
 				pluginMotionRegions.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
 				
 				Vector<int[]> regions = (Vector<int[]>)attributesOut.get("regions");
@@ -154,7 +154,7 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 				}
 				
 				videoManager.updatePanel();
-				MarvinImage.copyRGBArray(imageIn, imageLastFrame);
+				MarvinImage.copyIntColorArray(imageIn, imageLastFrame);
 			}
 			
 			first=false;

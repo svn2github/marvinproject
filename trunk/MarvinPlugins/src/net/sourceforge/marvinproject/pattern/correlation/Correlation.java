@@ -119,7 +119,7 @@ public class Correlation extends MarvinAbstractPluginImage {
 			{
 				for (int y =  1; y < img_padrao.getHeight()-1; y++) 
 				{
-					somaX = somaX + img_padrao.getRed(x, y);
+					somaX = somaX + img_padrao.getIntComponent0(x, y);
 				}
 				if(!modoAnalise)
 				{
@@ -143,7 +143,7 @@ public class Correlation extends MarvinAbstractPluginImage {
 			{
 				for (int y =  1; y < img_teste.getHeight()-1; y++) 
 				{
-					somaY = somaY + img_teste.getRed(x, y);
+					somaY = somaY + img_teste.getIntComponent0(x, y);
 				}
 				if(!modoAnalise)
 				{
@@ -169,7 +169,7 @@ public class Correlation extends MarvinAbstractPluginImage {
 			{
 				for (int y =  1; y < img_padrao.getHeight()-1; y++) 
 				{
-					somaX2R = somaX2R + Math.pow (img_padrao.getRed(x, y),2);
+					somaX2R = somaX2R + Math.pow (img_padrao.getIntComponent0(x, y),2);
 				}
 				if(!modoAnalise)
 				{
@@ -189,7 +189,7 @@ public class Correlation extends MarvinAbstractPluginImage {
 			{
 				for (int y =  1; y < img_teste.getHeight()-1; y++) 
 				{
-					somaY2R = somaY2R +  Math.pow (img_teste.getRed(x, y),2);
+					somaY2R = somaY2R +  Math.pow (img_teste.getIntComponent0(x, y),2);
 				}		
 				if(!modoAnalise)
 				{
@@ -209,7 +209,7 @@ public class Correlation extends MarvinAbstractPluginImage {
 			{
 				for (int y =  1; y < img_teste.getHeight()-1; y++) 
 				{
-					somaXY = somaXY + (img_teste.getRed(x, y) * img_padrao.getRed(x, y) );
+					somaXY = somaXY + (img_teste.getIntComponent0(x, y) * img_padrao.getIntComponent0(x, y) );
 				}
 				//performanceMeter.stepsFinished(a_image.getHeight());
 				if(!modoAnalise)

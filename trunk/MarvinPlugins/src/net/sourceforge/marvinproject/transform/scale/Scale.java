@@ -91,7 +91,7 @@ public class Scale extends MarvinAbstractPluginImage{
 	        for (int j=0;j<newWidth;j++) {
 	            x2 = ((j*x_ratio)>>16) ;
 	            y2 = ((i*y_ratio)>>16) ;
-	            a_imageOut.setRGB(j,i, a_imageIn.getRGB(x2,y2));
+	            a_imageOut.setIntColor(j,i, a_imageIn.getIntColor(x2,y2));
 	        }                
 	    }	    
 	}

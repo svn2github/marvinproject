@@ -34,6 +34,8 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -44,7 +46,26 @@ import marvin.image.MarvinImage;
 import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinPlugin;
 import marvin.plugin.MarvinPluginImage;
+import net.sourceforge.marvinproject.artistic.mosaic.Mosaic;
+import net.sourceforge.marvinproject.artistic.television.Television;
+import net.sourceforge.marvinproject.blur.gaussianBlur.GaussianBlur;
+import net.sourceforge.marvinproject.blur.pixelize.Pixelize;
+import net.sourceforge.marvinproject.color.brightnessAndContrast.BrightnessAndContrast;
+import net.sourceforge.marvinproject.color.grayScale.GrayScale;
+import net.sourceforge.marvinproject.color.invert.Invert;
+import net.sourceforge.marvinproject.color.sepia.Sepia;
+import net.sourceforge.marvinproject.color.thresholding.Thresholding;
+import net.sourceforge.marvinproject.edge.edgeDetector.EdgeDetector;
+import net.sourceforge.marvinproject.halftone.circles.Circles;
+import net.sourceforge.marvinproject.halftone.dithering.Dithering;
+import net.sourceforge.marvinproject.halftone.errorDiffusion.ErrorDiffusion;
+import net.sourceforge.marvinproject.halftone.rylanders.Rylanders;
 import net.sourceforge.marvinproject.interfaceTest.InterfaceTest;
+import net.sourceforge.marvinproject.pattern.harrisPlessey.HarrisPlessey;
+import net.sourceforge.marvinproject.statistical.maximum.Maximum;
+import net.sourceforge.marvinproject.statistical.median.Median;
+import net.sourceforge.marvinproject.statistical.minimum.Minimum;
+import net.sourceforge.marvinproject.statistical.mode.Mode;
 
 /**
  * Test plug-ins and generate .jar files
@@ -54,19 +75,21 @@ public class PluginTester extends JFrame{
 	
 	// Definitions
 	private final static String PACKAGE_NET_FOLDER = "./bin/net/";
-	private final static String INITIAL_IMAGE = "./res/gesture.png";
+	private final static String INITIAL_IMAGE = "./res/tucano.jpg";
 	
 	// Attributes
-	JButton						buttonReset,
+	private JButton				buttonReset,
 								buttonLoadPlugin,
-								buttonGenerateJarFiles;
+								buttonGenerateJarFiles,
+								buttonBenchmark;
 	
 	private MarvinImage 		originalImage,
 								newImage;
 	
 	private MarvinImagePanel	imagePanel;			
 	
-
+	private Benchmark			benchmark;
+	
 	/*
 	 * @Load plug-in to test
 	 */
@@ -85,10 +108,12 @@ public class PluginTester extends JFrame{
 		buttonLoadPlugin = new JButton("Load Plugin");
 		buttonReset = new JButton("Reset");	
 		buttonGenerateJarFiles = new JButton("Generate Jar Files");
+		buttonBenchmark = new JButton("Benchmark");
 		
 		buttonLoadPlugin.addActionListener(l_buttonHandler);
 		buttonReset.addActionListener(l_buttonHandler);
 		buttonGenerateJarFiles.addActionListener(l_buttonHandler);
+		buttonBenchmark.addActionListener(l_buttonHandler);
 		
 		imagePanel = new MarvinImagePanel();
 		
@@ -96,6 +121,7 @@ public class PluginTester extends JFrame{
 		panelBottom.add(buttonLoadPlugin);
 		panelBottom.add(buttonReset);
 		panelBottom.add(buttonGenerateJarFiles);		
+		panelBottom.add(buttonBenchmark);
 		
 		// Container
 		Container l_con = getContentPane();
@@ -108,10 +134,20 @@ public class PluginTester extends JFrame{
 		// Load image
 		originalImage = MarvinImageIO.loadImage(INITIAL_IMAGE);
 		newImage = originalImage.clone();
-		
 		imagePanel.setImage(newImage);
 		
-		setSize(originalImage.getWidth(),originalImage.getHeight()+70);
+		// Benchmark
+		benchmark = new Benchmark(); 
+		
+		int width;
+		if(originalImage.getWidth() < 460){
+			width = 460;
+		}
+		else{
+			width = originalImage.getWidth();
+		}
+		setSize(width,originalImage.getHeight()+70);
+		
 		setVisible(true);
 	}
 	
@@ -211,7 +247,9 @@ public class PluginTester extends JFrame{
 			else if(a_event.getSource() == buttonGenerateJarFiles){
 				generateJarFiles(new File(PACKAGE_NET_FOLDER));
 			}
+			else if(a_event.getSource() == buttonBenchmark){
+				benchmark.process(originalImage);
+			}
 		}
 	}
-	
 }

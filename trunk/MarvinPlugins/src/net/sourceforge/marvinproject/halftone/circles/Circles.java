@@ -130,7 +130,7 @@ public class Circles extends MarvinAbstractPluginImage
 			{
 				if(a_x+x > 0 && a_x+x < image.getWidth() &&  a_y+y> 0 && a_y+y < image.getHeight()){
 					l_pixels++;
-					l_totalValue+= 255-(image.getRed(a_x+x,a_y+y));
+					l_totalValue+= 255-(image.getIntComponent0(a_x+x,a_y+y));
 				}
 			}
 		}

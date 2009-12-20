@@ -111,7 +111,7 @@ public class Minimum extends MarvinAbstractPluginImage {
 
 						if(xm >= 0 && xm < width && ym >= 0 && ym < height  )
 						{
-							int rgb = a_imageIn.getRGB(xm, ym);
+							int rgb = a_imageIn.getIntColor(xm, ym);
 
 							int r = (int)(rgb & 0x00FF0000) >>> 16;
 				if(r < l_totalRed)
@@ -137,7 +137,7 @@ public class Minimum extends MarvinAbstractPluginImage {
 					}
 				}
 
-				a_imageOut.setRGB(x, y, l_totalRed, l_totalGreen, l_totalBlue);
+				a_imageOut.setIntColor(x, y, l_totalRed, l_totalGreen, l_totalBlue);
 
 				l_totalRed = 0;
 				l_totalGreen = 0;

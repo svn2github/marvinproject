@@ -145,9 +145,9 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 					l_y+a_y > 0 && l_y+a_y < screenHeight
 				)
 				{
-					l_rgb=a_image.getRGB(l_x, l_y);				
+					l_rgb=a_image.getIntColor(l_x, l_y);				
 					if(l_rgb != 0xFFFFFFFF){
-						imageOut.setRGB(l_x+a_x, l_y+a_y, l_rgb);
+						imageOut.setIntColor(l_x+a_x, l_y+a_y, l_rgb);
 					}
 				}
 			}
@@ -199,7 +199,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 			imageIn = videoManager.getCapturedImage();
 			imageOut = videoManager.getResultImage();
 						
-			MarvinImage.copyRGBArray(imageIn, imageOut);
+			MarvinImage.copyIntColorArray(imageIn, imageOut);
 			
 			if(regionSelected){
 				pluginImage.setAttribute("differenceColorRange", sensibility);

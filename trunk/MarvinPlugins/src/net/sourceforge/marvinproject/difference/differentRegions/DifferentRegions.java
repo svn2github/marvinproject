@@ -88,13 +88,13 @@ public class DifferentRegions extends MarvinAbstractPluginImage{
 		for(int y=0; y<a_imageIn.getHeight(); y++){
 			for(int x=0; x<a_imageIn.getWidth(); x++){
 				
-				l_redA = a_imageIn.getRed(x, y);
-				l_greenA = a_imageIn.getGreen(x, y);
-				l_blueA = a_imageIn.getBlue(x, y);
+				l_redA = a_imageIn.getIntComponent0(x, y);
+				l_greenA = a_imageIn.getIntComponent1(x, y);
+				l_blueA = a_imageIn.getIntComponent2(x, y);
 				
-				l_redB = comparisonImage.getRed(x, y);
-				l_greenB = comparisonImage.getGreen(x, y);
-				l_blueB = comparisonImage.getBlue(x, y);
+				l_redB = comparisonImage.getIntComponent0(x, y);
+				l_greenB = comparisonImage.getIntComponent1(x, y);
+				l_blueB = comparisonImage.getIntComponent2(x, y);
 				
 				if
 				(

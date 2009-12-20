@@ -101,10 +101,10 @@ public class Rylanders extends MarvinAbstractPluginImage
 			
 			if(a_x+l_x < a_imageIn.getWidth() && a_y+l_y < a_imageIn.getHeight()){
 				if(l_toneIntensity >= arrPattern[x]){
-					a_imageOut.setRGB(a_x+l_x, a_y+l_y, 0,0,0);
+					a_imageOut.setIntColor(a_x+l_x, a_y+l_y, 0,0,0);
 				}
 				else{
-					a_imageOut.setRGB(a_x+l_x, a_y+l_y, 255,255,255);
+					a_imageOut.setIntColor(a_x+l_x, a_y+l_y, 255,255,255);
 				}
 			}
 		}
@@ -116,7 +116,7 @@ public class Rylanders extends MarvinAbstractPluginImage
 			for(int x=0; x<DOT_AREA; x++)
 			{
 				if(a_x+x < image.getWidth() && a_y+y < image.getHeight()){
-					l_totalValue+= 255-(image.getRed(a_x+x,a_y+y));
+					l_totalValue+= 255-(image.getIntComponent0(a_x+x,a_y+y));
 				}
 			}
 		}

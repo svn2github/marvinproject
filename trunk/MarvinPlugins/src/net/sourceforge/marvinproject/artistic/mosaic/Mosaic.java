@@ -202,14 +202,14 @@ public class Mosaic extends MarvinAbstractPluginImage
 			{
 				if(a_x+x > 0 && a_x+x < image.getWidth() &&  a_y+y> 0 && a_y+y < image.getHeight()){
 					if(l_red == -1){
-						l_red = image.getRed(a_x+x,a_y+y);
-						l_green = image.getGreen(a_x+x,a_y+y);
-						l_blue = image.getBlue(a_x+x,a_y+y);
+						l_red = image.getIntComponent0(a_x+x,a_y+y);
+						l_green = image.getIntComponent1(a_x+x,a_y+y);
+						l_blue = image.getIntComponent2(a_x+x,a_y+y);
 					}
 					else{
-						l_red = (l_red+image.getRed(a_x+x,a_y+y))/2;
-						l_green = (l_green+image.getGreen(a_x+x,a_y+y))/2;
-						l_blue = (l_blue+image.getBlue(a_x+x,a_y+y))/2;
+						l_red = (l_red+image.getIntComponent0(a_x+x,a_y+y))/2;
+						l_green = (l_green+image.getIntComponent1(a_x+x,a_y+y))/2;
+						l_blue = (l_blue+image.getIntComponent2(a_x+x,a_y+y))/2;
 					}
 				}
 			}
@@ -262,14 +262,14 @@ public class Mosaic extends MarvinAbstractPluginImage
 			while(x < l_xOffSet){
 				if(a_x+x > 0 && a_x+x < image.getWidth() &&  a_y+y> 0 && a_y+y < image.getHeight()){
 					if(l_red == -1){
-						l_red = image.getRed(a_x+x,a_y+y);
-						l_green = image.getGreen(a_x+x,a_y+y);
-						l_blue = image.getBlue(a_x+x,a_y+y);
+						l_red = image.getIntComponent0(a_x+x,a_y+y);
+						l_green = image.getIntComponent1(a_x+x,a_y+y);
+						l_blue = image.getIntComponent2(a_x+x,a_y+y);
 					}
 					else{
-						l_red = (l_red+image.getRed(a_x+x,a_y+y))/2;
-						l_green = (l_green+image.getGreen(a_x+x,a_y+y))/2;
-						l_blue = (l_blue+image.getBlue(a_x+x,a_y+y))/2;
+						l_red = (l_red+image.getIntComponent0(a_x+x,a_y+y))/2;
+						l_green = (l_green+image.getIntComponent1(a_x+x,a_y+y))/2;
+						l_blue = (l_blue+image.getIntComponent2(a_x+x,a_y+y))/2;
 					}
 				}
 				x++;

@@ -149,7 +149,7 @@ public class Skew extends MarvinAbstractPluginImage
 		{
 			for(int yy = 0; yy < l_aHeight; yy++)
 			{
-				a_imageOut.setRGB(xx, yy, 000000);
+				a_imageOut.setIntColor(xx, yy, 000000);
 				
 			}
 				
@@ -163,11 +163,11 @@ public class Skew extends MarvinAbstractPluginImage
 			for (int x = 0; x < l_aWidth; x++) {
 				for (int y = 0; y < l_aHeight; y++){
 					int l_newXcoordinate = x + (int)(Math.abs((y - l_aHeight) * Math.tan(a_skewAngleRad)));
-					r = a_imageIn.getRed(x, y);
-					g = a_imageIn.getGreen(x, y);
-					b = a_imageIn.getBlue(x, y);
+					r = a_imageIn.getIntComponent0(x, y);
+					g = a_imageIn.getIntComponent1(x, y);
+					b = a_imageIn.getIntComponent2(x, y);
 				
-					a_imageOut.setRGB(l_newXcoordinate, y, r, g, b);	
+					a_imageOut.setIntColor(l_newXcoordinate, y, r, g, b);	
 				}
 			}
 		}
@@ -179,11 +179,11 @@ public class Skew extends MarvinAbstractPluginImage
 				for (int y = l_aHeight-1; y >= 0; y--){
 					int new_xcoordinate = x + (int)(Math.abs((y) * Math.tan(a_skewAngleRad)));
 
-					r = a_imageIn.getRed(x, y);
-					g = a_imageIn.getGreen(x, y);
-					b = a_imageIn.getBlue(x, y);
+					r = a_imageIn.getIntComponent0(x, y);
+					g = a_imageIn.getIntComponent1(x, y);
+					b = a_imageIn.getIntComponent2(x, y);
 
-					a_imageOut.setRGB(new_xcoordinate, y, r, g, b);	
+					a_imageOut.setIntColor(new_xcoordinate, y, r, g, b);	
 				}
 			}
 		}
@@ -216,7 +216,7 @@ public class Skew extends MarvinAbstractPluginImage
 		{
 			for(int yy = 0; yy < l_aHeight; yy++)
 			{
-				a_imageOut.setRGB(xx, yy, 000000);
+				a_imageOut.setIntColor(xx, yy, 000000);
 			}
 		}
 		a_imageOut.resize(l_aWidth, l_newHeight);
@@ -239,11 +239,11 @@ public class Skew extends MarvinAbstractPluginImage
 					l_newYcoordinate = (l_newHeight) -(l_aHeight) + y - (int)Math.abs(((x) * Math.tan(a_skewAngleRad)));
 				}
 			
-				r = a_imageIn.getRed(x, y);
-				g = a_imageIn.getGreen(x, y);
-				b = a_imageIn.getBlue(x, y);
+				r = a_imageIn.getIntComponent0(x, y);
+				g = a_imageIn.getIntComponent1(x, y);
+				b = a_imageIn.getIntComponent2(x, y);
 				
-				a_imageOut.setRGB(x, l_newYcoordinate, r, g, b);	
+				a_imageOut.setIntColor(x, l_newYcoordinate, r, g, b);	
 			}
 		}
 		

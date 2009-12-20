@@ -78,7 +78,7 @@ public class GrayHistogram extends MarvinAbstractPluginImage
         
         for (int x = 0; x < a_imageOut.getWidth(); x++) {
             for (int y = 0; y < a_imageOut.getHeight(); y++) {
-                l_arrGray[a_imageOut.getRed(x, y)]++;
+                l_arrGray[a_imageOut.getIntComponent0(x, y)]++;
             }
         }
 

@@ -108,11 +108,11 @@ public class ImageSlicer extends MarvinAbstractPluginImage {
 				for(col=0;col<cols;col++){
 					for(x=(line*limitl);x<((line+1)*limitl);x++){
 						for(y=(col*limitc);y<((col+1)*limitc);y++){
-							r = a_imageIn.getRed(y, x);
-							g = a_imageIn.getGreen(y, x);
-							b = a_imageIn.getBlue(y, x);
+							r = a_imageIn.getIntComponent0(y, x);
+							g = a_imageIn.getIntComponent1(y, x);
+							b = a_imageIn.getIntComponent2(y, x);
 
-							listaImgs.get(conti).setRGB(conty, contx, r, g, b);
+							listaImgs.get(conti).setIntColor(conty, contx, r, g, b);
 							conty++;
 							performanceMeter.incProgressBar(limitc);
 						}
@@ -153,17 +153,17 @@ public class ImageSlicer extends MarvinAbstractPluginImage {
 				JOptionPane.showMessageDialog(null, "Files saved successfully at: "+arq.replaceAll(".jpg" , ""),
 						"Marvin", JOptionPane.INFORMATION_MESSAGE);
 			}
-			a_imageOut.setRGBArray(a_imageIn.getRGBArray());
+			a_imageOut.setIntColorArray(a_imageIn.getIntColorArray());
 		}else{
 			//Print the limits of the image
 			performanceMeter.enableProgressBar("Image Slicer", (lines*cols*limitc*limitl));
 			for (int y = 0; y < a_imageIn.getHeight(); y++) {
 				for (int x = 0; x < a_imageIn.getWidth(); x++) {
 					if(((x!=0)&&(x%limitc == 0))||((y!=0)&&(y%limitl == 0))){
-						a_imageOut.setRGB(x, y, 255, 0, 0);
+						a_imageOut.setIntColor(x, y, 255, 0, 0);
 					}
 					else{
-						a_imageOut.setRGB(x, y, a_imageIn.getRGB(x,y));
+						a_imageOut.setIntColor(x, y, a_imageIn.getIntColor(x,y));
 					}
 				}	
 				performanceMeter.incProgressBar(width-2);

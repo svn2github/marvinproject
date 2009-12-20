@@ -138,7 +138,7 @@ public class AboutDialog extends JDialog implements Runnable{
 		while(true){
 			
 			if(currentPlugin == 0){
-				MarvinImage.copyRGBArray(imageIn, imageOut);
+				MarvinImage.copyIntColorArray(imageIn, imageOut);
 			}
 			else{
 				arrPlugin[currentPlugin-1].process(imageIn,imageOut,null,MarvinImageMask.NULL_MASK, false);

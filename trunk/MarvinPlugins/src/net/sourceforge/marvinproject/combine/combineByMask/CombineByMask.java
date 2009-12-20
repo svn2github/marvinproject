@@ -81,15 +81,15 @@ public class CombineByMask extends MarvinAbstractPluginImage{
     			l_yCI = l_y-yi;
     			
     			if(l_xCI >= 0 && l_xCI < l_widthCI && l_yCI >= 0 && l_yCI < l_heightCI){
-    				if(a_imageIn.getRGB(l_x, l_y) == colorMask.getRGB()){
-    					a_imageOut.setRGB(l_x, l_y, combinationImage.getRGB(l_x, l_y));
+    				if(a_imageIn.getIntColor(l_x, l_y) == colorMask.getRGB()){
+    					a_imageOut.setIntColor(l_x, l_y, combinationImage.getIntColor(l_x, l_y));
     				}
     				else{
-    					a_imageOut.setRGB(l_x, l_y, a_imageIn.getRGB(l_x, l_y));
+    					a_imageOut.setIntColor(l_x, l_y, a_imageIn.getIntColor(l_x, l_y));
     				}
     			}
     			else{
-    				a_imageOut.setRGB(l_x, l_y, a_imageIn.getRGB(l_x, l_y));
+    				a_imageOut.setIntColor(l_x, l_y, a_imageIn.getIntColor(l_x, l_y));
     			}
     		}
 		}

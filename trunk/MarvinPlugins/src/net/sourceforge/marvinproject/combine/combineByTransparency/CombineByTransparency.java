@@ -109,15 +109,15 @@ public class CombineByTransparency extends MarvinAbstractPluginImage {
     			
     			if(l_xCI >= 0 && l_xCI < l_widthCI && l_yCI >= 0 && l_yCI < l_heightCI){
     			
-    				l_redA = a_imageIn.getRed(l_x, l_y);
-    				l_greenA = a_imageIn.getGreen(l_x, l_y);
-    				l_blueA = a_imageIn.getBlue(l_x, l_y);
+    				l_redA = a_imageIn.getIntComponent0(l_x, l_y);
+    				l_greenA = a_imageIn.getIntComponent1(l_x, l_y);
+    				l_blueA = a_imageIn.getIntComponent2(l_x, l_y);
     				
-    				l_redB = combinationImage.getRed(l_xCI, l_yCI);
-    				l_greenB = combinationImage.getGreen(l_xCI, l_yCI);
-    				l_blueB = combinationImage.getBlue(l_xCI, l_yCI);
+    				l_redB = combinationImage.getIntComponent0(l_xCI, l_yCI);
+    				l_greenB = combinationImage.getIntComponent1(l_xCI, l_yCI);
+    				l_blueB = combinationImage.getIntComponent2(l_xCI, l_yCI);
     				
-    				a_imageOut.setRGB
+    				a_imageOut.setIntColor
     				(
     					l_x,
     					l_y,
@@ -127,7 +127,7 @@ public class CombineByTransparency extends MarvinAbstractPluginImage {
     				);
     			}
     			else{
-    				a_imageOut.setRGB(l_x, l_y, a_imageIn.getRGB(l_x, l_y));
+    				a_imageOut.setIntColor(l_x, l_y, a_imageIn.getIntColor(l_x, l_y));
     			}
     		}
 		}

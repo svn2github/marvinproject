@@ -95,7 +95,7 @@ public class GaussianBlur extends MarvinAbstractPluginImage
 				if(l_arrMask != null && !l_arrMask[x][y]){
 					continue;
 				}
-				l_pixelColor = a_imageIn.getRGB(x,y);
+				l_pixelColor = a_imageIn.getIntColor(x,y);
 				applyKernel(x,y,l_pixelColor,a_imageOut);
 			}
 			performanceMeter.incProgressBar(l_imageHeight);
@@ -112,7 +112,7 @@ public class GaussianBlur extends MarvinAbstractPluginImage
 				resultMatrix[x][y][RED] = (short)(resultMatrix[x][y][0]%256);
 				resultMatrix[x][y][GREEN] = (short)(resultMatrix[x][y][1]%256);
 				resultMatrix[x][y][BLUE] = (short)(resultMatrix[x][y][2]%256);
-				a_imageOut.setRGB(x,y,(int)resultMatrix[x][y][0], (int)resultMatrix[x][y][1], (int)resultMatrix[x][y][2]);
+				a_imageOut.setIntColor(x,y,(int)resultMatrix[x][y][0], (int)resultMatrix[x][y][1], (int)resultMatrix[x][y][2]);
 			}
 			performanceMeter.incProgressBar();
 			performanceMeter.stepsFinished(l_imageHeight);			

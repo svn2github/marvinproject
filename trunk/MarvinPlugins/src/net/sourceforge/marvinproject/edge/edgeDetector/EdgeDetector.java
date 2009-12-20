@@ -88,8 +88,8 @@ public class EdgeDetector extends MarvinAbstractPluginImage {
         int [][] luminance = new int[width][height];
         for (int y = 0; y < height ; y++) {
             for (int x = 0; x < width ; x++) {
-                luminance[x][y] = (int) luminance(a_imageIn.getRed(x, y),
-                		a_imageIn.getGreen(x, y), a_imageIn.getBlue(x, y));
+                luminance[x][y] = (int) luminance(a_imageIn.getIntComponent0(x, y),
+                		a_imageIn.getIntComponent1(x, y), a_imageIn.getIntComponent2(x, y));
             }
         }
        
@@ -123,7 +123,7 @@ public class EdgeDetector extends MarvinAbstractPluginImage {
                 Color grayscaleColor = grayMatrix[magnitude];
 
                 // Apply the color into a new image
-                a_imageOut.setRGB(x, y, grayscaleColor.getRGB());
+                a_imageOut.setIntColor(x, y, grayscaleColor.getRGB());
             }
             performanceMeter.incProgressBar(width - 2);
         }

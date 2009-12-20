@@ -66,11 +66,11 @@ public class Invert extends MarvinAbstractPluginImage
 				if(l_arrMask != null && !l_arrMask[x][y]){
 					continue;
 				}
-				r = (255-(int)a_imageIn.getRed(x, y));
-				g = (255-(int)a_imageIn.getGreen(x, y));
-				b = (255-(int)a_imageIn.getBlue(x, y));
+				r = (255-(int)a_imageIn.getIntComponent0(x, y));
+				g = (255-(int)a_imageIn.getIntComponent1(x, y));
+				b = (255-(int)a_imageIn.getIntComponent2(x, y));
 
-				a_imageOut.setRGB(x,y,r,g,b);
+				a_imageOut.setIntColor(x,y,r,g,b);
 			}
 		}
 	}

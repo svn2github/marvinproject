@@ -103,9 +103,9 @@ public class NoiseReduction extends MarvinAbstractPluginImage {
 		// Put the color values in double array
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				matr[x][y]= a_imageIn.getRed(x, y);
-				matg[x][y]= a_imageIn.getGreen(x, y);
-				matb[x][y]= a_imageIn.getBlue(x, y);
+				matr[x][y]= a_imageIn.getIntComponent0(x, y);
+				matg[x][y]= a_imageIn.getIntComponent1(x, y);
+				matb[x][y]= a_imageIn.getIntComponent2(x, y);
 			}
 		}
 		
@@ -117,7 +117,7 @@ public class NoiseReduction extends MarvinAbstractPluginImage {
 				
 		for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
-					a_imageOut.setRGB(x,y,(int)truncate(matr[x][y]),(int)truncate(matg[x][y]),(int)truncate(matb[x][y]));
+					a_imageOut.setIntColor(x,y,(int)truncate(matr[x][y]),(int)truncate(matg[x][y]),(int)truncate(matb[x][y]));
 				}
 				performanceMeter.stepsFinished(height);
 		}

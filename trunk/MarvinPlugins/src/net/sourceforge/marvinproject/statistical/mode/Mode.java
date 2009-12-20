@@ -121,7 +121,7 @@ public class Mode extends MarvinAbstractPluginImage {
 
 						if(xm >= 0 && xm < width && ym >= 0 && ym < height  )
 						{
-							int rgb = a_imageIn.getRGB(xm, ym);
+							int rgb = a_imageIn.getIntColor(xm, ym);
 							l_totalRed = (int)(rgb & 0x00FF0000) >>> 16;
 							l_totalGreen = (int) ((rgb & 0x0000FF00) >>> 8);
 							l_totalBlue = (int) (rgb & 0x000000FF);
@@ -184,7 +184,7 @@ public class Mode extends MarvinAbstractPluginImage {
 				
 				}
 				
-				a_imageOut.setRGB(x, y, r1 , g1 , b1 );
+				a_imageOut.setIntColor(x, y, r1 , g1 , b1 );
 
 				
 			}

@@ -90,17 +90,17 @@ public class Flip extends MarvinAbstractPluginImage
 					continue;
 				}
 				//Get Y points and change the positions 
-				r = a_imageIn.getRed(x, y);
-				g = a_imageIn.getGreen(x, y);
-				b = a_imageIn.getBlue(x, y);
+				r = a_imageIn.getIntComponent0(x, y);
+				g = a_imageIn.getIntComponent1(x, y);
+				b = a_imageIn.getIntComponent2(x, y);
 
-				a_imageOut.setRGB(x,y,
-						a_imageIn.getRed((a_imageIn.getWidth()-1)-x, y),
-						a_imageIn.getGreen((a_imageIn.getWidth()-1)-x, y),
-						a_imageIn.getBlue((a_imageIn.getWidth()-1)-x, y)
+				a_imageOut.setIntColor(x,y,
+						a_imageIn.getIntComponent0((a_imageIn.getWidth()-1)-x, y),
+						a_imageIn.getIntComponent1((a_imageIn.getWidth()-1)-x, y),
+						a_imageIn.getIntComponent2((a_imageIn.getWidth()-1)-x, y)
 				);
 
-				a_imageOut.setRGB((a_imageIn.getWidth() - 1) - x, y, r, g, b);
+				a_imageOut.setIntColor((a_imageIn.getWidth() - 1) - x, y, r, g, b);
 			}
 		}
 	}
@@ -114,17 +114,17 @@ public class Flip extends MarvinAbstractPluginImage
 				}
 			
 				//Get X points and change the positions 
-				r = a_imageIn.getRed(x, y);
-				g = a_imageIn.getGreen(x, y);
-				b = a_imageIn.getBlue(x, y);
+				r = a_imageIn.getIntComponent0(x, y);
+				g = a_imageIn.getIntComponent1(x, y);
+				b = a_imageIn.getIntComponent2(x, y);
 
-				a_imageOut.setRGB(x,y,
-						a_imageIn.getRed(x, (a_imageIn.getHeight()-1)-y),
-						a_imageIn.getGreen(x, (a_imageIn.getHeight()-1)-y),
-						a_imageIn.getBlue(x, (a_imageIn.getHeight()-1)-y)
+				a_imageOut.setIntColor(x,y,
+						a_imageIn.getIntComponent0(x, (a_imageIn.getHeight()-1)-y),
+						a_imageIn.getIntComponent1(x, (a_imageIn.getHeight()-1)-y),
+						a_imageIn.getIntComponent2(x, (a_imageIn.getHeight()-1)-y)
 				);
 
-				a_imageOut.setRGB(x, (a_imageIn.getHeight() - 1) - y, r, g, b);
+				a_imageOut.setIntColor(x, (a_imageIn.getHeight() - 1) - y, r, g, b);
 			}
 		}
 	}

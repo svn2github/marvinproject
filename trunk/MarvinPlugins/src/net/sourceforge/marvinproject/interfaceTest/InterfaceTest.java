@@ -96,6 +96,6 @@ public class InterfaceTest extends MarvinAbstractPluginImage
 		System.out.println("intensity:"+(Integer)attributes.get("intensity"));
 		System.out.println("checkbox checked:"+(Boolean)attributes.get("checkbox1"));
 		
-		a_imageOut.setRGBArray(a_imageIn.getRGBArray());
+		a_imageOut.setIntColorArray(a_imageIn.getIntColorArray());
 	}
 }

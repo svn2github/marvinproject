@@ -78,13 +78,13 @@ public class DifferenceColor extends MarvinAbstractPluginImage{
 					continue;
 				}
 				
-				l_redA = a_imageIn.getRed(x, y);
-				l_greenA = a_imageIn.getGreen(x, y);
-				l_blueA = a_imageIn.getBlue(x, y);
+				l_redA = a_imageIn.getIntComponent0(x, y);
+				l_greenA = a_imageIn.getIntComponent1(x, y);
+				l_blueA = a_imageIn.getIntComponent2(x, y);
 				
-				l_redB = comparisonImage.getRed(x, y);
-				l_greenB = comparisonImage.getGreen(x, y);
-				l_blueB = comparisonImage.getBlue(x, y);
+				l_redB = comparisonImage.getIntComponent0(x, y);
+				l_greenB = comparisonImage.getIntComponent1(x, y);
+				l_blueB = comparisonImage.getIntComponent2(x, y);
 				
 				if
 				(
@@ -93,10 +93,10 @@ public class DifferenceColor extends MarvinAbstractPluginImage{
 					Math.abs(l_blueA-l_blueB)> colorRange
 				)
 				{
-					a_imageOut.setRGB(x, y, colorRGB);
+					a_imageOut.setIntColor(x, y, colorRGB);
 				}
 				else{
-					a_imageOut.setRGB(x, y, a_imageIn.getRGB(x,y));
+					a_imageOut.setIntColor(x, y, a_imageIn.getIntColor(x,y));
 				}
 			}
 		}		

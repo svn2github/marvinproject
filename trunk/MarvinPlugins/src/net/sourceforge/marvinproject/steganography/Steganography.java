@@ -492,9 +492,9 @@ public class Steganography extends MarvinAbstractPluginImage implements ActionLi
 		 		
 		vbit = getBit(dado, bit);
 
-		r = image.getRed(currX, currY);
-		g = image.getGreen(currX, currY);
-		b = image.getBlue(currX, currY);		
+		r = image.getIntComponent0(currX, currY);
+		g = image.getIntComponent1(currX, currY);
+		b = image.getIntComponent2(currX, currY);		
 		
 		switch(currentColor){
 		    case RED:
@@ -513,7 +513,7 @@ public class Steganography extends MarvinAbstractPluginImage implements ActionLi
 					}
 			   }
 		       		       
-		       image.setRGB(currX, currY, r, g, b);
+		       image.setIntColor(currX, currY, r, g, b);
 		       currentColor++;
 		       break;
 		   
@@ -533,7 +533,7 @@ public class Steganography extends MarvinAbstractPluginImage implements ActionLi
 					}
 			   }
 		       		       
-		       image.setRGB(currX, currY, r, g, b);
+		       image.setIntColor(currX, currY, r, g, b);
 
 		       currentColor++;
 		       break;
@@ -554,7 +554,7 @@ public class Steganography extends MarvinAbstractPluginImage implements ActionLi
 					}
 			   }
 		       		       
-		       image.setRGB(currX, currY, r, g, b);
+		       image.setIntColor(currX, currY, r, g, b);
 		       currentColor = RED;
 		       currentPixel++;
 		       break;
@@ -571,9 +571,9 @@ public class Steganography extends MarvinAbstractPluginImage implements ActionLi
 		currX = currentPixel/image.getHeight();
 		currY = currentPixel%image.getHeight();		 				
 
-		r = image.getRed(currX, currY);
-		g = image.getGreen(currX, currY);
-		b = image.getBlue(currX, currY);		
+		r = image.getIntComponent0(currX, currY);
+		g = image.getIntComponent1(currX, currY);
+		b = image.getIntComponent2(currX, currY);		
 		
 		switch(currentColor){
 		    case RED:
