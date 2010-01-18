@@ -42,7 +42,7 @@ import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.io.MarvinImageIO;
-import marvin.plugin.MarvinPluginImage;
+import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinPluginLoader;
 
 /**
@@ -51,10 +51,19 @@ import marvin.util.MarvinPluginLoader;
  */
 public class Filters extends JFrame
 {
-	MarvinImagePanel imagePanel;
-	MarvinImage image, backupImage;
-	JPanel panelBottom;
-	JButton buttonGray, buttonSepia, buttonInvert, buttonReset;
+	private MarvinImagePanel 	imagePanel;
+	private MarvinImage 		image, 
+								backupImage;
+	
+	private JPanel 				panelBottom;
+	
+	
+	private JButton 			buttonGray, 
+								buttonSepia, 
+								buttonInvert, 
+								buttonReset;
+	
+	private MarvinImagePlugin 	imagePlugin;
 	
 	public Filters()
 	{
@@ -109,17 +118,17 @@ public class Filters extends JFrame
 		public void actionPerformed(ActionEvent a_event){
 			image = backupImage.clone();
 			if(a_event.getSource() == buttonGray){
-				MarvinPluginImage l_pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.grayScale.jar");
-				l_pluginImage.process(image, image, null, MarvinImageMask.NULL_MASK, false);
+				imagePlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.grayScale.jar");
+				imagePlugin.process(image, image, null, MarvinImageMask.NULL_MASK, false);
 			}
 			else if(a_event.getSource() == buttonSepia){
-				MarvinPluginImage l_pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.sepia.jar");
-				l_pluginImage.setAttribute("hsIntensidade", 50);				
-				l_pluginImage.process(image, image, null, MarvinImageMask.NULL_MASK, false);
+				imagePlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.sepia.jar");
+				imagePlugin.setAttribute("hsIntensidade", 50);				
+				imagePlugin.process(image, image, null, MarvinImageMask.NULL_MASK, false);
 			}
 			else if(a_event.getSource() == buttonInvert){
-				MarvinPluginImage l_pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.invert.jar");
-				l_pluginImage.process(image, image, null, MarvinImageMask.NULL_MASK, false);
+				imagePlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.invert.jar");
+				imagePlugin.process(image, image, null, MarvinImageMask.NULL_MASK, false);
 			}
 			image.update();
 			imagePanel.setImage(image);

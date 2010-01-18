@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import marvin.gui.MarvinImagePanel;
 import marvin.gui.MarvinPluginWindow;
 
-public abstract class MarvinAbstractPluginTool implements MarvinPluginTool{
+public abstract class MarvinAbstractToolPlugin implements MarvinPluginTool{
 
 	private MarvinImagePanel	imagePanel;
 	

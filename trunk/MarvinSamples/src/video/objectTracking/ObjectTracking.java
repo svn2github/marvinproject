@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
-import marvin.plugin.MarvinPluginImage;
+import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
 import marvin.video.MarvinVideoManager;
@@ -42,7 +42,7 @@ public class ObjectTracking extends JFrame implements Runnable{
 	
 	private JLabel				labelSlider;
 	
-	private MarvinPluginImage	pluginImage;
+	private MarvinImagePlugin	pluginImage;
 	private MarvinAttributes	attributesOut;
 	
 	private int					sensibility=30;
@@ -57,7 +57,7 @@ public class ObjectTracking extends JFrame implements Runnable{
 		
 		loadGUI();
 		
-		pluginImage = MarvinPluginLoader.loadPluginImage("org.marvinproject.pattern.findColorPattern.jar");
+		pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.pattern.findColorPattern.jar");
 		
 		attributesOut = new MarvinAttributes();
 

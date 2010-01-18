@@ -44,9 +44,9 @@ import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinPlugin;
-import marvin.plugin.MarvinPluginImage;
+import marvin.plugin.MarvinImagePlugin;
 
-import org.marvinproject.texture.tileTexture.TileTexture;
+import org.marvinproject.render.mandelbrot.Mandelbrot;
 
 /**
  * Test plug-ins and generate .jar files
@@ -78,12 +78,12 @@ public class PluginTester extends JFrame{
 		HashMap<Object,Object> test = new HashMap<Object,Object>();
 		test.put("key", null);
 		
-		MarvinPluginImage l_plugin = new TileTexture();
+		MarvinImagePlugin l_plugin = new Mandelbrot();
 		
 		l_plugin.setImagePanel(imagePanel);
 		MarvinImage i=null; 
 		try{
-			i = MarvinImageIO.loadImage("./res/tile01.png");
+			i = MarvinImageIO.loadImage("./res/tile02.png");
 		}
 		catch(Exception e){
 			

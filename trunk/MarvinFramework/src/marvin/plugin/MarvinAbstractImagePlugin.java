@@ -32,7 +32,7 @@ package marvin.plugin;
 import marvin.gui.MarvinImagePanel;
 import marvin.util.MarvinAttributes;
 
-public abstract class MarvinAbstractPluginImage implements MarvinPluginImage
+public abstract class MarvinAbstractImagePlugin implements MarvinImagePlugin
 {
 	//private Marvin marvinApplication;
 	private MarvinAttributes marvinAttributes;
@@ -41,7 +41,7 @@ public abstract class MarvinAbstractPluginImage implements MarvinPluginImage
 	/**
 	 * Empty constructor 
 	 */
-	protected MarvinAbstractPluginImage(){
+	protected MarvinAbstractImagePlugin(){
 		marvinAttributes = new MarvinAttributes();
 	}
 

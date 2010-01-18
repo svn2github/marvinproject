@@ -42,7 +42,7 @@ import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.io.MarvinImageIO;
-import marvin.plugin.MarvinPluginImage;
+import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinPluginHistory;
 import marvin.util.MarvinPluginLoader;
 
@@ -59,7 +59,7 @@ public class History extends JFrame {
 	
 	// Marvin Objects
 	MarvinPluginHistory history;
-	MarvinPluginImage 	tempPlugin;
+	MarvinImagePlugin 	tempPlugin;
 	MarvinImage 		originalImage;
 	MarvinImage			resultImage;
 	
@@ -107,13 +107,13 @@ public class History extends JFrame {
 		
 		history.addEntry("Original", resultImage, null);
 		
-		tempPlugin = MarvinPluginLoader.loadPluginImage("org.marvinproject.edge.edgeDetector.jar");
+		tempPlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.edge.edgeDetector.jar");
 		tempPlugin.process(resultImage, l_tempImage, null, new MarvinImageMask(), false);
 		l_tempImage.update();
 		resultImage = l_tempImage.clone();
 		history.addEntry("Edge", resultImage, tempPlugin.getAttributes());
 		
-		tempPlugin = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.brightnessAndContrast.jar");
+		tempPlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.brightnessAndContrast.jar");
 		tempPlugin.setAttribute("brightness", -127);
 		tempPlugin.setAttribute("contrast", 127);
 		
@@ -121,7 +121,7 @@ public class History extends JFrame {
 		resultImage.update();
 		history.addEntry("BrightenessContrast", resultImage, tempPlugin.getAttributes());
 		
-		tempPlugin = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.invert.jar");
+		tempPlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.invert.jar");
 		tempPlugin.process(resultImage, resultImage, null, new MarvinImageMask(), false);
 		resultImage.update();
 		history.addEntry("Invert", resultImage, tempPlugin.getAttributes());

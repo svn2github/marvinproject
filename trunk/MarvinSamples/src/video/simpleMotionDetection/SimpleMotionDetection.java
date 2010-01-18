@@ -43,7 +43,7 @@ import javax.swing.event.ChangeListener;
 
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
-import marvin.plugin.MarvinPluginImage;
+import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinPluginLoader;
 import marvin.video.MarvinVideoManager;
 

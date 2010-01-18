@@ -34,7 +34,7 @@ import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.util.MarvinAttributes;
 
-public interface MarvinPluginImage extends MarvinPlugin
+public interface MarvinImagePlugin extends MarvinPlugin
 {
 	/**
 	 * Initializes objects and attributes.

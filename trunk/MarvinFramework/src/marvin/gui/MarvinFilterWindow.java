@@ -41,7 +41,7 @@ import javax.swing.JPanel;
 
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
-import marvin.plugin.MarvinPluginImage;
+import marvin.plugin.MarvinImagePlugin;
 
 /**
  * Generic Window for filters. This window includes thumbnail, preview and reset support.
@@ -59,7 +59,7 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 	MarvinImage 		imageThumbnail;
 	MarvinImage 		imageResetBuffer;
 	MarvinImage			imageOut;
-	MarvinPluginImage 	plugin;	
+	MarvinImagePlugin 	plugin;	
 
 	// ActionHandler
 	protected ActionHandler actionHandler;
@@ -78,7 +78,7 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 		int a_width, 
 		int a_height,
 		MarvinImagePanel a_imagePanel,
-		MarvinPluginImage a_filter
+		MarvinImagePlugin a_filter
 	)
 	{
 		this(a_strName, a_width, a_height, 250, 250, a_imagePanel, a_filter);
@@ -102,7 +102,7 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 		int a_thumbnailWidth,
 		int a_thumbnailHeight,
 		MarvinImagePanel a_imagePanel,
-		MarvinPluginImage a_plugin
+		MarvinImagePlugin a_plugin
 	)
 	{
 		super(a_strName, a_width, a_height);

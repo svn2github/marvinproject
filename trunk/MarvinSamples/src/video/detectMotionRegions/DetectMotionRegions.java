@@ -45,7 +45,7 @@ import javax.swing.event.ChangeListener;
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
-import marvin.plugin.MarvinPluginImage;
+import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
 import marvin.video.MarvinVideoManager;
@@ -75,7 +75,7 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 	
 	private Thread 				thread;
 	
-	private MarvinPluginImage 	pluginMotionRegions;
+	private MarvinImagePlugin 	pluginMotionRegions;
 	
 	private int					sensibility=30;
 	
@@ -92,7 +92,7 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 		
 		attributesOut = new MarvinAttributes();
 		
-		pluginMotionRegions = MarvinPluginLoader.loadPluginImage("org.marvinproject.difference.differentRegions.jar");
+		pluginMotionRegions = MarvinPluginLoader.loadImagePlugin("org.marvinproject.difference.differentRegions.jar");
 		pluginMotionRegions.setAttribute("comparisonImage", imageLastFrame);
 		
 		loadGUI();

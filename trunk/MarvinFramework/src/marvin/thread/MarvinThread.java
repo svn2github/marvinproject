@@ -34,7 +34,7 @@ import com.sun.xml.internal.bind.v2.TODO;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinPlugin;
-import marvin.plugin.MarvinPluginImage;
+import marvin.plugin.MarvinImagePlugin;
 
 /**
  * Thread to process a segment or an entire image.
@@ -63,7 +63,7 @@ public class MarvinThread implements Runnable{
 	 */
 	public MarvinThread
 	(
-		MarvinPluginImage a_plugin,
+		MarvinImagePlugin a_plugin,
 		MarvinImage a_imageIn,
 		MarvinImage a_imageOut,
 		MarvinImageMask a_mask
@@ -99,7 +99,7 @@ public class MarvinThread implements Runnable{
 	public void run(){
 		switch(eType){
 			case PLUGIN_IMAGE:
-				((MarvinPluginImage)plugin).process(imageIn, imageOut, null, imageMask, false);
+				((MarvinImagePlugin)plugin).process(imageIn, imageOut, null, imageMask, false);
 				if(listener != null){
 					listener.threadFinished(new MarvinThreadEvent(plugin));
 				}

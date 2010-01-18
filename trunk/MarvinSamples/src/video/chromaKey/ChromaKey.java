@@ -47,7 +47,7 @@ import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.io.MarvinImageIO;
-import marvin.plugin.MarvinPluginImage;
+import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinPluginLoader;
 import marvin.video.MarvinVideoManager;
 
@@ -76,7 +76,7 @@ public class ChromaKey extends JFrame implements Runnable{
 								imageOut,
 								imageBackground;
 	
-	private MarvinPluginImage 	pluginChroma, 
+	private MarvinImagePlugin 	pluginChroma, 
 								pluginCombine;
 	
 	private int 				colorRange=30;
@@ -89,14 +89,14 @@ public class ChromaKey extends JFrame implements Runnable{
 		
 		loadGUI();
 		
-		pluginChroma = MarvinPluginLoader.loadPluginImage("org.marvinproject.subtract.jar");
-		pluginCombine = MarvinPluginLoader.loadPluginImage("org.marvinproject.combine.combineByMask.jar");
+		pluginChroma = MarvinPluginLoader.loadImagePlugin("org.marvinproject.subtract.jar");
+		pluginCombine = MarvinPluginLoader.loadImagePlugin("org.marvinproject.combine.combineByMask.jar");
 		
 		MarvinImage l_imageParadise = MarvinImageIO.loadImage("./res/paradise.jpg");
 		Integer cameraWidth = videoManager.getCameraWidth();
 		Integer cameraHeight = videoManager.getCameraHeight();
 		 		
-		MarvinPluginImage pluginScale = MarvinPluginLoader.loadPluginImage("org.marvinproject.transform.scale.jar");
+		MarvinImagePlugin pluginScale = MarvinPluginLoader.loadImagePlugin("org.marvinproject.transform.scale.jar");
 		pluginScale.setAttribute("newWidth", cameraWidth);
 		pluginScale.setAttribute("newHeight", cameraHeight);
 		

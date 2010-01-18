@@ -58,7 +58,7 @@ import javax.media.protocol.PushBufferStream;
 
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
-import marvin.plugin.MarvinPluginImage;
+import marvin.plugin.MarvinImagePlugin;
 
 /**
  * MarvinVideoManager is a class that manages all video operations. 
@@ -107,7 +107,7 @@ public class MarvinVideoManager{
 	
 	private MarvinImage imageIn, imageOut;
 
-	private MarvinPluginImage filtro;
+	private MarvinImagePlugin filtro;
 	
 	private int imgX, imgY;
 	

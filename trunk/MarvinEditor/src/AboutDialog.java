@@ -37,7 +37,7 @@ import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.io.MarvinImageIO;
-import marvin.plugin.MarvinPluginImage;
+import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinPluginLoader;
 
 /**
@@ -49,7 +49,7 @@ import marvin.util.MarvinPluginLoader;
  */
 public class AboutDialog extends JDialog implements Runnable{
 	private Thread 				thread;
-	private MarvinPluginImage[] arrPlugin;
+	private MarvinImagePlugin[] arrPlugin;
 	private MarvinImagePanel 	imagePanel;
 	private MarvinImage 		imageIn, 
 								imageOut;
@@ -69,15 +69,15 @@ public class AboutDialog extends JDialog implements Runnable{
 		imagePanel = new MarvinImagePanel();
 		imagePanel.setImage(imageIn);
 		
-		arrPlugin = new MarvinPluginImage[7];
-		arrPlugin[0] = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.invert.jar");
-		arrPlugin[1] = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.sepia.jar");
-		arrPlugin[2] = MarvinPluginLoader.loadPluginImage("org.marvinproject.halftone.errorDiffusion.jar");
-		arrPlugin[3] = MarvinPluginLoader.loadPluginImage("org.marvinproject.statistical.Median.jar");
-		arrPlugin[4] = MarvinPluginLoader.loadPluginImage("org.marvinproject.color.grayScale.jar");
+		arrPlugin = new MarvinImagePlugin[7];
+		arrPlugin[0] = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.invert.jar");
+		arrPlugin[1] = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.sepia.jar");
+		arrPlugin[2] = MarvinPluginLoader.loadImagePlugin("org.marvinproject.halftone.errorDiffusion.jar");
+		arrPlugin[3] = MarvinPluginLoader.loadImagePlugin("org.marvinproject.statistical.Median.jar");
+		arrPlugin[4] = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.grayScale.jar");
 		arrPlugin[4].setAttribute("size", 1);
-		arrPlugin[5] = MarvinPluginLoader.loadPluginImage("org.marvinproject.edge.EdgeDetector.jar");
-		arrPlugin[6] = MarvinPluginLoader.loadPluginImage("org.marvinproject.transform.flip.jar");
+		arrPlugin[5] = MarvinPluginLoader.loadImagePlugin("org.marvinproject.edge.EdgeDetector.jar");
+		arrPlugin[6] = MarvinPluginLoader.loadImagePlugin("org.marvinproject.transform.flip.jar");
 		add(imagePanel);
 		
 		setSize(imageIn.getWidth(),imageIn.getHeight()+40);
