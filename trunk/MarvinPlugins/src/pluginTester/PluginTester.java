@@ -43,10 +43,11 @@ import javax.swing.JPanel;
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.io.MarvinImageIO;
-import marvin.plugin.MarvinPlugin;
 import marvin.plugin.MarvinImagePlugin;
+import marvin.plugin.MarvinPlugin;
 
-import org.marvinproject.render.mandelbrot.Mandelbrot;
+import org.marvinproject.render.iteratedFunctionSystem.IteratedFunctionSystem;
+import org.marvinproject.render.lindenmayer.Lindenmayer;
 
 /**
  * Test plug-ins and generate .jar files
@@ -78,7 +79,7 @@ public class PluginTester extends JFrame{
 		HashMap<Object,Object> test = new HashMap<Object,Object>();
 		test.put("key", null);
 		
-		MarvinImagePlugin l_plugin = new Mandelbrot();
+		MarvinImagePlugin l_plugin = new IteratedFunctionSystem();
 		
 		l_plugin.setImagePanel(imagePanel);
 		MarvinImage i=null; 

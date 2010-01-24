@@ -50,7 +50,7 @@ public class Lindenmayer extends MarvinAbstractImagePlugin{
 	public void load() {
 		attributes = getAttributes();
 		attributes.set("angle", 22.5);
-		attributes.set("rules", "");
+		attributes.set("rules", RULES);
 		attributes.set("initialText", "G");
 		
 		grammar = new Grammar();
@@ -60,8 +60,8 @@ public class Lindenmayer extends MarvinAbstractImagePlugin{
 	@Override
 	public void process
 	(
-		MarvinImage in, 
-		MarvinImage out, 
+		MarvinImage imageIn, 
+		MarvinImage imageOut, 
 		MarvinAttributes out2,
 		MarvinImageMask a_mask, 
 		boolean mode
@@ -70,10 +70,17 @@ public class Lindenmayer extends MarvinAbstractImagePlugin{
 		String rules[] = ((String)(attributes.get("rules"))).split("\n");
 		
 		for(int i=0; i<rules.length; i++){
+			System.out.println("addRile:"+rules[i]);
 			addRule(rules[i]);
 		}
 		
-		turtle.setStartPosition(300, 300, 0);
+		turtle.setStartPosition(300, 300, 90);
+		turtle.setWalkDistance(2.5);
+		turtle.setRotationAngle(22.5);
+		
+		imageOut.clearImage(0xFFFFFFFF);
+		turtle.render("G", grammar, 3, imageOut);
+		
 	}
 
 	@Override
@@ -87,6 +94,4 @@ public class Lindenmayer extends MarvinAbstractImagePlugin{
 		String r[] = rule.split("->");
 		grammar.addRule(r[0], r[1]);
 	}
-	
-
 }

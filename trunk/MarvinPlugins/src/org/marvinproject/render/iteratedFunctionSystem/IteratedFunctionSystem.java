@@ -45,12 +45,12 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 	
 	private List<Rule> rules;
 	
-	/* Testing String
+	// Testing String
 	private final static String TESTING_STRING = 	"0,0,0,0.16,0,0,0.01\n"+
 											"0.85,0.04,-0.04,0.85,0,1.6,0.85\n"+
 											"0.2,-0.26,0.23,0.22,0,1.6,0.07\n"+
 											"-0.15,0.28,0.26,0.24,0,0.44,0.07\n";
-	
+	/*
 	0,0,0,0.16,0,0,0.01
 	0.85,0.04,-0.04,0.85,0,1.6,0.85
 	0.2,-0.26,0.23,0.22,0,1.6,0.07
@@ -60,7 +60,7 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 	@Override
 	public void load() {
 		attributes = getAttributes();
-		attributes.set("rules", "");
+		attributes.set("rules", TESTING_STRING);
 		
 		rules = new ArrayList<Rule>();
 	}
@@ -78,7 +78,7 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 		
 		double x0 = 0;
 		double y0 = 0;
-		int x,y;
+		double x,y;
 		int startX = 300;
 		int startY = 300;
 		double factor = 50;
@@ -89,15 +89,14 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 		Rule tempRule;
 		double point[] = {x0,y0};
 		
-		imageOut.fillRect(0, 0, imageOut.getWidth(), imageOut.getHeight(), Color.white);
+		imageOut.clearImage(0xFFFFFFFF);
 		
 		for(int i=0; i<iterations; i++){
 			tempRule = getRule();
 			applyRule(point, tempRule);
 			
-			//g.drawLine((int)(point[0]*factor)+startX, -(int)(point[1]*factor)+startY, (int)(point[0]*factor)+startX, -(int)(point[1]*factor)+startY);
-			x = (int)(point[0]);
-			y = (int)(point[1]);
+			x = point[0];
+			y = point[1];
 			
 			if(x < minX){	minX = x;	};
 			if(x > maxX){	maxX = x;	};
@@ -107,30 +106,29 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 		}	
 		
 		if(Math.abs(minX-maxX) > Math.abs(minY-maxY)){
-			factor = imageOut.getWidth()/Math.abs(minX-maxX);
+			factor = imageOut.getWidth()/Math.abs(maxX-minX);
 		}
 		else{
-			factor = imageOut.getHeight()/Math.abs(minY-maxY);
+			factor = imageOut.getHeight()/Math.abs(maxY-minY);
 		}
 		
-		System.out.println("deltaX:"+Math.abs(minX-maxX));
-		System.out.println("deltaY:"+Math.abs(minY-maxY));
-		System.out.println("factor:"+factor);
-		
+		startY = (int)(imageIn.getHeight()-((imageOut.getHeight()/2)-((minY+((maxY-minY)/2))*factor)));
+		startX = (int)((imageOut.getWidth()/2)-((minX+((maxX-minX)/2))*factor));
+			
+		point[0] = x0;
+		point[1] = y0;
 		
 		for(int i=0; i<iterations; i++){
 			tempRule = getRule();
 			applyRule(point, tempRule);
 			
-			//g.drawLine((int)(point[0]*factor)+startX, -(int)(point[1]*factor)+startY, (int)(point[0]*factor)+startX, -(int)(point[1]*factor)+startY);
 			x = (int)(point[0]*factor)+startX;
 			y = startY-(int)(point[1]*factor);
 			
-			
 			if(x >= 0 && x<imageOut.getWidth() && y >= 0 && y < imageOut.getHeight()){
-				imageOut.setIntColor(x,y , 0);
+				imageOut.setIntColor((int)x,(int)y , 0);
 			}
-		}	
+		}
 	}
 	
 

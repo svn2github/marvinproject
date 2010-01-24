@@ -131,6 +131,14 @@ public class MarvinImage implements Cloneable {
 		image.setRGB(0, 0, image.getWidth(), image.getHeight(), arrColor,0,l_width);
 	}
 	
+	public void clearImage(int color){
+		for(int y=0; y<height; y++){
+			for(int x=0; x<width; x++){
+				setIntColor(x,y,color);
+			}
+		}
+	}
+	
 	/**
 	 * Gets the type
 	 */

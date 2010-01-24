@@ -32,9 +32,9 @@ package org.marvinproject.render.lindenmayer;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
+
+import marvin.image.MarvinImage;
 
 public class TurtleGraphics {
 
@@ -77,20 +77,20 @@ public class TurtleGraphics {
 		rotationAngle = angle;
 	}
 	
-	public void render(String text, Grammar grammar, int iterations, Graphics g){
+	public void render(String text, Grammar grammar, int iterations, MarvinImage image){
 		
 		reset();
-		g.setColor(Color.black);
+		
 		for(int i=0; i<iterations; i++){	
 			text = grammar.derive(text);						
 		}
-		walk(text, g);
+		walk(text, image);
 	}
 	
 	Polygon p = new Polygon();
 	boolean b = false;
 	
-	private void walk(String text, Graphics g){
+	private void walk(String text, MarvinImage image){
 		double newPx;
 		double newPy;
 		
@@ -109,7 +109,8 @@ public class TurtleGraphics {
 					newPy = currentPy-Math.sin(Math.toRadians(currentAngle))*walkDistance;
 					
 					if(!b){
-						g.drawLine((int)currentPx+startPx, (int)currentPy+startPy, (int)newPx+startPx, (int)newPy+startPy);
+						//g.drawLine((int)currentPx+startPx, (int)currentPy+startPy, (int)newPx+startPx, (int)newPy+startPy);
+						drawLine((int)currentPx+startPx, (int)currentPy+startPy, (int)newPx+startPx, (int)newPy+startPy, image);
 					}
 					else{
 						p.addPoint(((int)newPx+startPx), (int)(newPy+startPy));
@@ -159,35 +160,88 @@ public class TurtleGraphics {
 					b = true;
 					break;
 				case '}':
-					g.fillPolygon(p);
+					//g.fillPolygon(p);
 					b = false;
 					//g.setColor(Color.black);
 					//System.out.println("black");
 					break;
 				case '#':
 					if(text.charAt(i+1) == '0'){
-						g.setColor(Color.black);
+						//g.setColor(Color.black);
 					}
 					else if(text.charAt(i+1) == '1'){
-						g.setColor(new Color(0,100,0));
+						//g.setColor(new Color(0,100,0));
 					}
 					else if(text.charAt(i+1) == '2'){
-						g.setColor(Color.red);
+						//g.setColor(Color.red);
 					}
 					else if(text.charAt(i+1) == '3'){
-						g.setColor(Color.yellow);
+						//g.setColor(Color.yellow);
 					}
 					else if(text.charAt(i+1) == '4'){
-						g.setColor(Color.blue);
+						//g.setColor(Color.blue);
 					}
 					i++;
 					break;
 				case '&':
-					g.setColor(new Color((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255)));
+					//g.setColor(new Color((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255)));
 					i++;
 					break;
 			}
 		}
-	}	
+	}
+	
+	private void drawLine(int x0, int y0, int x1, int y1, MarvinImage image){
+		boolean steep = (Math.abs(y1 - y0) > Math.abs(x1 - x0));
+		int temp;
+		if(steep){
+			temp = x0;
+			x0 = y0;
+			y0 = temp;
+
+			temp = x1;
+			x1 = y1;
+			y1 = temp;
+		}
+		if(x0 > x1){
+			temp = x0;
+			x0 = x1;
+			x1 = temp;
+
+			temp = y0;
+			y0 = y1;
+			y1 = temp;
+		}
+
+		int deltax = x1 - x0;
+		int deltay = Math.abs(y1 - y0);
+		int error = deltax / 2;
+		int ystep;
+		int y = y0;
+
+		if(y0 < y1){
+			ystep = 1;
+		}
+		else{
+			ystep = -1;
+		}
+
+		for(int x=x0; x<=x1; x++){
+         if(steep){
+				//g.drawLine(y,x,y,x);
+        	 	image.setIntColor(y,x,0,0,0);
+			}
+			else{
+				//g.drawLine(x,y,x,y);
+				image.setIntColor(x,y,0,0,0);
+			}
+
+         error = error - deltay;
+         if (error < 0){
+             y = y + ystep;
+             error = error + deltax;
+			}
+		}
+	}
 }
 
