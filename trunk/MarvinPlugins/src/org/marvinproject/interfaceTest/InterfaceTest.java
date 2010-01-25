@@ -66,14 +66,14 @@ public class InterfaceTest extends MarvinAbstractImagePlugin
 		l_filterWindow.addLabel("labelBlue", "Red:");
 		l_filterWindow.addTextField("textBlue", "blue", attributes);
 
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addComboBox("comboFilter", "filter", new Object[]{"option 1", "option 2", "option 3"}, attributes);
 
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addLabel("labelIntensity", "Intensity:");
 		l_filterWindow.addHorizontalSlider("sliderIntensity", "intensity", 0,100,0, attributes);
 		
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addCheckBox("checkboxTest", "Check Me!", "checkbox1", attributes);
 		
 		l_filterWindow.setVisible(true);

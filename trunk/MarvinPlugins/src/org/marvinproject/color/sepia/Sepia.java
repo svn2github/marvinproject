@@ -123,7 +123,7 @@ public class Sepia extends MarvinAbstractImagePlugin implements ChangeListener, 
 		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Sepia", 400,350, getImagePanel(), this);
 		l_filterWindow.addLabel("lblIntensidade", "Intensidade do Filtro");
 		l_filterWindow.addHorizontalSlider("hsIntensidade", "hsIntensidade", 0, 100, 20, attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addTextField("txtValue", "txtValue",attributes);
 		
 		Tela = l_filterWindow;

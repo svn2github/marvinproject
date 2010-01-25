@@ -122,19 +122,19 @@ public class Plugin extends MarvinAbstractImagePlugin implements ChangeListener,
 		l_filterWindow.addLabel("lblR", "Red");
 		l_filterWindow.addTextField("txtR", "txtR",attributes);
 		
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addLabel("lblM", "Magenta");
 		l_filterWindow.addHorizontalSlider("hsG", "hsG", -100, 100, 0, attributes);
 		l_filterWindow.addLabel("lblG", "Green");
 		l_filterWindow.addTextField("txtG", "txtG",attributes);
 		
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addLabel("lblY", "Yellow");
 		l_filterWindow.addHorizontalSlider("hsB", "hsB", -100, 100, 0, attributes);
 		l_filterWindow.addLabel("lblB", "Blue");
 		l_filterWindow.addTextField("txtB", "txtB",attributes);
 		
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		
 		this.tela = l_filterWindow;
 			

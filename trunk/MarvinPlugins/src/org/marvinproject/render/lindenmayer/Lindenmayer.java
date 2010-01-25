@@ -35,21 +35,28 @@ import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
 import marvin.util.MarvinAttributes;
 
+/**
+* @author Gabriel Ambrósio Archhanjo
+*/
 public class Lindenmayer extends MarvinAbstractImagePlugin{
 
 	private MarvinAttributes attributes;
 	
 	private Grammar 		grammar;
 	private TurtleGraphics	turtle;
+	private String			startText;
 	
-	private String RULES = 	"G->F[+FFG][G]-FG\n"+
-							"F->FF\n";
+	private String RULES =		"start->G\n" + 	
+								"G->F[-G][+G]FG\n"+
+								"F->FF\n";
 	
 	
 	@Override
 	public void load() {
 		attributes = getAttributes();
-		attributes.set("angle", 22.5);
+		attributes.set("rotationAngle", 25.7);
+		attributes.set("initialAngle", 90.0);
+		attributes.set("iterations", 9);
 		attributes.set("rules", RULES);
 		attributes.set("initialText", "G");
 		
@@ -68,30 +75,53 @@ public class Lindenmayer extends MarvinAbstractImagePlugin{
 	) {
 		
 		String rules[] = ((String)(attributes.get("rules"))).split("\n");
+		double initialAngle = (Double)attributes.get("initialAngle");
+		double rotationAngle = (Double)attributes.get("rotationAngle");
+		int iterations = (Integer)attributes.get("iterations");
+		
 		
 		for(int i=0; i<rules.length; i++){
 			System.out.println("addRile:"+rules[i]);
 			addRule(rules[i]);
 		}
 		
-		turtle.setStartPosition(300, 300, 90);
-		turtle.setWalkDistance(2.5);
-		turtle.setRotationAngle(22.5);
+		turtle.setStartPosition(0, 0, initialAngle);
+		turtle.setRotationAngle(rotationAngle);
 		
 		imageOut.clearImage(0xFFFFFFFF);
-		turtle.render("G", grammar, 3, imageOut);
+		turtle.render(startText, grammar,iterations, imageOut);
 		
 	}
 
 	@Override
 	public void show() {
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Lindenmayer", 500,600, getImagePanel(), this);
+		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Lindenmayer", 500,570, getImagePanel(), this);
+		
+		filterWindow.addLabel("lblIterations","iterations:");
+		filterWindow.addTextField("txtIterations","iterations", attributes);
+		filterWindow.newComponentRow();
+		
+		filterWindow.addLabel("lblInitialAngle","initialAngle:");
+		filterWindow.addTextField("txtInitialAngle","initialAngle", attributes);
+		filterWindow.newComponentRow();
+		
+		filterWindow.addLabel("lblRotationAngle","rotationAngle:");
+		filterWindow.addTextField("txtRotationAngle","rotationAngle", attributes);
+		filterWindow.newComponentRow();
+		
+		filterWindow.addLabel("lblRules","rules:");
 		filterWindow.addTextArea("txtRules","rules", 8, 40, attributes);
 		filterWindow.setVisible(true);
 	}
 	
 	private void addRule(String rule){
 		String r[] = rule.split("->");
-		grammar.addRule(r[0], r[1]);
+		
+		if(r[0].equals("start")){
+			startText = r[1];
+		}
+		else{
+			grammar.addRule(r[0], r[1]);
+		}
 	}
 }

@@ -91,9 +91,9 @@ public class ColorHistogram extends MarvinAbstractImagePlugin
         }
 
         l_pluginWindow.addImage("histoRed", l_histoRed.getImage(400,200));
-        l_pluginWindow.addPanelBelow();
+        l_pluginWindow.newComponentRow();
         l_pluginWindow.addImage("histoGreen", l_histoGreen.getImage(400,200));
-        l_pluginWindow.addPanelBelow();
+        l_pluginWindow.newComponentRow();
         l_pluginWindow.addImage("histoBlue", l_histoBlue.getImage(400,200));
         l_pluginWindow.setVisible(true);
     }

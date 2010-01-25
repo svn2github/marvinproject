@@ -68,10 +68,10 @@ public class Circles extends MarvinAbstractImagePlugin
 		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Halftone - Circles", 420,350, getImagePanel(), this);
 		l_filterWindow.addLabel("lblWidth", "Circle width:");
 		l_filterWindow.addTextField("txtCircleWidth", "circleWidth", attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addLabel("lblShift", "Line Shift:");
 		l_filterWindow.addTextField("txtShift", "shift", attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addLabel("lblDistance", "Circles distance:");
 		l_filterWindow.addTextField("lblCirclesDistance", "circlesDistance", attributes);
 		l_filterWindow.setVisible(true);

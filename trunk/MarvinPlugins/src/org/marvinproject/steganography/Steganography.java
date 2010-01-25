@@ -281,16 +281,16 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 		pluginWindow = new MarvinPluginWindow("Steganografia",500,200);
 		
 		//Create the objects to receive the text that will be masked on the image...				
-		pluginWindow.addPanelBelow();
+		pluginWindow.newComponentRow();
 		pluginWindow.addComboBox("cbSelecao", "cbSelecao", new String[] {"Ler Imagem","Gravar na Imagem"}, attributes);
-		pluginWindow.addPanelBelow();
+		pluginWindow.newComponentRow();
 		pluginWindow.addComboBox("cbTipo", "cbTipo", new String[] {"Gravar Arquivo","Gravar Texto"}, attributes);
-		pluginWindow.addPanelBelow();
+		pluginWindow.newComponentRow();
 		pluginWindow.addLabel("lblTexto", "Digite abaixo o Texto para Mascarar na Imagem:");
-		pluginWindow.addPanelBelow();
+		pluginWindow.newComponentRow();
 		pluginWindow.addTextArea("txtLines", "txtLines", 2, 40, attributes);
 		
-		pluginWindow.addPanelBelow();
+		pluginWindow.newComponentRow();
 		
 		buttonOK = new JButton("OK");
 		buttonOK.addActionListener(this);

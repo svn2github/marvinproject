@@ -36,6 +36,9 @@ import java.util.Stack;
 
 import marvin.image.MarvinImage;
 
+/**
+ * @author Gabriel Ambrósio Archanjo
+ */
 public class TurtleGraphics {
 
 	private double walkDistance;
@@ -51,6 +54,9 @@ public class TurtleGraphics {
 	
 	// State Stack
 	private Stack<Double[]> stateStack;
+	
+	private Polygon polygon = new Polygon();
+	private boolean drawingPolygon = false;
 	
 	public TurtleGraphics(){
 		stateStack = new Stack<Double[]>();		
@@ -84,15 +90,19 @@ public class TurtleGraphics {
 		for(int i=0; i<iterations; i++){	
 			text = grammar.derive(text);						
 		}
-		walk(text, image);
+		setStartPosition(0,0,startAngle);
+		walkDistance = 1;
+		walk(text, image, false);
+		reset();
+		walk(text, image, true);
 	}
 	
-	Polygon p = new Polygon();
-	boolean b = false;
-	
-	private void walk(String text, MarvinImage image){
+	private void walk(String text, MarvinImage image, boolean draw){
 		double newPx;
 		double newPy;
+		
+		double minX=999999999,minY=999999999,maxX=-999999999,maxY=-99999999;
+		
 		
 		for(int i=0; i<text.length(); i++){
 			switch(text.charAt(i)){
@@ -108,12 +118,19 @@ public class TurtleGraphics {
 					newPx = currentPx+Math.cos(Math.toRadians(currentAngle))*walkDistance;
 					newPy = currentPy-Math.sin(Math.toRadians(currentAngle))*walkDistance;
 					
-					if(!b){
-						//g.drawLine((int)currentPx+startPx, (int)currentPy+startPy, (int)newPx+startPx, (int)newPy+startPy);
-						drawLine((int)currentPx+startPx, (int)currentPy+startPy, (int)newPx+startPx, (int)newPy+startPy, image);
+					if(!drawingPolygon){
+						if(draw){
+							drawLine((int)currentPx+startPx, (int)currentPy+startPy, (int)newPx+startPx, (int)newPy+startPy, image);
+						}
+						else{
+							if(currentPx < minX){	minX = currentPx;	};
+							if(currentPx > maxX){	maxX = currentPx;	};
+							if(currentPy < minY){	minY = currentPy;	};
+							if(currentPy > maxY){	maxY = currentPy;	};
+						}
 					}
 					else{
-						p.addPoint(((int)newPx+startPx), (int)(newPy+startPy));
+						polygon.addPoint(((int)newPx+startPx), (int)(newPy+startPy));
 						
 					}
 					
@@ -156,12 +173,12 @@ public class TurtleGraphics {
 					break;
 				}
 				case '{':
-					p = new Polygon();
-					b = true;
+					polygon = new Polygon();
+					drawingPolygon = true;
 					break;
 				case '}':
 					//g.fillPolygon(p);
-					b = false;
+					drawingPolygon = false;
 					//g.setColor(Color.black);
 					//System.out.println("black");
 					break;
@@ -189,6 +206,35 @@ public class TurtleGraphics {
 					break;
 			}
 		}
+		
+		int width = image.getWidth();
+		int height = image.getHeight();
+		
+		if(currentPx < minX){	minX = currentPx;	};
+		if(currentPx > maxX){	maxX = currentPx;	};
+		if(currentPy < minY){	minY = currentPy;	};
+		if(currentPy > maxY){	maxY = currentPy;	};
+		
+		double deltaX = Math.abs(maxX-minX);
+		double deltaY = Math.abs(maxY-minY); 
+		if(deltaX > deltaY){
+			walkDistance = (width/deltaX);
+			if(deltaY * walkDistance > height){
+				walkDistance = walkDistance * (height/(deltaY * walkDistance));
+			}
+		}
+		else{
+			walkDistance = (height/deltaY);
+			if(deltaX * walkDistance > width){
+				walkDistance = walkDistance * (width/(deltaX * walkDistance));
+			}
+		}
+		
+		walkDistance *= 0.9;
+		
+		startPx = (int)((width/2)-((minX+((deltaX)/2))*walkDistance));
+		startPy = (int)((height/2)-((minY+(deltaY/2))*walkDistance));
+		
 	}
 	
 	private void drawLine(int x0, int y0, int x1, int y1, MarvinImage image){
@@ -228,12 +274,14 @@ public class TurtleGraphics {
 
 		for(int x=x0; x<=x1; x++){
          if(steep){
-				//g.drawLine(y,x,y,x);
-        	 	image.setIntColor(y,x,0,0,0);
+        	 	if(y >= 0 && y < image.getWidth() && x >= 0 && x < image.getHeight()){
+        	 		image.setIntColor(y,x,0,0,0);
+        	 	}
 			}
 			else{
-				//g.drawLine(x,y,x,y);
-				image.setIntColor(x,y,0,0,0);
+				if(x >= 0 && x < image.getWidth() && y >= 0 && y < image.getHeight()){
+					image.setIntColor(x,y,0,0,0);
+				}
 			}
 
          error = error - deltay;

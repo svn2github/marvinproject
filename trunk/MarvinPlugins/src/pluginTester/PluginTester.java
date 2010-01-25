@@ -46,6 +46,7 @@ import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.plugin.MarvinPlugin;
 
+import org.marvinproject.color.brightnessAndContrast.BrightnessAndContrast;
 import org.marvinproject.render.iteratedFunctionSystem.IteratedFunctionSystem;
 import org.marvinproject.render.lindenmayer.Lindenmayer;
 

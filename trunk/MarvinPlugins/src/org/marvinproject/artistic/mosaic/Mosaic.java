@@ -70,10 +70,10 @@ public class Mosaic extends MarvinAbstractImagePlugin
 		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Halftone - Circles", 420,350, getImagePanel(), this);
 		l_filterWindow.addLabel("lblWidth", "Tile witdh:");
 		l_filterWindow.addTextField("txtwidth", "width", attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addLabel("lblWidth", "Format:");
 		l_filterWindow.addComboBox("combShape", "shape", new Object[]{SQUARES, TRIANGLES}, attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addLabel("lblWidth", "Edge:");
 		l_filterWindow.addComboBox("combBorder", "border", new Object[]{true, false}, attributes);
 		l_filterWindow.setVisible(true);		

@@ -61,7 +61,7 @@ public class Scale extends MarvinAbstractImagePlugin{
 		l_filterWindow.disablePreview();
 		l_filterWindow.addLabel("lblWidth", "Width:");
 		l_filterWindow.addTextField("txtWidth", "newWidth", attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addLabel("lblHeight", "Height:");
 		l_filterWindow.addTextField("txtHeight", "newHeight", attributes);
 

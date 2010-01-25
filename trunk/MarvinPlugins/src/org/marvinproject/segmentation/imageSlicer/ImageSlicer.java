@@ -180,12 +180,12 @@ public class ImageSlicer extends MarvinAbstractImagePlugin {
 		l_filterWindow.addLabel("lblLinhas", "Number of rows:");
 		l_filterWindow.addTextField("txtLines", "txtLines", attributes);
 		//l_filterWindow.addHorizontalSlider("txtLines", "txtLines", 1, 10, 2, attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		
 		l_filterWindow.addLabel("lblCols", "Number of columns:");
 		l_filterWindow.addTextField("txtCols", "txtCols", attributes);
 		//l_filterWindow.addHorizontalSlider("txtCols", "txtCols", 1, 10, 2, attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		
 		l_filterWindow.setVisible(true);
 	}

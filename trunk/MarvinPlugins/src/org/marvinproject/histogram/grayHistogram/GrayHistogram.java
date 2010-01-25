@@ -87,7 +87,7 @@ public class GrayHistogram extends MarvinAbstractImagePlugin
         }
 
         l_pluginWindow.addImage("histoGray", l_histoGray.getImage(400,200));
-        l_pluginWindow.addPanelBelow();
+        l_pluginWindow.newComponentRow();
         l_pluginWindow.setVisible(true);
     }
 }

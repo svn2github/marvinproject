@@ -151,7 +151,7 @@ public class Maximum extends MarvinAbstractImagePlugin {
 		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Avarage Filter", 420,350, getImagePanel(), this);
 		l_filterWindow.addLabel("lblWidth", "Size:");
 		l_filterWindow.addTextField("txtSize", "size", attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.setVisible(true);
 
 	}

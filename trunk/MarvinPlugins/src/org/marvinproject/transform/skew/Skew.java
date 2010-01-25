@@ -68,11 +68,11 @@ public class Skew extends MarvinAbstractImagePlugin
 	
 		l_filterWindow.addLabel("labelSkew", "Skew:");
 		l_filterWindow.addComboBox("combpSkew", "skew", new Object[]{HORIZONTAL, VERTICAL}, attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		
 		l_filterWindow.addLabel("lblSkewAngle", "SkewAngle");
 		l_filterWindow.addHorizontalSlider("sliderSkewAngle", "SkewAngle", -89, 89, 0, attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		
 		/*
 		//In future versions it would be nice to be able to tell the user the selected

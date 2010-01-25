@@ -91,11 +91,11 @@ public class Rotate extends MarvinAbstractImagePlugin
 		
 		l_filterWindow.addLabel("labelRotate", "Options:");
 		l_filterWindow.addComboBox("combpRotate", "rotate", new Object[]{CLOCKWISE90, ACLOCKWISE90, OTHER}, attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		
 		l_filterWindow.addLabel("lblRotateAngle", "Angle of Rotation");
 		l_filterWindow.addHorizontalSlider("sliderRotateAngle", "RotateAngle", -MaximumRotationAngle, MaximumRotationAngle, 0, attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 	
 		l_filterWindow.setVisible(true);
 	}

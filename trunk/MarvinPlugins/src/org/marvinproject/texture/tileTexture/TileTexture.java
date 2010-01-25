@@ -26,7 +26,7 @@ public class TileTexture extends MarvinAbstractImagePlugin{
 		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Tile Texture", 400,350, getImagePanel(), this);
 		l_filterWindow.addLabel("lblLines", "lines");
 		l_filterWindow.addTextField("txtLines", "lines", attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addLabel("lblColumns", "columns");
 		l_filterWindow.addTextField("txtColumns", "columns", attributes);
 		l_filterWindow.setVisible(true);

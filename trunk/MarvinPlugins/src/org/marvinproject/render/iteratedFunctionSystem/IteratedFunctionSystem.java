@@ -46,21 +46,15 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 	private List<Rule> rules;
 	
 	// Testing String
-	private final static String TESTING_STRING = 	"0,0,0,0.16,0,0,0.01\n"+
+	private final static String EXAMPLE_RULES = 	"0,0,0,0.16,0,0,0.01\n"+
 											"0.85,0.04,-0.04,0.85,0,1.6,0.85\n"+
 											"0.2,-0.26,0.23,0.22,0,1.6,0.07\n"+
 											"-0.15,0.28,0.26,0.24,0,0.44,0.07\n";
-	/*
-	0,0,0,0.16,0,0,0.01
-	0.85,0.04,-0.04,0.85,0,1.6,0.85
-	0.2,-0.26,0.23,0.22,0,1.6,0.07
-	-0.15,0.28,0.26,0.24,0,0.44,0.07
-	*/
-	
 	@Override
 	public void load() {
 		attributes = getAttributes();
-		attributes.set("rules", TESTING_STRING);
+		attributes.set("rules", EXAMPLE_RULES);
+		attributes.set("iterations", 1000000);
 		
 		rules = new ArrayList<Rule>();
 	}
@@ -75,14 +69,14 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 		boolean previewMode
 	){
 		loadRules();
+		int iterations = (Integer)attributes.get("iterations");
 		
 		double x0 = 0;
 		double y0 = 0;
 		double x,y;
-		int startX = 300;
-		int startY = 300;
-		double factor = 50;
-		double iterations = 100000;
+		int startX;
+		int startY;
+		double factor;
 		
 		double minX=999999999,minY=999999999,maxX=-999999999,maxY=-99999999;
 		
@@ -105,16 +99,29 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 		
 		}	
 		
-		if(Math.abs(minX-maxX) > Math.abs(minY-maxY)){
-			factor = imageOut.getWidth()/Math.abs(maxX-minX);
+		int width = imageOut.getWidth();
+		int height = imageOut.getHeight();
+		
+		double deltaX = Math.abs(maxX-minX);
+		double deltaY = Math.abs(maxY-minY); 
+		if(deltaX > deltaY){
+			factor = (width/deltaX);
+			if(deltaY * factor > height){
+				factor = factor * (height/(deltaY * factor));
+			}
 		}
 		else{
-			factor = imageOut.getHeight()/Math.abs(maxY-minY);
+			factor = (height/deltaY);
+			if(deltaX * factor > width){
+				factor = factor * (width/(deltaX * factor));
+			}
 		}
 		
-		startY = (int)(imageIn.getHeight()-((imageOut.getHeight()/2)-((minY+((maxY-minY)/2))*factor)));
-		startX = (int)((imageOut.getWidth()/2)-((minX+((maxX-minX)/2))*factor));
-			
+		factor *= 0.9;
+		
+		startX = (int)((width/2)-((minX+((deltaX)/2))*factor));
+		startY = (int)(height-((height/2)-((minY+(deltaY/2))*factor)));
+		
 		point[0] = x0;
 		point[1] = y0;
 		
@@ -125,7 +132,7 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 			x = (int)(point[0]*factor)+startX;
 			y = startY-(int)(point[1]*factor);
 			
-			if(x >= 0 && x<imageOut.getWidth() && y >= 0 && y < imageOut.getHeight()){
+			if(x >= 0 && x<width && y >= 0 && y < height){
 				imageOut.setIntColor((int)x,(int)y , 0);
 			}
 		}
@@ -134,9 +141,9 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 
 	@Override
 	public void show() {
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Tile Texture", 500,600, getImagePanel(), this);
+		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Tile Texture", 500,500, getImagePanel(), this);
 		filterWindow.addLabel("lblRules","Rules:");
-		filterWindow.addPanelBelow();
+		filterWindow.newComponentRow();
 		filterWindow.addTextArea("txtRules","rules", 8, 40, attributes);
 		filterWindow.setVisible(true);
 	}

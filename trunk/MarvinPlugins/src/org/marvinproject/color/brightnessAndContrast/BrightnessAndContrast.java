@@ -52,10 +52,10 @@ public class BrightnessAndContrast extends MarvinAbstractImagePlugin
 	}
 
 	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Brightness and Contrast", 400,350, getImagePanel(), this);
+		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Brightness and Contrast", 400,400, getImagePanel(), this);
 		l_filterWindow.addLabel("lblBrightness", "Brightness");
 		l_filterWindow.addHorizontalSlider("sliderBrightness", "brightness", -127, 127, 0, attributes);
-		l_filterWindow.addPanelBelow();
+		l_filterWindow.newComponentRow();
 		l_filterWindow.addLabel("lblContrast", "Contrast");
 		l_filterWindow.addHorizontalSlider("sliderContrast", "contrast", -127, 127, 0, attributes);
 		l_filterWindow.setVisible(true);
