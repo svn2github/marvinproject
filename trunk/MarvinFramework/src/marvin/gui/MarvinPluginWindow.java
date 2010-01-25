@@ -30,7 +30,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 package marvin.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -38,7 +37,7 @@ import java.awt.image.BufferedImage;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import javax.swing.ButtonGroup;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -50,6 +49,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
 import marvin.gui.MarvinPluginWindowComponent.ComponentType;
@@ -74,6 +74,8 @@ public class MarvinPluginWindow extends JFrame
 	protected JPanel	panelDynamicComponents, 
 							panelCenter,
 							panelCurrent;
+	
+	protected Box 		box;
 	/**
 	 * Constructs an {@link MarvinPluginWindow}
 	 * @param a_strName Window name
@@ -99,27 +101,25 @@ public class MarvinPluginWindow extends JFrame
 		// Dynamic Components
 		panelCenter = new JPanel();
 		panelCenter.setLayout(new FlowLayout());
-		dynamicPanelLayout = new GridLayout(0,1);
+		box = Box.createVerticalBox();
+		
 		panelDynamicComponents = new JPanel();
 		panelDynamicComponents.setLayout(dynamicPanelLayout);
-		panelCenter.add(panelDynamicComponents);
-		addPanelBelow();
+		
+		panelCenter.add(box);
+		newComponentRow();
 		
 		//Window Layout
 		container.setLayout(new BorderLayout());
 		container.add(panelCenter, BorderLayout.CENTER);
 	}
-
+	
 	/**
 	 * Adds new component Line
 	 */
-	public void addPanelBelow(){
-		JPanel l_panel = new JPanel();
-		l_panel.setLayout(new FlowLayout());
-		panelCurrent = l_panel;
-		panelDynamicComponents.add(l_panel);
-		dynamicPanelLayout.setRows(dynamicPanelLayout.getRows()+1);
-		setSize(getWidth(), getHeight()+30);
+	public void newComponentRow(){
+		panelCurrent = new JPanel();
+		box.add(panelCurrent);
 	}
 	
 	/**
@@ -158,7 +158,6 @@ public class MarvinPluginWindow extends JFrame
 	 */
 	public void addLabel(String a_id, String a_text){
 		JComponent l_component = new JLabel(a_text);
-		panelCurrent.add(l_component);
 		plugComponent(a_id, l_component, null, null, ComponentType.COMPONENT_LABEL);
 	}
 	
@@ -169,7 +168,6 @@ public class MarvinPluginWindow extends JFrame
 	 */
 	public void addImage(String a_id, BufferedImage a_image){
 		JComponent l_component = new JLabel(new ImageIcon(a_image));
-		panelCurrent.add(l_component);
 		plugComponent(a_id, l_component, null, null, ComponentType.COMPONENT_IMAGE);
 	}
 	
@@ -202,6 +200,8 @@ public class MarvinPluginWindow extends JFrame
 		
 		// plug manually
 		panelCurrent.add(l_scrollPane);
+		//box.add(l_scrollPane);
+		
 		hashComponents.put(a_id, new MarvinPluginWindowComponent(a_id, a_attributeID, a_attributes, l_component, ComponentType.COMPONENT_TEXTAREA));
 		
 		//plugComponent(a_id, l_scrollPane, a_attributeID, a_attributes, ComponentType.COMPONENT_TEXTAREA);
@@ -269,7 +269,6 @@ public class MarvinPluginWindow extends JFrame
 	 */	
 	public void addCheckBox(String a_id, String a_checkBoxText, String a_attributeID,MarvinAttributes a_attributes){
 		JComponent l_component = new JCheckBox(a_checkBoxText);
-		panelCurrent.add(l_component);
 		plugComponent(a_id, l_component, a_attributeID, a_attributes, ComponentType.COMPONENT_CHECKBOX);
 	}
 	
