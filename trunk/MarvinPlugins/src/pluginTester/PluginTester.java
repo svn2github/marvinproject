@@ -46,9 +46,7 @@ import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.plugin.MarvinPlugin;
 
-import org.marvinproject.color.brightnessAndContrast.BrightnessAndContrast;
-import org.marvinproject.render.iteratedFunctionSystem.IteratedFunctionSystem;
-import org.marvinproject.render.lindenmayer.Lindenmayer;
+import org.marvinproject.render.mandelbrot.Mandelbrot;
 
 /**
  * Test plug-ins and generate .jar files
@@ -80,7 +78,7 @@ public class PluginTester extends JFrame{
 		HashMap<Object,Object> test = new HashMap<Object,Object>();
 		test.put("key", null);
 		
-		MarvinImagePlugin l_plugin = new IteratedFunctionSystem();
+		MarvinImagePlugin l_plugin = new Mandelbrot();
 		
 		l_plugin.setImagePanel(imagePanel);
 		MarvinImage i=null; 
@@ -137,6 +135,7 @@ public class PluginTester extends JFrame{
 		
 		// Load image
 		originalImage = MarvinImageIO.loadImage(INITIAL_IMAGE);
+		//originalImage = new MarvinImage(600,600);
 		newImage = originalImage.clone();
 		imagePanel.setImage(newImage);
 		

@@ -69,9 +69,11 @@ public class EdgeDetector extends MarvinAbstractImagePlugin {
 		boolean a_previewMode
 	)
     {
-        // Image size
+    	// Image size
         int width = a_imageIn.getWidth();
         int height = a_imageIn.getHeight();
+        boolean[][] mask = a_mask.getMaskArray();
+        //System.out.println("time:"+(System.currentTimeMillis()-time));
 
         performanceMeter.start("EdgeDetector");
         performanceMeter.enableProgressBar("EdgeDetector",
@@ -86,61 +88,53 @@ public class EdgeDetector extends MarvinAbstractImagePlugin {
         }
        
         int [][] luminance = new int[width][height];
+        
         for (int y = 0; y < height ; y++) {
             for (int x = 0; x < width ; x++) {
-                luminance[x][y] = (int) luminance(a_imageIn.getIntComponent0(x, y),
-                		a_imageIn.getIntComponent1(x, y), a_imageIn.getIntComponent2(x, y));
+            	
+            	if(mask != null && !mask[x][y]){
+            		continue;
+            	}
+            	
+            	luminance[x][y] = (int) luminance(a_imageIn.getIntComponent0(x, y),
+	                		a_imageIn.getIntComponent1(x, y), a_imageIn.getIntComponent2(x, y));
+            	
             }
         }
+        
+        //System.out.println("time:"+(System.currentTimeMillis()-time));
        
-        int[][] gray = new int[3][3];
-       
-        for (int y = 1; y < height - 1; y++) {
-            for (int x = 1; x < width - 1; x++) {
+        int grayX, grayY;
+        int magnitude;
+         //for (int y = 1; y < height - 1; y++) {
+            //for (int x = 1; x < width - 1; x++) {
+        for (int y = 1; y < height-1; y++) {
+        	for (int x = 1; x < width-1; x++) {
 
-                clearMatrix(gray);
-
-                // Get the neighbors
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 3; j++) {
-                        int px = x - 1 + i;
-                        int py = y - 1 + j;
-
-                        gray[i][j] = luminance[px][py];
-                    }
-                }
-
-               int grayX = - gray[0][0] + gray[0][2]
-                        - 2* gray[1][0] + 2* gray[1][2]
-                        - gray[2][0]+ gray[2][2];
-                int grayY = gray[0][0] + 2* gray[0][1] + gray[0][2]
-                        - gray[2][0] - 2* gray[2][1] - gray[2][2];
-               
+            	if(mask != null && !mask[x][y]){
+            		continue;
+            	}
+            	
+            	grayX = - luminance[x-1][y-1] + luminance[x-1][y-1+2]
+                        - 2* luminance[x-1+1][y-1] + 2* luminance[x-1+1][y-1+2]
+                        - luminance[x-1+2][y-1]+ luminance[x-1+2][y-1+2];
+                grayY = luminance[x-1][y-1] + 2* luminance[x-1][y-1+1] + luminance[x-1][y-1+2]
+                        - luminance[x-1+2][y-1] - 2* luminance[x-1+2][y-1+1] - luminance[x-1+2][y-1+2];
+                
                 // Magnitudes sum
-                int magnitude = 255 - truncate(Math.abs(grayX)
+                magnitude = 255 - truncate(Math.abs(grayX)
                         + Math.abs(grayY));
-
+              
                 Color grayscaleColor = grayMatrix[magnitude];
 
                 // Apply the color into a new image
                 a_imageOut.setIntColor(x, y, grayscaleColor.getRGB());
             }
-            performanceMeter.incProgressBar(width - 2);
+            performanceMeter.incProgressBar(width);
         }
-
-        //a_image.setImage(img2.getImage());
-
+         
         performanceMeter.finishEvent();
         performanceMeter.finish();
-    }
-
-    private void clearMatrix(int[][] matrix) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                matrix[i][j] = 0;
-            }
-        }
-
     }
 
     /**
