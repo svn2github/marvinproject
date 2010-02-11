@@ -37,6 +37,7 @@ import java.io.File;
 import java.util.HashMap;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -46,7 +47,7 @@ import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.plugin.MarvinPlugin;
 
-import org.marvinproject.render.mandelbrot.Mandelbrot;
+import org.marvinproject.render.iteratedFunctionSystem.IteratedFunctionSystem;
 
 /**
  * Test plug-ins and generate .jar files
@@ -60,6 +61,7 @@ public class PluginTester extends JFrame{
 	
 	// Attributes
 	private JButton				buttonReset,
+								buttonSaveImage,
 								buttonLoadPlugin,
 								buttonGenerateJarFiles,
 								buttonBenchmark;
@@ -78,7 +80,7 @@ public class PluginTester extends JFrame{
 		HashMap<Object,Object> test = new HashMap<Object,Object>();
 		test.put("key", null);
 		
-		MarvinImagePlugin l_plugin = new Mandelbrot();
+		MarvinImagePlugin l_plugin = new IteratedFunctionSystem();
 		
 		l_plugin.setImagePanel(imagePanel);
 		MarvinImage i=null; 
@@ -91,6 +93,7 @@ public class PluginTester extends JFrame{
 		System.out.println("continue running");
 		
 		l_plugin.load();
+		l_plugin.setAttribute("fontFile", i);
 		l_plugin.setAttribute("tile", i);
 		l_plugin.show();
 		
@@ -108,11 +111,13 @@ public class PluginTester extends JFrame{
 		// GUI
 		ButtonHandler l_buttonHandler = new ButtonHandler();
 		buttonLoadPlugin = new JButton("Load Plugin");
+		buttonSaveImage = new JButton("Save Image");
 		buttonReset = new JButton("Reset");	
 		buttonGenerateJarFiles = new JButton("Generate Jar Files");
 		buttonBenchmark = new JButton("Benchmark");
 		
 		buttonLoadPlugin.addActionListener(l_buttonHandler);
+		buttonSaveImage.addActionListener(l_buttonHandler);
 		buttonReset.addActionListener(l_buttonHandler);
 		buttonGenerateJarFiles.addActionListener(l_buttonHandler);
 		buttonBenchmark.addActionListener(l_buttonHandler);
@@ -121,6 +126,7 @@ public class PluginTester extends JFrame{
 		
 		JPanel panelBottom = new JPanel();
 		panelBottom.add(buttonLoadPlugin);
+		panelBottom.add(buttonSaveImage);
 		panelBottom.add(buttonReset);
 		panelBottom.add(buttonGenerateJarFiles);		
 		panelBottom.add(buttonBenchmark);
@@ -134,8 +140,8 @@ public class PluginTester extends JFrame{
 		
 		
 		// Load image
-		originalImage = MarvinImageIO.loadImage(INITIAL_IMAGE);
-		//originalImage = new MarvinImage(600,600);
+		//originalImage = MarvinImageIO.loadImage(INITIAL_IMAGE);
+		originalImage = new MarvinImage(500,500);
 		newImage = originalImage.clone();
 		imagePanel.setImage(newImage);
 		
@@ -232,6 +238,28 @@ public class PluginTester extends JFrame{
 		return l_canonicalName;
 	}
 	
+	private void saveImage(){
+		int result;
+		String path=null;
+		
+		JFileChooser chooser = new JFileChooser();
+		chooser.setDialogType(JFileChooser.SAVE_DIALOG);
+		result = chooser.showSaveDialog(this);
+		
+		if(result == JFileChooser.CANCEL_OPTION){
+			return;
+		}
+
+		try{
+			path = chooser.getSelectedFile().getCanonicalPath();
+			newImage.update();
+			MarvinImageIO.saveImage(imagePanel.getImage(), path);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public static void main(String[] args) {
 		PluginTester pt = new PluginTester();
@@ -243,6 +271,9 @@ public class PluginTester extends JFrame{
 			if(a_event.getSource() == buttonReset){
 				newImage = originalImage.clone();
 				imagePanel.setImage(newImage);
+			}
+			else if(a_event.getSource() == buttonSaveImage){
+				saveImage();
 			}
 			else if(a_event.getSource() == buttonLoadPlugin){
 				loadPlugin();

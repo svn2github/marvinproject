@@ -141,7 +141,7 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 
 	@Override
 	public void show() {
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Tile Texture", 500,500, getImagePanel(), this);
+		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Iterated Funcion System", 500,500, getImagePanel(), this);
 		filterWindow.addLabel("lblRules","Rules:");
 		filterWindow.newComponentRow();
 		filterWindow.addTextArea("txtRules","rules", 8, 40, attributes);
@@ -159,18 +159,21 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 	private void addRule(String rule){
 		rule = rule.replace(" ", "");
 		String attr[] = rule.split(",");
-		Rule r = new Rule
-		(
-			Double.parseDouble(attr[0]),
-			Double.parseDouble(attr[1]),
-			Double.parseDouble(attr[2]),
-			Double.parseDouble(attr[3]),
-			Double.parseDouble(attr[4]),
-			Double.parseDouble(attr[5]),
-			Double.parseDouble(attr[6])
-		);
 		
-		rules.add(r);
+		if(attr.length == 7){
+			Rule r = new Rule
+			(
+				Double.parseDouble(attr[0]),
+				Double.parseDouble(attr[1]),
+				Double.parseDouble(attr[2]),
+				Double.parseDouble(attr[3]),
+				Double.parseDouble(attr[4]),
+				Double.parseDouble(attr[5]),
+				Double.parseDouble(attr[6])
+			);
+			
+			rules.add(r);
+		}
 	}
 	
 	private Rule getRule(){
@@ -183,7 +186,11 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 				return rules.get(i);
 			}
 		}
-		return rules.get(i-1);
+		
+		if(i != 0){
+			return rules.get(i-1);
+		}
+		return rules.get(0);
 	}
 	
 	private void applyRule(double point[], Rule rule){

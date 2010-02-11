@@ -81,7 +81,6 @@ public class Lindenmayer extends MarvinAbstractImagePlugin{
 		
 		
 		for(int i=0; i<rules.length; i++){
-			System.out.println("addRile:"+rules[i]);
 			addRule(rules[i]);
 		}
 		
