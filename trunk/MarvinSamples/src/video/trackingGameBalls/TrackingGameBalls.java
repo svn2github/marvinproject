@@ -54,6 +54,8 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 								regionPy;
 	
 	private int					sensibility=30;
+
+	private int playerPoints=15;
 	
 	private boolean				regionSelected=false;
 	private int[]				arrInitialRegion;
@@ -68,7 +70,9 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 								maskWidth=120,
 								maskHeight=60;
 	
-	private MarvinImagePlugin	pluginImage;
+	private MarvinImagePlugin	pluginColorPattern,
+								text;
+	
 	private MarvinAttributes	attributesOut;
 	
 	
@@ -97,7 +101,11 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		screenWidth = videoManager.getCameraWidth();
 		screenHeight = videoManager.getCameraHeight();
 		
-		pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.pattern.findColorPattern.jar");
+		pluginColorPattern = MarvinPluginLoader.loadImagePlugin("org.marvinproject.pattern.findColorPattern.jar");
+		text				= MarvinPluginLoader.loadImagePlugin("org.marvinproject.render.text.jar");
+		text.setAttribute("fontFile", MarvinImageIO.loadImage("./res/font.png"));
+		text.setAttribute("color", 0xFFFFFFFF);
+		
 		
 		attributesOut = new MarvinAttributes();
 				
@@ -202,8 +210,8 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 			MarvinImage.copyIntColorArray(imageIn, imageOut);
 			
 			if(regionSelected){
-				pluginImage.setAttribute("differenceColorRange", sensibility);
-				pluginImage.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
+				pluginColorPattern.setAttribute("differenceColorRange", sensibility);
+				pluginColorPattern.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
 				regionPx 		= (Integer)attributesOut.get("regionPx");
 				regionPy 		= (Integer)attributesOut.get("regionPy");
 				gameLoop();				
@@ -211,6 +219,11 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 			else{
 				combineImage(imageHat,300,200);
 			}
+			
+			
+			text.setAttribute("y", 5);
+			text.setAttribute("text", "POINTS:"+playerPoints);
+			text.process(imageOut, imageOut, null, MarvinImageMask.NULL_MASK, false);
 			
 			videoManager.updatePanel();
 		}
@@ -273,10 +286,10 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 
 	private class ButtonHandler implements ActionListener{
 		public void actionPerformed(ActionEvent a_event){
-			pluginImage.setAttribute("regionPx", 310);
-			pluginImage.setAttribute("regionPy", 295);
-			pluginImage.setAttribute("regionWidth", 118);
-			pluginImage.setAttribute("regionHeight", 134);
+			pluginColorPattern.setAttribute("regionPx", 310);
+			pluginColorPattern.setAttribute("regionPy", 295);
+			pluginColorPattern.setAttribute("regionWidth", 118);
+			pluginColorPattern.setAttribute("regionHeight", 134);
 			
 			regionSelected = true;
 		}

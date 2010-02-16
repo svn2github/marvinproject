@@ -16,6 +16,7 @@ import javax.swing.event.ChangeListener;
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
+import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
@@ -57,7 +58,7 @@ public class TrackingPong extends JFrame implements Runnable{
 	
 	
 	
-	// Ping Game Attributes
+	// Pong Game Attributes
 	private double				ballPx=BALL_INITIAL_PX,
 								ballPy=BALL_INITIAL_PY;
 	
@@ -73,7 +74,15 @@ public class TrackingPong extends JFrame implements Runnable{
 	private Paddle				paddlePlayer,
 								paddleComputer;
 	
-	private MarvinImagePlugin 	pluginImage;
+	private int					playerPoints=4,
+								computerPoints=1;
+	
+	private MarvinImagePlugin 	findColorPattern;
+	private MarvinImagePlugin	text;
+	
+	private MarvinImage			imageBall,
+								imagePaddlePlayer,
+								imagePaddleComputer;
 	
 	private MarvinAttributes	attributesOut;
 	
@@ -87,7 +96,14 @@ public class TrackingPong extends JFrame implements Runnable{
 		
 		loadGUI();
 		
-		pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.pattern.findColorPattern.jar");
+		findColorPattern 	= MarvinPluginLoader.loadImagePlugin("org.marvinproject.pattern.findColorPattern.jar");
+		text				= MarvinPluginLoader.loadImagePlugin("org.marvinproject.render.text.jar");
+		text.setAttribute("fontFile", MarvinImageIO.loadImage("./res/font.png"));
+		text.setAttribute("color", 0xFFFFFFFF);
+		
+		imageBall = MarvinImageIO.loadImage("./res/ball.png");
+		imagePaddlePlayer = MarvinImageIO.loadImage("./res/paddleA.png");
+		imagePaddleComputer = MarvinImageIO.loadImage("./res/paddleB.png");
 		
 		attributesOut = new MarvinAttributes();
 		
@@ -151,8 +167,8 @@ public class TrackingPong extends JFrame implements Runnable{
 			MarvinImage.copyIntColorArray(imageIn, imageOut);
 			
 			if(regionSelected){
-				pluginImage.setAttribute("differenceColorRange", sensibility);
-				pluginImage.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
+				findColorPattern.setAttribute("differenceColorRange", sensibility);
+				findColorPattern.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
 				regionPx 		= (Integer)attributesOut.get("regionPx");
 				regionPy 		= (Integer)attributesOut.get("regionPy");
 				regionWidth 	= (Integer)attributesOut.get("regionWidth");
@@ -160,6 +176,16 @@ public class TrackingPong extends JFrame implements Runnable{
 				pongGame();
 				
 				imageOut.drawRect(regionPx, regionPy, regionWidth, regionHeight, Color.red);
+				
+				text.setAttribute("x", 105);
+				text.setAttribute("y", 3);
+				text.setAttribute("text", "PLAYER:"+playerPoints);
+				text.process(imageOut, imageOut, null, MarvinImageMask.NULL_MASK, false);
+				
+				text.setAttribute("x", 105);
+				text.setAttribute("y", 460);
+				text.setAttribute("text", "COMPUTER:"+computerPoints);
+				text.process(imageOut, imageOut, null, MarvinImageMask.NULL_MASK, false);
 			}
 
 			videoManager.updatePanel();
@@ -183,9 +209,12 @@ public class TrackingPong extends JFrame implements Runnable{
 		imageOut.fillRect(horizontalMargin, 0, 5, screenHeight, Color.black);
 		imageOut.fillRect(screenWidth-horizontalMargin, 0, 5, screenHeight, Color.black);
 		
-		imageOut.fillRect(paddlePlayer.px, paddlePlayer.py, paddlePlayer.width, paddlePlayer.height, Color.green);
-		imageOut.fillRect(paddleComputer.px, paddleComputer.py, paddleComputer.width, paddleComputer.height, Color.red);
-		imageOut.fillRect((int)ballPx, (int)ballPy, ballSide, ballSide, Color.yellow);
+		//imageOut.fillRect(paddlePlayer.px, paddlePlayer.py, paddlePlayer.width, paddlePlayer.height, Color.green);
+		//imageOut.fillRect(paddleComputer.px, paddleComputer.py, paddleComputer.width, paddleComputer.height, Color.red);
+		//imageOut.fillRect((int)ballPx, (int)ballPy, ballSide, ballSide, Color.yellow);
+		combineImage(imagePaddlePlayer, paddlePlayer.px, paddlePlayer.py);
+		combineImage(imagePaddleComputer, paddleComputer.px, paddleComputer.py);
+		combineImage(imageBall,(int)ballPx, (int)ballPy);
 	}
 	
 	private void checkPaddlePosition(Paddle a_paddle){
@@ -217,7 +246,14 @@ public class TrackingPong extends JFrame implements Runnable{
 			ballPx=(screenWidth-horizontalMargin)-ballSide;
 			ballIncX*=-1;
 		}
-		if(ballPy < 0 || ballPy+ballSide >= screenHeight){
+		if(ballPy < 0){
+			playerPoints++;
+			ballPx = BALL_INITIAL_PX;
+			ballPy = BALL_INITIAL_PY;
+			ballIncY=BALL_INITIAL_SPEED;
+			ballIncX=BALL_INITIAL_SPEED;
+		} else if(ballPy+ballSide >= screenHeight){
+			computerPoints++;
 			ballPx = BALL_INITIAL_PX;
 			ballPy = BALL_INITIAL_PY;
 			ballIncY=BALL_INITIAL_SPEED;
@@ -256,6 +292,27 @@ public class TrackingPong extends JFrame implements Runnable{
 		return false;
 	}
 	
+	private void combineImage(MarvinImage a_image, int a_x, int a_y){
+		int l_rgb;
+		int l_width = a_image.getWidth();
+		int l_height = a_image.getHeight();
+		
+		for(int l_y=0; l_y<l_height; l_y++){
+			for(int l_x=0; l_x<l_width; l_x++){
+				if
+				(
+					l_x+a_x > 0 && l_x+a_x < screenWidth &&
+					l_y+a_y > 0 && l_y+a_y < screenHeight
+				)
+				{
+					l_rgb=a_image.getIntColor(l_x, l_y);				
+					if(l_rgb != 0xFFFFFFFF){
+						imageOut.setIntColor(l_x+a_x, l_y+a_y, l_rgb);
+					}
+				}
+			}
+		}		
+	}
 	
 	public static void main(String args[]){
 		TrackingPong l_trackingPong = new TrackingPong();
@@ -283,10 +340,10 @@ public class TrackingPong extends JFrame implements Runnable{
 					arrInitialRegion[2] = a_event.getX()-arrInitialRegion[0];
 					arrInitialRegion[3] = a_event.getY()-arrInitialRegion[1];
 					
-					pluginImage.setAttribute("regionPx", arrInitialRegion[0]);
-					pluginImage.setAttribute("regionPy", arrInitialRegion[1]);
-					pluginImage.setAttribute("regionWidth", arrInitialRegion[2]);
-					pluginImage.setAttribute("regionHeight", arrInitialRegion[3]);
+					findColorPattern.setAttribute("regionPx", arrInitialRegion[0]);
+					findColorPattern.setAttribute("regionPy", arrInitialRegion[1]);
+					findColorPattern.setAttribute("regionWidth", arrInitialRegion[2]);
+					findColorPattern.setAttribute("regionHeight", arrInitialRegion[3]);
 					
 					regionSelected = true;
 				}	

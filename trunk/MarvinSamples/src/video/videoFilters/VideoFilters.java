@@ -303,7 +303,7 @@ public class VideoFilters extends JFrame implements Runnable{
 				labelCurrentPlugin.setText("Current plug-in: Television");
 			}
 			else if(a_event.getSource() == buttonPluginEdgeDetector){
-				pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.edge.edgeDetector.jar");
+				pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.edge.edgeDetector.jar");				
 				labelCurrentPlugin.setText("Current plug-in: Edge Detector");
 			}	
 			else if(a_event.getSource() == buttonPluginDifference){
