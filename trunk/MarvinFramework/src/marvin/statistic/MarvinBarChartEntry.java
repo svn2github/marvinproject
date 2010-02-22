@@ -46,14 +46,14 @@ public class MarvinBarChartEntry
 		this("",0,Color.black);
 	}
 
-	public MarvinBarChartEntry(String a_name, double a_value){
-		this(a_name, a_value, Color.black);
+	public MarvinBarChartEntry(String name, double value){
+		this(name, value, Color.black);
 	}
 
-	public MarvinBarChartEntry(String a_name, double a_value, Color a_color){
-		name = a_name;
-		value = a_value;
-		color = a_color;
+	public MarvinBarChartEntry(String name, double value, Color color){
+		this.name = name;
+		this.value = value;
+		this.color = color;
 	}
 
 	public String getName(){

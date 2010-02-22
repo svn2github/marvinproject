@@ -66,33 +66,33 @@ public class MarvinFileChooser extends JDialog{
 	 * @return Selected file
 	 * @throws IOException 
 	 */
-	public static String select(Component a_parent, boolean a_forceExistingFile, int a_dialogType, FileNameExtensionFilter[] a_arrExtensions) throws IOException{
-		int l_result=0;
+	public static String select(Component parent, boolean forceExistingFile, int dialogType, FileNameExtensionFilter[] arrExtensions) throws IOException{
+		int res=0;
 		
 		if(chooser == null)
 		{
 			init();
 		}
 		
-		if(a_arrExtensions == null){
+		if(arrExtensions == null){
 			chooser.resetChoosableFileFilters();
 		}
 		else{
-			for(int i=0; i<a_arrExtensions.length; i++){
-				chooser.addChoosableFileFilter(a_arrExtensions[i]);
+			for(int i=0; i<arrExtensions.length; i++){
+				chooser.addChoosableFileFilter(arrExtensions[i]);
 			}
 		}
 		
 		//Open the image chooser dialog		
-		switch(a_dialogType){
+		switch(dialogType){
 			case OPEN_DIALOG:
-				l_result = chooser.showOpenDialog(a_parent); break;
+				res = chooser.showOpenDialog(parent); break;
 			case SAVE_DIALOG:
-				l_result = chooser.showSaveDialog(a_parent); break;
+				res = chooser.showSaveDialog(parent); break;
 		}
 		
 		//If user cancel the operation, return null
-		if(l_result == JFileChooser.CANCEL_OPTION){
+		if(res == JFileChooser.CANCEL_OPTION){
 			// to quick show in the next selection
 			init();
 			return null;
@@ -103,18 +103,18 @@ public class MarvinFileChooser extends JDialog{
 		//Verify if file exists. If doesn't exists, throw the FileNotFoundException
 		String path = chooser.getSelectedFile().getCanonicalPath();
 		
-		if(a_dialogType == SAVE_DIALOG)
+		if(dialogType == SAVE_DIALOG)
 		{
-			int l_lastIndex;
-			l_lastIndex = path.lastIndexOf('.');
-			if(l_lastIndex == -1)
+			int lastIndex;
+			lastIndex = path.lastIndexOf('.');
+			if(lastIndex == -1)
 			{
 				path+="."+chooser.getFileFilter().getDescription().toLowerCase();
 			}
 		}
 		
 		if (path != null){
-			if(a_forceExistingFile && !chooser.getSelectedFile().exists()){
+			if(forceExistingFile && !chooser.getSelectedFile().exists()){
 				throw new FileNotFoundException();
 			}else{
 				// to quick show in the next selection

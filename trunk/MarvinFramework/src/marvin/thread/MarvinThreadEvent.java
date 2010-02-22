@@ -40,10 +40,10 @@ public class MarvinThreadEvent {
 	
 	/**
 	 * Constructor.
-	 * @param a_plugin	- plug-in associated with the event.
+	 * @param plg	- plug-in associated with the event.
 	 */
-	MarvinThreadEvent(MarvinPlugin a_plugin){
-		plugin = a_plugin;
+	MarvinThreadEvent(MarvinPlugin plg){
+		plugin = plg;
 	}
 	
 	/**

@@ -48,19 +48,19 @@ public interface MarvinImagePlugin extends MarvinPlugin
 	
 	/**
 	 * Executes the algorithm.
-	 * @param a_imageIn			- input image.
-	 * @param a_imageOut		- output image.
-	 * @param a_attributesOut	- output attributes.
-	 * @param a_mask			- mask containing what pixels should be considered.
-	 * @param a_previewMode		- it is or isn´t on preview mode.
+	 * @param imgIn				input image.
+	 * @param imgOut			output image.
+	 * @param attrOut			output attributes.
+	 * @param mask				mask containing what pixels should be considered.
+	 * @param previewMode		it is or isn´t on preview mode.
 	 */
 	public void process
 	(
-		MarvinImage a_imageIn, 
-		MarvinImage a_imageOut, 
-		MarvinAttributes a_attributesOut, 
-		MarvinImageMask a_mask, 
-		boolean a_previewMode
+		MarvinImage imgIn, 
+		MarvinImage imgOut, 
+		MarvinAttributes attrOut, 
+		MarvinImageMask mask, 
+		boolean previewMode
 	);
 	
 	/**
@@ -70,22 +70,22 @@ public interface MarvinImagePlugin extends MarvinPlugin
 	
 	/**
 	 * Set an attribute
-	 * @param a_attrName	- attribute´s name
-	 * @param a_value		- attribute´s value
+	 * @param attrName	attribute name
+	 * @param value		attribute value
 	 **/
-	public void setAttribute(String a_attrName, Object a_value);
+	public void setAttribute(String attrName, Object value);
 	
 	/**
-	 * @param a_attrName	- atribute´s name
+	 * @param attrName		attribute name
 	 * @return the attribute´s value
 	 */
-	public Object getAttribute(String a_attrName);
+	public Object getAttribute(String attrName);
 	
 	/**
 	 * Associates the plug-in with an MarvinImagePanel
-	 * @param a_imagePanel	- reference to a MarvinImagePanel object
+	 * @param imgPanel	reference to a MarvinImagePanel object
 	 */
-	public void setImagePanel(MarvinImagePanel a_imagePanel);
+	public void setImagePanel(MarvinImagePanel imgPanel);
 	
 	/**
 	 * @return a reference to the associated MarvinImagePanel. If no one MarvinImagePanel is associated with this plug-in,

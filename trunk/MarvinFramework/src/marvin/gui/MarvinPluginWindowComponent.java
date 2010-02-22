@@ -55,17 +55,17 @@ public class MarvinPluginWindowComponent
 	/**
 	 * Constructs a new {@link MarvinPluginWindowComponent}
 	 * @param a_id
-	 * @param a_attributeID 
-	 * @param a_attributes {@link MarvinAttributes}
-	 * @param a_component {@link JComponent}
-	 * @param a_type
+	 * @param attrID 
+	 * @param attr {@link MarvinAttributes}
+	 * @param comp {@link JComponent}
+	 * @param type
 	 */
-	public MarvinPluginWindowComponent(String a_id, String a_attributeID, MarvinAttributes a_attributes, JComponent a_component, ComponentType a_type){
-		id = a_id;
-		attributeID = a_attributeID;
-		attributes = a_attributes;
-		component = a_component;
-		type = a_type;
+	public MarvinPluginWindowComponent(String id, String attrID, MarvinAttributes attr, JComponent comp, ComponentType type){
+		this.id = id;
+		attributeID = attrID;
+		attributes = attr;
+		component = comp;
+		this.type = type;
 	}
 
 	/**

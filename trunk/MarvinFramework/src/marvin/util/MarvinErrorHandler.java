@@ -89,8 +89,8 @@ public class MarvinErrorHandler {
 	 * Handles error showing the message based on the enum error types
 	 * @param type Error type
 	 */
-	public static void handleDialog(TYPE a_type){
-		handleDialog(getErrorMessage(a_type));
+	public static void handleDialog(TYPE type){
+		handleDialog(getErrorMessage(type));
 	}
 	
 	/**
@@ -98,8 +98,8 @@ public class MarvinErrorHandler {
 	 * @param type Error type
 	 * @param err Error object
 	 */
-	public static void handleDialog(TYPE a_type, Exception a_err){
-		handleDialog(getErrorMessage(a_type), a_err);
+	public static void handleDialog(TYPE type, Exception err){
+		handleDialog(getErrorMessage(type), err);
 	}
 	
 	/**
@@ -107,12 +107,12 @@ public class MarvinErrorHandler {
 	 * @param type Error type
 	 * @param err Error message
 	 */
-	public static void handleDialog(TYPE a_type, String a_args){
-		handleDialog(getErrorMessage(a_type), a_args);
+	public static void handleDialog(TYPE type, String args){
+		handleDialog(getErrorMessage(type), args);
 	}
 	
-	private static String getErrorMessage(TYPE a_type){
-		switch(a_type){
+	private static String getErrorMessage(TYPE type){
+		switch(type){
 			case BAD_FILE: 					return "Bad file format!";							
 			case ERROR_FILE_OPEN:			return "Error while opening the file:";
 			case ERROR_FILE_SAVE:			return "Error while saving the image!";
@@ -130,12 +130,12 @@ public class MarvinErrorHandler {
 	 * @param msg Message about the error
 	 * @param err Error object
 	 */
-	public static void handleDialog(String a_msg, Exception a_err){
+	public static void handleDialog(String msg, Exception err){
 		//Show the error message
-		JOptionPane.showMessageDialog(null, a_msg, "Marvin - Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, msg, "Marvin - Error", JOptionPane.ERROR_MESSAGE);
 		
 		//Prints the StackTrace
-		if (a_err != null) a_err.printStackTrace();
+		if (err != null) err.printStackTrace();
 		
 		//TODO Implements file logger
 	}	
@@ -144,9 +144,9 @@ public class MarvinErrorHandler {
 	 * Handles error showing the message
 	 * @param msg Message about the error
 	 */
-	public static void handleDialog(String a_msg){
+	public static void handleDialog(String msg){
 		//Show the error message
-		JOptionPane.showMessageDialog(null, a_msg, "Marvin - Error", JOptionPane.ERROR_MESSAGE);		
+		JOptionPane.showMessageDialog(null, msg, "Marvin - Error", JOptionPane.ERROR_MESSAGE);		
 	}	
 	
 	/**
@@ -154,8 +154,8 @@ public class MarvinErrorHandler {
 	 * @param msg Message about the error
 	 * @param erro Error message
 	 */
-	public static void handleDialog(String a_msg, String a_err){
+	public static void handleDialog(String msg, String err){
 		//Show the error message 
-		JOptionPane.showMessageDialog(null, a_msg+" "+a_err, "Marvin - Error", JOptionPane.ERROR_MESSAGE);		
+		JOptionPane.showMessageDialog(null, msg+" "+err, "Marvin - Error", JOptionPane.ERROR_MESSAGE);		
 	}
 }

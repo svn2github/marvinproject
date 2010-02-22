@@ -40,7 +40,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import marvin.plugin.MarvinPluginTool;
+import marvin.plugin.MarvinToolPlugin;
 
 public class MarvinToolPanel extends JPanel{
 	
@@ -55,7 +55,7 @@ public class MarvinToolPanel extends JPanel{
 	
 	
 	// Tools
-	private MarvinPluginTool 	arrTools[];
+	private MarvinToolPlugin 	arrTools[];
 	private int					toolCounter;
 	private int					currentTool;
 	
@@ -68,27 +68,27 @@ public class MarvinToolPanel extends JPanel{
 	public MarvinToolPanel(){
 		toolCounter = 0;
 		currentTool = 0;
-		arrTools = new MarvinPluginTool[MAX_TOOLS];
+		arrTools = new MarvinToolPlugin[MAX_TOOLS];
 		arrButtons = new JButton[MAX_TOOLS];
 		buttonHandler = new ButtonHandler();
 	}
 	
-	public void setImagePanel(MarvinImagePanel a_imagePanel){
-		if(currentImagePanel != a_imagePanel){
-			currentImagePanel = a_imagePanel;
+	public void setImagePanel(MarvinImagePanel ip){
+		if(currentImagePanel != ip){
+			currentImagePanel = ip;
 		}
 	}
 	
 	/**
 	 * 
-	 * @param a_tool
+	 * @param tp
 	 */
-	public void addTool(MarvinPluginTool a_tool){
-		arrTools[toolCounter] = a_tool;
+	public void addTool(MarvinToolPlugin tp){
+		arrTools[toolCounter] = tp;
 		
-		arrButtons[toolCounter] = new JButton(a_tool.getIcon());
+		arrButtons[toolCounter] = new JButton(tp.getIcon());
 		arrButtons[toolCounter].setPreferredSize
-			(new Dimension(a_tool.getIcon().getImage().getWidth(null)+10, a_tool.getIcon().getImage().getHeight(null)+10));		
+			(new Dimension(tp.getIcon().getImage().getWidth(null)+10, tp.getIcon().getImage().getHeight(null)+10));		
 		arrButtons[toolCounter].addActionListener(buttonHandler);
 		
 		add(arrButtons[toolCounter]);
@@ -97,28 +97,28 @@ public class MarvinToolPanel extends JPanel{
 		toolCounter++;
 	}
 	
-	public MarvinPluginTool getCurrentTool(){
+	public MarvinToolPlugin getCurrentTool(){
 		return arrTools[currentTool];
 	}
 	
 	private class ButtonHandler implements ActionListener{
-		public void actionPerformed(ActionEvent a_event){
-			for(int l_i=0; l_i<toolCounter; l_i++){
-				if(a_event.getSource() == arrButtons[l_i]){
+		public void actionPerformed(ActionEvent event){
+			for(int i=0; i<toolCounter; i++){
+				if(event.getSource() == arrButtons[i]){
 					
 					// Remove current settings panel
 					if(arrTools[currentTool].getSettingsWindow() != null){
 						remove(arrTools[currentTool].getSettingsWindow().getContentPane());
 					}
 					
-					currentTool = l_i;
+					currentTool = i;
 					
 					// Set Cursor
-					Image l_image = arrTools[currentTool].getCursorImage();
-					if(l_image != null){
-						Toolkit l_toolkit = Toolkit.getDefaultToolkit();
-						Cursor l_cursor = l_toolkit.createCustomCursor(l_image, arrTools[currentTool].getCursorHotSpot(), "curstomCursor");
-						currentImagePanel.setCursor(l_cursor);						
+					Image img = arrTools[currentTool].getCursorImage();
+					if(img != null){
+						Toolkit tk = Toolkit.getDefaultToolkit();
+						Cursor cursor = tk.createCustomCursor(img, arrTools[currentTool].getCursorHotSpot(), "curstomCursor");
+						currentImagePanel.setCursor(cursor);						
 					}
 					else{
 						currentImagePanel.setCursor(Cursor.getDefaultCursor());

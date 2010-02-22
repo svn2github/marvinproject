@@ -136,30 +136,30 @@ public class MarvinPluginHistory extends JFrame
 	/**
 	 * Add a new entry to the history.
 	 *
-	 * @param a_pluginName Effect's name
-	 * @param a_image The modified {@code MarvinImage}
-	 * @param a_attributes The {@code MarvinAttributes} applied
+	 * @param plgName Effect's name
+	 * @param img The modified {@code MarvinImage}
+	 * @param attr The {@code MarvinAttributes} applied
 	 *
 	 * @see MarvinImage
 	 * @see MarvinAttributes
 	 */
 	public void addEntry
 	(
-		String a_pluginName, 
-		MarvinImage a_image, 
-		MarvinAttributes a_attributes
+		String plgName, 
+		MarvinImage img, 
+		MarvinAttributes attr
 	){
-		listPluginName.add(a_pluginName);
+		listPluginName.add(plgName);
 		
 		MarvinImage l_image=null;
 		MarvinAttributes l_attributes=null;
 		
-		if(a_image != null){
-			l_image = a_image.clone();
+		if(img != null){
+			l_image = img.clone();
 		}
 		
-		if(a_attributes != null){
-			l_attributes = a_attributes.clone();
+		if(attr != null){
+			l_attributes = attr.clone();
 		}
 		
 		listMarvinImage.add(l_image);

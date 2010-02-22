@@ -64,55 +64,55 @@ public class MarvinBarChart
 
 	private LinkedList<MarvinBarChartEntry>listEntries;
 
-	public MarvinBarChart(String a_description){
-		description = a_description;
+	public MarvinBarChart(String desc){
+		description = desc;
 		barsColorType = ORIGINAL_BAR_COLOR;
 		maxValue = 0;
 		maxHeight=0;
 		listEntries = new LinkedList<MarvinBarChartEntry>();
 	}
 
-	public void addEntry(MarvinBarChartEntry a_entry){
-		listEntries.add(a_entry);
+	public void addEntry(MarvinBarChartEntry entry){
+		listEntries.add(entry);
 
-		if(a_entry.getValue() > maxValue){
-			maxValue = a_entry.getValue();
-			maxHeight = a_entry.getValue()-CHARACTER_HEIGHT;			
+		if(entry.getValue() > maxValue){
+			maxValue = entry.getValue();
+			maxHeight = entry.getValue()-CHARACTER_HEIGHT;			
 		}
 	}
 
-	public void setBarsColor(int a_type){
-		barsColorType = a_type;
+	public void setBarsColor(int type){
+		barsColorType = type;
 	}
 
-	private Color getBarColor(MarvinBarChartEntry a_entry, int a_barIndex){
+	private Color getBarColor(MarvinBarChartEntry entry, int barIndex){
 		switch(barsColorType){
 			case ORIGINAL_BAR_COLOR:
-				return a_entry.getColor();
+				return entry.getColor();
 			case SEQUENTIAL_BAR_COLOR:
-				return BAR_COLORS[a_barIndex%(BAR_COLORS.length)];
+				return BAR_COLORS[barIndex%(BAR_COLORS.length)];
 		}
 		return null;
 	}
 
-	public void draw(int a_px, int a_py, int a_width, int a_height, Graphics a_graphics){
-		int l_chartLeftDistance = ((""+maxValue).length()*CHARACTER_WIDTH)+5;
+	public void draw(int px, int py, int width, int height, Graphics graphics){
+		int chartLeftDistance = ((""+maxValue).length()*CHARACTER_WIDTH)+5;
 
 		// Fill white rect with the chart dimension
-		a_graphics.setColor(Color.white);
-		a_graphics.fillRect(a_px, a_py, a_width, a_height);
+		graphics.setColor(Color.white);
+		graphics.fillRect(px, py, width, height);
 		// write the description
-		a_graphics.setColor(Color.black);
-		a_graphics.drawString(description, l_chartLeftDistance, 12);
+		graphics.setColor(Color.black);
+		graphics.drawString(description, chartLeftDistance, 12);
 		// draw chart
-		drawChart(a_px+(int)(l_chartLeftDistance), a_py+(int)(a_height*0.1), (int)(a_width-l_chartLeftDistance), (int)(a_height*0.60), a_graphics);
-		drawBarReference(a_px+(int)(l_chartLeftDistance), (int)(a_height*0.75), (int)(a_width-l_chartLeftDistance), (int)(a_height*0.25), a_graphics);
-		drawIntervals(a_px+(int)(l_chartLeftDistance), a_py+(int)(a_height*0.1), (int)(a_width-l_chartLeftDistance), (int)(a_height*0.60), a_graphics);	
+		drawChart(px+(int)(chartLeftDistance), py+(int)(height*0.1), (int)(width-chartLeftDistance), (int)(height*0.60), graphics);
+		drawBarReference(px+(int)(chartLeftDistance), (int)(height*0.75), (int)(width-chartLeftDistance), (int)(height*0.25), graphics);
+		drawIntervals(px+(int)(chartLeftDistance), py+(int)(height*0.1), (int)(width-chartLeftDistance), (int)(height*0.60), graphics);	
 	}
 
-	private void drawChart(int a_px, int a_py, int a_width, int a_height, Graphics a_graphics){
-		Object[] l_arrEntries;
-		MarvinBarChartEntry l_entry; 
+	private void drawChart(int px, int py, int width, int height, Graphics g){
+		Object[] arrEntries;
+		MarvinBarChartEntry entry; 
 		int l_px, l_py;
 		int l_height;
 		int l_numEntries;
@@ -120,64 +120,64 @@ public class MarvinBarChart
 		int barDistance;
 		
 		// draw chart Lines
-		a_graphics.setColor(Color.black);
-		a_graphics.drawLine(a_px, a_py+a_height,a_px+a_width, a_py+a_height);
-		a_graphics.drawLine(a_px, a_py, a_px, a_py+a_height);
+		g.setColor(Color.black);
+		g.drawLine(px, py+height,px+width, py+height);
+		g.drawLine(px, py, px, py+height);
 
-		l_arrEntries = listEntries.toArray();
+		arrEntries = listEntries.toArray();
 		l_numEntries = listEntries.size();
 		// Chart design Attributes		
-		barWidth = (int) ((a_width*0.7)/l_numEntries);
-		barDistance = (int) ((a_width*0.3)/(l_numEntries+1));
+		barWidth = (int) ((width*0.7)/l_numEntries);
+		barDistance = (int) ((width*0.3)/(l_numEntries+1));
 
 		for(int i=0; i<l_numEntries; i++){
-			l_entry = (MarvinBarChartEntry)l_arrEntries[i];
+			entry = (MarvinBarChartEntry)arrEntries[i];
 
-			a_graphics.setColor(getBarColor(l_entry,i));
+			g.setColor(getBarColor(entry,i));
 
-			l_height = (int)(a_height*(l_entry.getValue()/maxHeight));
-			if(l_height == 0 && l_entry.getValue() > 0){
+			l_height = (int)(height*(entry.getValue()/maxHeight));
+			if(l_height == 0 && entry.getValue() > 0){
 				l_height = 1;
 			}
 
-			l_px = a_px+(barDistance+((barDistance+barWidth)*i));
-			l_py = a_py+(a_height-l_height);
+			l_px = px+(barDistance+((barDistance+barWidth)*i));
+			l_py = py+(height-l_height);
 			// render bar
-			a_graphics.fillRect(l_px, l_py, barWidth, l_height);
-			a_graphics.setColor(Color.black);
+			g.fillRect(l_px, l_py, barWidth, l_height);
+			g.setColor(Color.black);
 		}
 	}
 
-	private void drawBarReference(int a_px, int a_py, int a_width, int a_height, Graphics a_graphics){
-		Object[] l_arrEntries;
-		MarvinBarChartEntry l_entry;
+	private void drawBarReference(int px, int py, int width, int height, Graphics g){
+		Object[] arrEntries;
+		MarvinBarChartEntry entry;
 		int l_numEntries;
 		int l_px, l_py;
 		int l_barReferenceWidth;
 		int l_barReferenceStringLength;
 
-		l_py = a_py;
-		l_px = a_px;
-		l_barReferenceWidth = a_width/3;
+		l_py = py;
+		l_px = px;
+		l_barReferenceWidth = width/3;
 		l_barReferenceStringLength = (l_barReferenceWidth-12)/CHARACTER_WIDTH;
-		l_arrEntries = listEntries.toArray();
+		arrEntries = listEntries.toArray();
 		l_numEntries = listEntries.size();
 		for(int i=0; i<l_numEntries; i++){
-			l_entry = (MarvinBarChartEntry)l_arrEntries[i];
+			entry = (MarvinBarChartEntry)arrEntries[i];
 
-			l_px=a_px+(i*l_barReferenceWidth)%a_width;
-			l_py=a_py+(((i*l_barReferenceWidth)/a_width)*BAR_REFERENCE_HEIGHT);
+			l_px=px+(i*l_barReferenceWidth)%width;
+			l_py=py+(((i*l_barReferenceWidth)/width)*BAR_REFERENCE_HEIGHT);
 			
-			a_graphics.setColor(getBarColor(l_entry,i));
-			a_graphics.fillRect(l_px, l_py, 10,10);
+			g.setColor(getBarColor(entry,i));
+			g.fillRect(l_px, l_py, 10,10);
 
-			a_graphics.setColor(Color.black);
+			g.setColor(Color.black);
 
-			if(l_entry.getName().length() > l_barReferenceStringLength){
-				a_graphics.drawString(l_entry.getName().substring(0,l_barReferenceStringLength)+"." , l_px+12,l_py+10);
+			if(entry.getName().length() > l_barReferenceStringLength){
+				g.drawString(entry.getName().substring(0,l_barReferenceStringLength)+"." , l_px+12,l_py+10);
 			}
 			else{
-				a_graphics.drawString(l_entry.getName(), l_px+12,l_py+10);
+				g.drawString(entry.getName(), l_px+12,l_py+10);
 			}
 		}
 	}
@@ -185,40 +185,40 @@ public class MarvinBarChart
 	/*
 		Draw from px to px-(width of the value as String)
 	*/
-	private void drawIntervals(int a_px, int a_py, int a_width, int a_height, Graphics a_graphics){
-		int l_intervalMaxValue = (int)(maxValue/10)*10;
-		double l_numIntervals = (a_height)/(CHARACTER_HEIGHT*2);
-		double l_intervalHeight = (a_height/l_numIntervals);
-		int l_intervalValue = (int)(l_intervalMaxValue/l_numIntervals);
+	private void drawIntervals(int px, int py, int width, int height, Graphics g){
+		int intervalMaxValue = (int)(maxValue/10)*10;
+		double numIntervals = (height)/(CHARACTER_HEIGHT*2);
+		double intervalHeight = (height/numIntervals);
+		int intervalValue = (int)(intervalMaxValue/numIntervals);
 		int l_value;
 		int l_py;
 
-		l_value = l_intervalMaxValue;
-		a_graphics.setColor(Color.black);
-		for(int i=0; i<l_numIntervals+1; i++){
+		l_value = intervalMaxValue;
+		g.setColor(Color.black);
+		for(int i=0; i<numIntervals+1; i++){
 
-			if(i == l_numIntervals){
-				l_py = a_py+a_height;
+			if(i == numIntervals){
+				l_py = py+height;
 				l_value = 0;
 			}
 			else{
-				l_py = a_py+(int)(i*l_intervalHeight);
+				l_py = py+(int)(i*intervalHeight);
 			}
 
-			a_graphics.drawLine(a_px, l_py, a_px-5, l_py);
-			a_graphics.drawString((""+l_value), a_px-5-((""+l_value).length()*CHARACTER_WIDTH), l_py);
-			l_value = l_value - l_intervalValue;
+			g.drawLine(px, l_py, px-5, l_py);
+			g.drawString((""+l_value), px-5-((""+l_value).length()*CHARACTER_WIDTH), l_py);
+			l_value = l_value - intervalValue;
 		}
 	}
 
-	public BufferedImage getImage(int a_width, int a_height){
+	public BufferedImage getImage(int width, int height){
 		BufferedImage l_buf;
 		Graphics2D l_g2d;
-		l_buf = new BufferedImage(a_width,a_height, BufferedImage.TYPE_INT_RGB);
+		l_buf = new BufferedImage(width,height, BufferedImage.TYPE_INT_RGB);
 		l_g2d = (Graphics2D) l_buf.getGraphics();
 		l_g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
-		draw(0,0,a_width,a_height,l_g2d);
+		draw(0,0,width,height,l_g2d);
 		return l_buf;
 	}
 }

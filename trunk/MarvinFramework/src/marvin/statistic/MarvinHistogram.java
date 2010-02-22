@@ -59,102 +59,102 @@ public class MarvinHistogram
 		maxY = 0;
 	}
 
-	public void setBarWidth(int a_barWidth){
-		barWidth = a_barWidth;
+	public void setBarWidth(int barW){
+		barWidth = barW;
 	}
 
 	public int getBarWidth(){
 		return barWidth;
 	}
 
-	public void addEntry(MarvinHistogramEntry a_entry){
-		hashEntries.put(a_entry.hashCode(), a_entry);
+	public void addEntry(MarvinHistogramEntry entry){
+		hashEntries.put(entry.hashCode(), entry);
 
-		if(a_entry.getValueX() > maxX){
-			maxX = a_entry.getValueX();
+		if(entry.getValueX() > maxX){
+			maxX = entry.getValueX();
 		}
-		if(a_entry.getValueY() > maxY){
-			maxY = a_entry.getValueY();
+		if(entry.getValueY() > maxY){
+			maxY = entry.getValueY();
 		}
 	}
 
-	public void draw(int a_px, int a_py, int a_width, int a_height, Graphics a_graphics){
+	public void draw(int px, int py, int width, int height, Graphics g){
 		// Fill white rect
-		a_graphics.setColor(Color.white);
-		a_graphics.fillRect(a_px,a_py,a_width, a_height);
+		g.setColor(Color.white);
+		g.fillRect(px,py,width, height);
 		// write the description
-		a_graphics.setColor(Color.black);
-		a_graphics.drawString(description, (int)(a_width*0.05), a_py+12);
+		g.setColor(Color.black);
+		g.drawString(description, (int)(width*0.05), py+12);
 		
 		// draw Histo
-		drawHisto(a_px+(int)(a_width*0.05), a_py+(int)(a_height*0.1), (int)(a_width*0.95), (int)(a_height*0.8), a_graphics);
+		drawHisto(px+(int)(width*0.05), py+(int)(height*0.1), (int)(width*0.95), (int)(height*0.8), g);
 
 		//drawLines
-		a_graphics.setColor(Color.black);
-		a_graphics.drawLine(a_px+(int)(a_width*0.05), a_py+(int)(a_height*0.1), a_px+(int)(a_width*0.05),(int)(a_height*0.9));
-		a_graphics.drawLine(a_px+(int)(a_width*0.05), (int)(a_height*0.9), a_width,(int)(a_height*0.9));
+		g.setColor(Color.black);
+		g.drawLine(px+(int)(width*0.05), py+(int)(height*0.1), px+(int)(width*0.05),(int)(height*0.9));
+		g.drawLine(px+(int)(width*0.05), (int)(height*0.9), width,(int)(height*0.9));
 	}
 
-	private void drawHisto(int a_px, int a_py, int a_width, int a_height, Graphics a_graphics){
+	private void drawHisto(int px, int py, int width, int height, Graphics g){
 		MarvinHistogramEntry l_entry;
 
-		arrPaintedColumns = new int[a_width+1];
+		arrPaintedColumns = new int[width+1];
 		for (Enumeration<MarvinHistogramEntry> e = hashEntries.elements(); e.hasMoreElements();){
 			l_entry = e.nextElement();
-			drawEntry(a_px+2,a_py,a_width-2,a_height,l_entry,a_graphics);			
+			drawEntry(px+2,py,width-2,height,l_entry,g);			
 		}
 
-		for(int i=0; i<a_width; i++){
+		for(int i=0; i<width; i++){
 			if(arrPaintedColumns[i] == 0){
 				if(i > 0){
 					l_entry = hashEntries.get(arrPaintedColumns[i-1]);
-					redrawEntry(a_px+2,i,a_py,a_height, l_entry,a_graphics);
+					redrawEntry(px+2,i,py,height, l_entry,g);
 				}
 			}
 		}
 	}
 
-	private void drawEntry(int a_px, int a_py, int a_width, int a_height, MarvinHistogramEntry a_entry, Graphics a_graphics){
+	private void drawEntry(int px, int py, int width, int height, MarvinHistogramEntry entry, Graphics g){
 		int l_ePx;
 		int l_eHeight;
 
-		if(a_entry.getColor() != null){
-			a_graphics.setColor(a_entry.getColor());
+		if(entry.getColor() != null){
+			g.setColor(entry.getColor());
 		}
 		else{
-			a_graphics.setColor(Color.black);
+			g.setColor(Color.black);
 		}
 
-		l_ePx = (int)(a_width*(a_entry.getValueX()/maxX));
-		l_eHeight = (int)(a_height*(a_entry.getValueY()/maxY));
-		a_graphics.fillRect(a_px+l_ePx, (a_py+a_height)-l_eHeight, barWidth, l_eHeight);
-		arrPaintedColumns[l_ePx] = a_entry.hashCode();
+		l_ePx = (int)(width*(entry.getValueX()/maxX));
+		l_eHeight = (int)(height*(entry.getValueY()/maxY));
+		g.fillRect(px+l_ePx, (py+height)-l_eHeight, barWidth, l_eHeight);
+		arrPaintedColumns[l_ePx] = entry.hashCode();
 	}
 
 	// used to resize the histogram
-	private void redrawEntry(int a_pxHisto, int a_pxEntry, int a_py, int a_height, MarvinHistogramEntry a_entry, Graphics a_graphics){
+	private void redrawEntry(int pxHisto, int pxEntry, int py, int height, MarvinHistogramEntry entry, Graphics g){
 		int l_eHeight;
 
-		if(a_entry.getColor() != null){
-			a_graphics.setColor(a_entry.getColor());
+		if(entry.getColor() != null){
+			g.setColor(entry.getColor());
 		}
 		else{
-			a_graphics.setColor(Color.black);
+			g.setColor(Color.black);
 		}
 
-		l_eHeight = (int)(a_height*(a_entry.getValueY()/maxY));
-		a_graphics.fillRect(a_pxHisto+a_pxEntry, (a_py+a_height)-l_eHeight, barWidth, l_eHeight);
-		arrPaintedColumns[a_pxEntry] = a_entry.hashCode();
+		l_eHeight = (int)(height*(entry.getValueY()/maxY));
+		g.fillRect(pxHisto+pxEntry, (py+height)-l_eHeight, barWidth, l_eHeight);
+		arrPaintedColumns[pxEntry] = entry.hashCode();
 	}
 
-	public BufferedImage getImage(int a_width, int a_height){
+	public BufferedImage getImage(int width, int height){
 		BufferedImage l_buf;
 		Graphics2D l_g2d;
-		l_buf = new BufferedImage(a_width,a_height, BufferedImage.TYPE_INT_RGB);
+		l_buf = new BufferedImage(width,height, BufferedImage.TYPE_INT_RGB);
 		l_g2d = (Graphics2D) l_buf.getGraphics();
 		l_g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
-		draw(0,0,a_width,a_height,l_g2d);
+		draw(0,0,width,height,l_g2d);
 		return l_buf;
 	}
 

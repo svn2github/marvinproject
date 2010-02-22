@@ -89,22 +89,22 @@ public class MarvinImagePanel extends JPanel{
 	/**
 	 * Instantiates the MarvinImage object and returns its BufferedImage as off-screen 
 	 * drawable image to be used for double buffering. 
-	 * @param a_width - image큦 width
-	 * @param a_height - image큦 width
+	 * @param width 	image큦 width
+	 * @param height	image큦 width
 	 */
-	public Image createImage(int a_width, int a_height){
-		image = new MarvinImage(a_width, a_height);		
-		setPreferredSize(new Dimension(a_width, a_height));		
+	public Image createImage(int width, int height){
+		image = new MarvinImage(width, height);		
+		setPreferredSize(new Dimension(width, height));		
 		return image.getBufferedImage();
 	}
 	
 	/**
 	 * Associates a MarvinImage to the image panel.
-	 * @param a_image - image큦 reference to be associated with the image panel.
+	 * @param img	image큦 reference to be associated with the image panel.
 	 */
-	public void setImage(MarvinImage a_image){
-		image = a_image;
-		if(fitSizeToImage && a_image != null){
+	public void setImage(MarvinImage img){
+		image = img;
+		if(fitSizeToImage && img != null){
 			setPreferredSize(new Dimension(image.getWidth(),image.getHeight()));
 		}		
 		repaint();
@@ -122,11 +122,11 @@ public class MarvinImagePanel extends JPanel{
 	/**
 	 * Overwrite the paint method
 	 */
-	public void paintComponent(Graphics a_graphics){
-		super.paintComponent(a_graphics);
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
 		
 		if(image != null){
-			a_graphics.drawImage(image.getBufferedImage(), 0,0,this);
+			g.drawImage(image.getBufferedImage(), 0,0,this);
 		}
 	}
 	

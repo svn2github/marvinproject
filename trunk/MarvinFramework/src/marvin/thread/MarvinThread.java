@@ -56,23 +56,23 @@ public class MarvinThread implements Runnable{
 	
 	/**
 	 * Constructor.
-	 * @param a_plugin		- plugin associated with this thread.
-	 * @param a_imageIn		- plug-in´s input image.
-	 * @param a_imageOut	- plug-in´s output image.
-	 * @param a_mask		- image mask.
+	 * @param plg		plugin associated with this thread.
+	 * @param imgIn		plug-in input image.
+	 * @param imgOut	plug-in output image.
+	 * @param mask		image mask.
 	 */
 	public MarvinThread
 	(
-		MarvinImagePlugin a_plugin,
-		MarvinImage a_imageIn,
-		MarvinImage a_imageOut,
-		MarvinImageMask a_mask
+		MarvinImagePlugin plg,
+		MarvinImage imgIn,
+		MarvinImage imgOut,
+		MarvinImageMask mask
 	)
 	{
-		plugin = a_plugin;
-		imageIn = a_imageIn;
-		imageOut = a_imageOut;
-		imageMask = a_mask;
+		plugin = plg;
+		imageIn = imgIn;
+		imageOut = imgOut;
+		imageMask = mask;
 		eType = PluginType.PLUGIN_IMAGE;
 		thread = new Thread(this);
 	}
@@ -89,8 +89,8 @@ public class MarvinThread implements Runnable{
 	 * {@link TODO} 			- Support a list of listeners.
 	 * @param a_listener		- listener object.
 	 */
-	public void addThreadListener(MarvinThreadListener a_listener){
-		listener = a_listener;
+	public void addThreadListener(MarvinThreadListener l){
+		listener = l;
 	}
 	
 	/**

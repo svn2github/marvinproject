@@ -37,7 +37,7 @@ import java.awt.event.MouseListener;
 
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
-import marvin.plugin.MarvinPluginTool;
+import marvin.plugin.MarvinToolPlugin;
 
 /**
  * Panel to display and edit MarvinImages.
@@ -48,11 +48,13 @@ public class MarvinEditableImagePanel extends MarvinImagePanel implements Runnab
 	private MarvinToolPanel		toolPanel;
 	private MarvinImageMask		imageMask;
 	
-	private MarvinPluginTool	tempTool;
+	private MarvinToolPlugin	tempTool;
 	private Thread				thread;
 	
 	// Mouse attrbutes
 	private MouseEvent			mouseEvent;
+	private int					mousePx,
+								mousePy;
 	private boolean				pressed;
 	
 	// Event Handlers
@@ -74,18 +76,18 @@ public class MarvinEditableImagePanel extends MarvinImagePanel implements Runnab
 		pressed = false;
 	}
 	
-	public void setImage(MarvinImage a_image){
-		super.setImage(a_image);
-		imageMask = new MarvinImageMask(a_image.getWidth(), a_image.getHeight());	
+	public void setImage(MarvinImage img){
+		super.setImage(img);
+		imageMask = new MarvinImageMask(img.getWidth(), img.getHeight());	
 	}
 	
 	/**
 	 * Associate a MarvinToolPanel with this MarvinImagePanel.
-	 * @param a_toolPanel - MarvinToolPanel Object.
+	 * @param tp MarvinToolPanel Object.
 	 */
-	public void setToolPanel(MarvinToolPanel a_toolPanel){
-		if(toolPanel != a_toolPanel){
-			toolPanel = a_toolPanel;
+	public void setToolPanel(MarvinToolPanel tp){
+		if(toolPanel != tp){
+			toolPanel = tp;
 			toolPanel.setImagePanel(this);
 			
 			if(thread == null){
@@ -106,20 +108,19 @@ public class MarvinEditableImagePanel extends MarvinImagePanel implements Runnab
 	/**
 	 * Runnable run() method implementation.
 	 */
-	int l_mousePx, l_mousePy;
+	
 	public void run(){
-		
 		while(true){
 			if(tempTool != null){
 				locationOnScreen = getLocationOnScreen();
-				l_mousePx = (int)MouseInfo.getPointerInfo().getLocation().getX();
-				l_mousePy = (int)MouseInfo.getPointerInfo().getLocation().getY();
-				l_mousePx -= locationOnScreen.x;
-				l_mousePy -= locationOnScreen.y;
+				mousePx = (int)MouseInfo.getPointerInfo().getLocation().getX();
+				mousePy = (int)MouseInfo.getPointerInfo().getLocation().getY();
+				mousePx -= locationOnScreen.x;
+				mousePy -= locationOnScreen.y;
 				
 				
 				if(pressed){	
-					tempTool.mousePressed(image, imageMask, l_mousePx, l_mousePy);
+					tempTool.mousePressed(image, imageMask, mousePx, mousePy);
 					image.update();
 				}
 								
@@ -140,13 +141,13 @@ public class MarvinEditableImagePanel extends MarvinImagePanel implements Runnab
 	}
 	
 	private void deleteSelected(){
-		boolean[][] l_arrMask = imageMask.getMaskArray();
-		for(int l_y=0; l_y<image.getHeight(); l_y++){
-			for(int l_x=0; l_x<image.getWidth(); l_x++){
-				if(!l_arrMask[l_x][l_y]){
+		boolean[][] mask = imageMask.getMaskArray();
+		for(int y=0; y<image.getHeight(); y++){
+			for(int x=0; x<image.getWidth(); x++){
+				if(!mask[x][y]){
 					continue;
 				}
-				image.setIntColor(l_x, l_y, 0xFFFFFFFF);
+				image.setIntColor(x, y, 0xFFFFFFFF);
 			}
 		}
 		
@@ -160,24 +161,24 @@ public class MarvinEditableImagePanel extends MarvinImagePanel implements Runnab
 	
 	private class MouseHandler implements MouseListener{
 		
-		public void mouseClicked(MouseEvent a_event){
-			toolPanel.getCurrentTool().mouseClicked(image, imageMask, a_event.getX(), a_event.getY());		
+		public void mouseClicked(MouseEvent event){
+			toolPanel.getCurrentTool().mouseClicked(image, imageMask, event.getX(), event.getY());		
 		}
 
-		public void mouseEntered(MouseEvent a_event) {}
+		public void mouseEntered(MouseEvent event) {}
 
-		public void mouseExited(MouseEvent a_event) {}
+		public void mouseExited(MouseEvent event) {}
 
-		public void mousePressed(MouseEvent a_event) {
-			mouseEvent = a_event;
+		public void mousePressed(MouseEvent event) {
+			mouseEvent = event;
 			if(toolPanel != null){
 				tempTool = toolPanel.getCurrentTool();
 			}
 			pressed = true;
 		}
 
-		public void mouseReleased(MouseEvent a_event){
-			toolPanel.getCurrentTool().mouseReleased(image, imageMask, l_mousePx, l_mousePy);
+		public void mouseReleased(MouseEvent event){
+			toolPanel.getCurrentTool().mouseReleased(image, imageMask, mousePx, mousePy);
 			pressed = false;
 		}
 	}

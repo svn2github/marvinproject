@@ -50,35 +50,35 @@ public class MarvinImageMask {
 	
 	/**
 	 * Contructor
-	 * @param a_width - 	Width of the image referenced by the mask
-	 * @param a_imageHeight -	Height of the image referenced by the mask
+	 * @param w		width of the image referenced by the mask
+	 * @param h		height of the image referenced by the mask
 	 */
-	public MarvinImageMask (int a_width, int a_height){
-		width = a_width;
-		height = a_height;
+	public MarvinImageMask (int w, int h){
+		width = w;
+		height = h;
 		arrMask = new boolean[width][height];
 	}
 	
 	/**
-	 * @param a_maskWidth 		- 	Width of the image referenced by the mask
-	 * @param a_maskHeight 	-	Height of the image referenced by the mask
-	 * @param a_startX			-	Start pixel of the region in x axes
-	 * @param a_startY			-	Start pixel of the region in y axes
-	 * @param a_regionWidth		- 	Width of the region
-	 * @param a_regionHeight	- 	Height of the region
+	 * @param maskWidth 		width of the image referenced by the mask
+	 * @param maskHeight 		height of the image referenced by the mask
+	 * @param startX			start pixel of the region in x axes
+	 * @param startY			start pixel of the region in y axes
+	 * @param regionWidth		width of the region
+	 * @param regionHeight		height of the region
 	 */
 	public MarvinImageMask
 	(
-		int a_maskWidth, 
-		int a_maskHeight, 
-		int a_startX,
-		int a_startY,
-		int a_regionWidth,
-		int a_regionHeight
+		int maskWidth, 
+		int maskHeight, 
+		int startX,
+		int startY,
+		int regionWidth,
+		int regionHeight
 	)
 	{
-		this(a_maskWidth, a_maskHeight);
-		addRectRegion(a_startX, a_startY, a_regionWidth, a_regionHeight);
+		this(maskWidth, maskHeight);
+		addRectRegion(startX, startY, regionWidth, regionHeight);
 	}
 	
 	/**
@@ -86,9 +86,9 @@ public class MarvinImageMask {
 	 */
 	public void clear(){
 		if(arrMask != null){
-			for(int l_y=0; l_y<height; l_y++){
-				for(int l_x=0; l_x<width; l_x++){
-					arrMask[l_x][l_y] = false;
+			for(int y=0; y<height; y++){
+				for(int x=0; x<width; x++){
+					arrMask[x][y] = false;
 				}
 			}
 		}
@@ -102,21 +102,21 @@ public class MarvinImageMask {
 	}
 	
 	/**
-	 * @param a_startX			-	Start pixel of the region in x axes
-	 * @param a_startY			-	Start pixel of the region in y axes
-	 * @param a_regionWidth		- 	Width of the region
-	 * @param a_regionHeight	- 	Height of the region
+	 * @param startX			Start pixel of the region in x axes
+	 * @param startY			Start pixel of the region in y axes
+	 * @param regionWidth		Width of the region
+	 * @param regionHeight		Height of the region
 	 */
 	public void addRectRegion
 	(
-		int a_startX,
-		int a_startY,
-		int a_regionWidth,
-		int a_regionHeight
+		int startX,
+		int startY,
+		int regionWidth,
+		int regionHeight
 	)
 	{
-		for(int x=a_startX; x<a_startX+a_regionWidth; x++){
-			for(int y=a_startY; y<a_startY+a_regionHeight; y++){
+		for(int x=startX; x<startX+regionWidth; x++){
+			for(int y=startY; y<startY+regionHeight; y++){
 				arrMask[x][y] = true;
 			}
 		}

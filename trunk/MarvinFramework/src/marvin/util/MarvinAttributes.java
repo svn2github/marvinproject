@@ -54,23 +54,23 @@ public class MarvinAttributes
 
 	/**
 	 * Set an attribute.
-	 * @param a_attrName	- attribute´s name.
-	 * @param a_attrValue	- attribute´s value.
+	 * @param name		attribute name.
+	 * @param value		attribute value.
 	 */
-	public void set(String a_attrName, Object a_attrValue){
-		if(!hashAttributes.containsKey(a_attrName)){
-			listAttributesOrder.add(a_attrName);
+	public void set(String name, Object value){
+		if(!hashAttributes.containsKey(name)){
+			listAttributesOrder.add(name);
 		}
-		hashAttributes.put(a_attrName, a_attrValue);		
+		hashAttributes.put(name, value);		
 	}
 
 	/**
 	 * Get an attribute by its name.
-	 * @param a_attrName	- attribute´s name.
+	 * @param name		attribute´s name.
 	 * @return the specified attribute as an Object.
 	 */
-	public Object get(String a_attrName){
-		return hashAttributes.get(a_attrName);
+	public Object get(String name){
+		return hashAttributes.get(name);
 	}
 
 	/**
@@ -78,28 +78,28 @@ public class MarvinAttributes
 	 * @return string array with all attributes´ name and value.
 	 */
 	public String[] toStringArray(){
-		String l_key;
-		String l_attributes[] = new String[hashAttributes.size()*2];
+		String key;
+		String attrs[] = new String[hashAttributes.size()*2];
 		Object[] l_keysInOrder = listAttributesOrder.toArray();
 		for(int x=0; x<l_keysInOrder.length; x++){
-			l_key = l_keysInOrder[x].toString();
-			l_attributes[(x*2)] = l_key;
-			l_attributes[(x*2)+1] = ""+hashAttributes.get(l_key);
+			key = l_keysInOrder[x].toString();
+			attrs[(x*2)] = key;
+			attrs[(x*2)+1] = ""+hashAttributes.get(key);
 		}
-		return l_attributes;
+		return attrs;
 	}
 	
 	/**
 	 * Clones a MarvinAttributes Object.
 	 */
 	public MarvinAttributes clone(){
-		MarvinAttributes l_marvinAttributes = new MarvinAttributes();
-		String l_key;
-		Object[] l_keysInOrder = listAttributesOrder.toArray();
-		for(int x=0; x<l_keysInOrder.length; x++){
-			l_key = l_keysInOrder[x].toString();
-			l_marvinAttributes.set(l_key, hashAttributes.get(l_key));
+		MarvinAttributes attrs = new MarvinAttributes();
+		String key;
+		Object[] keysInOrder = listAttributesOrder.toArray();
+		for(int x=0; x<keysInOrder.length; x++){
+			key = keysInOrder[x].toString();
+			attrs.set(key, hashAttributes.get(key));
 		}		
-		return l_marvinAttributes;
+		return attrs;
 	}
 }

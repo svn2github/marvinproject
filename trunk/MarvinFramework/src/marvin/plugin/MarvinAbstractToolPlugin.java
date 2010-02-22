@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import marvin.gui.MarvinImagePanel;
 import marvin.gui.MarvinPluginWindow;
 
-public abstract class MarvinAbstractToolPlugin implements MarvinPluginTool{
+public abstract class MarvinAbstractToolPlugin implements MarvinToolPlugin{
 
 	private MarvinImagePanel	imagePanel;
 	
@@ -29,13 +29,13 @@ public abstract class MarvinAbstractToolPlugin implements MarvinPluginTool{
 		imageIcon = new ImageIcon(loadImage(a_pathIcon));
 	}
 	
-	protected void loadCursor(String a_pathCursorImage){
-		loadCursor(a_pathCursorImage, new Point(0,0));
+	protected void loadCursor(String pathCursorImage){
+		loadCursor(pathCursorImage, new Point(0,0));
 	}
 	
-	protected void loadCursor(String a_pathCursorImage,Point a_cursorHotSpot){
-		cursorImage = loadImage(a_pathCursorImage);
-		cursorHotSpot = a_cursorHotSpot;
+	protected void loadCursor(String pathCursorImage,Point a_cursorHS){
+		cursorImage = loadImage(pathCursorImage);
+		cursorHotSpot = a_cursorHS;
 	}
 
 	
@@ -45,16 +45,16 @@ public abstract class MarvinAbstractToolPlugin implements MarvinPluginTool{
 	 * @return
 	 */
 	protected Image loadImage(String a_path){
-		URL l_url =null;
-		Image l_image=null;
-		File l_file;
+		URL url =null;
+		Image img=null;
+		
 		try{
-			l_url = new URL((this.getClass().getResource("").toString()+a_path));
-			l_image = new ImageIcon(l_url).getImage();
+			url = new URL((this.getClass().getResource("").toString()+a_path));
+			img = new ImageIcon(url).getImage();
 		}catch(Exception e){
 			e.printStackTrace();
 		}		
-		return l_image;
+		return img;
 	}
 	
 	public ImageIcon getIcon(){

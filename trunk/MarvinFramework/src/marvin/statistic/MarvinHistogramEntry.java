@@ -47,22 +47,22 @@ public class MarvinHistogramEntry
 		this("",0,0,Color.black);
 	}
 
-	public MarvinHistogramEntry(double a_valueX, double a_valueY){
-		this("", a_valueX, a_valueY, Color.black);
+	public MarvinHistogramEntry(double valueX, double valueY){
+		this("", valueX, valueY, Color.black);
 	}
 
-	public MarvinHistogramEntry(double a_valueX, double a_valueY, Color a_color){
-		this("", a_valueX, a_valueY, a_color);
+	public MarvinHistogramEntry(double valueX, double valueY, Color a_color){
+		this("", valueX, valueY, a_color);
 	}
 
-	public MarvinHistogramEntry(String a_name, double a_valueX, double a_valueY){
-		this(a_name, a_valueX, a_valueY, Color.black);
+	public MarvinHistogramEntry(String a_name, double valueX, double valueY){
+		this(a_name, valueX, valueY, Color.black);
 	}
 
-	public MarvinHistogramEntry(String a_name, double a_valueX, double a_valueY, Color a_color){
+	public MarvinHistogramEntry(String a_name, double valueX, double valueY, Color a_color){
 		name = a_name;
-		valueX = a_valueX;
-		valueY = a_valueY;
+		this.valueX = valueX;
+		this.valueY = valueY;
 		color = a_color;
 	}
 

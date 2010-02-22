@@ -66,48 +66,48 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 
 	/**
 	 * Constructs a {@link MarvinFilterWindow}
-	 * @param a_strName Window name
-	 * @param a_width width
-	 * @param a_height height
-	 * @param a_image {@link MarvinImage}
-	 * @param a_filter {@link MarvinFilter}
+	 * @param name Window name
+	 * @param width width
+	 * @param height height
+	 * @param ip {@link MarvinImagePanel}
+	 * @param plg {@link MarvinPlugin}
 	 */
 	public MarvinFilterWindow
 	(
-		String a_strName, 
-		int a_width, 
-		int a_height,
-		MarvinImagePanel a_imagePanel,
-		MarvinImagePlugin a_filter
+		String name, 
+		int width, 
+		int height,
+		MarvinImagePanel ip,
+		MarvinImagePlugin filter
 	)
 	{
-		this(a_strName, a_width, a_height, 250, 250, a_imagePanel, a_filter);
+		this(name, width, height, 250, 250, ip, filter);
 	}
 
 	/**
 	 * Constructs a {@link MarvinFilterWindow}
-	 * @param a_strName Window name
-	 * @param a_width width
-	 * @param a_height height
-	 * @param a_thumbnailWidth thumbnail with
-	 * @param a_thumbnailHeight thumbnail height
-	 * @param a_image {@link MarvinImage}
-	 * @param a_filter {@link MarvinFilter}
+	 * @param name Window name
+	 * @param width width
+	 * @param height height
+	 * @param thumbWidth thumbnail with
+	 * @param thumbHeight thumbnail height
+	 * @param ip {@link MarvinImagePanel}
+	 * @param plg {@link MarvinPlugin}
 	 */
 	public MarvinFilterWindow
 	(
-		String a_strName, 
-		int a_width, 
-		int a_height,
-		int a_thumbnailWidth,
-		int a_thumbnailHeight,
-		MarvinImagePanel a_imagePanel,
-		MarvinImagePlugin a_plugin
+		String name, 
+		int width, 
+		int height,
+		int thumbWidth,
+		int thumbHeight,
+		MarvinImagePanel ip,
+		MarvinImagePlugin plg
 	)
 	{
-		super(a_strName, a_width, a_height);
-		imagePanel = a_imagePanel;
-		plugin = a_plugin;
+		super(name, width, height);
+		imagePanel = ip;
+		plugin = plg;
 		//Buttons
 		actionHandler = new ActionHandler();
 		buttonPreview = new JButton("Preview");
@@ -134,8 +134,8 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 		panelImage.setLayout(new FlowLayout());
 
 		// Image
-		if(a_thumbnailWidth > 0 && a_thumbnailHeight > 0){
-			imageThumbnail = new MarvinImage(imagePanel.getImage().getBufferedImage(a_thumbnailWidth, a_thumbnailHeight, MarvinImage.PROPORTIONAL));			
+		if(thumbWidth > 0 && thumbHeight > 0){
+			imageThumbnail = new MarvinImage(imagePanel.getImage().getBufferedImage(thumbWidth, thumbHeight, MarvinImage.PROPORTIONAL));			
 			imageResetBuffer = imageThumbnail.clone();
 			labelImage = new JLabel(new ImageIcon(imageThumbnail.getBufferedImage()));
 			panelImage.add(labelImage);
@@ -173,10 +173,10 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 		try{
 			//marvinApplication.getPerformanceMeter().disable();
 			imageThumbnail = imageResetBuffer.clone();
-			MarvinImage l_imageOut = new MarvinImage(imageThumbnail.getWidth(), imageThumbnail.getHeight());
-			plugin.process(imageThumbnail, l_imageOut, null, MarvinImageMask.NULL_MASK, true);
-			l_imageOut.update();
-			imageThumbnail = l_imageOut.clone();
+			MarvinImage imgOut = new MarvinImage(imageThumbnail.getWidth(), imageThumbnail.getHeight());
+			plugin.process(imageThumbnail, imgOut, null, MarvinImageMask.NULL_MASK, true);
+			imgOut.update();
+			imageThumbnail = imgOut.clone();
 			//marvinApplication.getPerformanceMeter().enable();
 			
 		}

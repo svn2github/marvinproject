@@ -78,20 +78,20 @@ public class MarvinPluginWindow extends JFrame
 	protected Box 		box;
 	/**
 	 * Constructs an {@link MarvinPluginWindow}
-	 * @param a_strName Window name
-	 * @param a_width width
-	 * @param a_height height
+	 * @param name 		Window name
+	 * @param width 	width
+	 * @param height 	height
 	 */
 	public MarvinPluginWindow
 	(
-		String a_strName, 
-		int a_width, 
-		int a_height
+		String name, 
+		int width, 
+		int height
 	){
-		super(a_strName);
+		super(name);
 		
 		// Parameters
-		setSize(a_width,a_height);
+		setSize(width,height);
 		//setLocation(a_marvinApplication.getLocation());
 
 		hashComponents = new Hashtable<String, MarvinPluginWindowComponent>(10,5);
@@ -132,150 +132,150 @@ public class MarvinPluginWindow extends JFrame
 
 	/**
 	 * Adds new component
-	 * @param a_id
-	 * @param a_component
-	 * @param a_attributeID
-	 * @param a_attributes
-	 * @param a_type
+	 * @param id
+	 * @param comp
+	 * @param attrID
+	 * @param attr
+	 * @param type
 	 */
-	public void plugComponent(String a_id, JComponent a_component, String a_attributeID, MarvinAttributes a_attributes, ComponentType a_type){
-		panelCurrent.add(a_component);
-		hashComponents.put(a_id, new MarvinPluginWindowComponent(a_id, a_attributeID, a_attributes, a_component, a_type));
+	public void plugComponent(String id, JComponent comp, String attrID, MarvinAttributes attr, ComponentType type){
+		panelCurrent.add(comp);
+		hashComponents.put(id, new MarvinPluginWindowComponent(id, attrID, attr, comp, type));
 	}
 	
 	/**
 	 * Returns a component by its id.
 	 * @param MarvinPluginWindowComponent reference. 
 	 */	
-	public MarvinPluginWindowComponent getComponent(String a_strComponentID){
-		return hashComponents.get(a_strComponentID);
+	public MarvinPluginWindowComponent getComponent(String compID){
+		return hashComponents.get(compID);
 	}
 	
 	/**
 	 * Adds label
-	 * @param a_id		- component id.
-	 * @param a_text	- label text attribute.
+	 * @param id	component id.
+	 * @param text	label text attribute.
 	 */
-	public void addLabel(String a_id, String a_text){
-		JComponent l_component = new JLabel(a_text);
-		plugComponent(a_id, l_component, null, null, ComponentType.COMPONENT_LABEL);
+	public void addLabel(String id, String text){
+		JComponent comp = new JLabel(text);
+		plugComponent(id, comp, null, null, ComponentType.COMPONENT_LABEL);
 	}
 	
 	/**
 	 * Adds image
-	 * @param a_id		- component id.
-	 * @param a_image	- image to be displayed.
+	 * @param id	component id.
+	 * @param img	image to be displayed.
 	 */
-	public void addImage(String a_id, BufferedImage a_image){
-		JComponent l_component = new JLabel(new ImageIcon(a_image));
-		plugComponent(a_id, l_component, null, null, ComponentType.COMPONENT_IMAGE);
+	public void addImage(String id, BufferedImage img){
+		JComponent comp = new JLabel(new ImageIcon(img));
+		plugComponent(id, comp, null, null, ComponentType.COMPONENT_IMAGE);
 	}
 	
 	/**
 	 * Adds TextField
-	 * @param a_id				- component id.
-	 * @param a_attributeID		- attribute id.
-	 * @param a_attributes		- MarivnAttributes Object.
+	 * @param id			component id.
+	 * @param attrID		attribute id.
+	 * @param attr			MarivnAttributes Object.
 	 */
-	public void addTextField(String a_id, String a_attributeID, MarvinAttributes a_attributes)
+	public void addTextField(String id, String attrID, MarvinAttributes attr)
 	{
-		JComponent l_component = new JTextField(5);
-		((JTextField)(l_component)).setText(a_attributes.get(a_attributeID).toString());
-		plugComponent(a_id, l_component, a_attributeID, a_attributes, ComponentType.COMPONENT_TEXTFIELD);
+		JComponent comp = new JTextField(5);
+		((JTextField)(comp)).setText(attr.get(attrID).toString());
+		plugComponent(id, comp, attrID, attr, ComponentType.COMPONENT_TEXTFIELD);
 	}
 	
 	/**
 	 * 
-	 * @param a_id				- component id.
-	 * @param a_attributeID		- attribute id.
-	 * @param a_lines			- number of lines.
-	 * @param a_columns			- number of columns.
-	 * @param a_attributes		- MarivnAttributes Object.
+	 * @param id				- component id.
+	 * @param attrID		- attribute id.
+	 * @param lines			- number of lines.
+	 * @param columns			- number of columns.
+	 * @param attr		- MarivnAttributes Object.
 	 */
-	public void addTextArea(String a_id, String a_attributeID, int a_lines, int a_columns, MarvinAttributes a_attributes)
+	public void addTextArea(String id, String attrID, int lines, int columns, MarvinAttributes attr)
 	{
-		JComponent l_component = new JTextArea(a_lines, a_columns);
-		JScrollPane l_scrollPane = new JScrollPane(l_component);
-		((JTextArea)(l_component)).setText(a_attributes.get(a_attributeID).toString());
+		JComponent comp = new JTextArea(lines, columns);
+		JScrollPane scrollPanel = new JScrollPane(comp);
+		((JTextArea)(comp)).setText(attr.get(attrID).toString());
 		
 		// plug manually
-		panelCurrent.add(l_scrollPane);
+		panelCurrent.add(scrollPanel);
 		//box.add(l_scrollPane);
 		
-		hashComponents.put(a_id, new MarvinPluginWindowComponent(a_id, a_attributeID, a_attributes, l_component, ComponentType.COMPONENT_TEXTAREA));
+		hashComponents.put(id, new MarvinPluginWindowComponent(id, attrID, attr, comp, ComponentType.COMPONENT_TEXTAREA));
 		
-		//plugComponent(a_id, l_scrollPane, a_attributeID, a_attributes, ComponentType.COMPONENT_TEXTAREA);
+		//plugComponent(id, l_scrollPane, attrID, a_attributes, ComponentType.COMPONENT_TEXTAREA);
 	}
 	
 	/**
 	 * Add ComboBox
-	 * @param a_id				- component큦 id.
-	 * @param a_attributeID		- attribute id.
-	 * @param a_arrItems		- items array.
-	 * @param a_attributes		- MarvinAttributes object.
+	 * @param id			component큦 id.
+	 * @param attrID		attribute id.
+	 * @param items			items array.
+	 * @param attr			MarvinAttributes object.
 	 */
-	public void addComboBox(String a_id, String a_attributeID, Object[] a_arrItems, MarvinAttributes a_attributes){
-		JComponent l_component = new JComboBox(a_arrItems);
-		plugComponent(a_id, l_component, a_attributeID, a_attributes, ComponentType.COMPONENT_COMBOBOX);
+	public void addComboBox(String id, String attrID, Object[] items, MarvinAttributes attr){
+		JComponent comp = new JComboBox(items);
+		plugComponent(id, comp, attrID, attr, ComponentType.COMPONENT_COMBOBOX);
 	}
 	
 	/**
 	 * Add Slider
-	 * @param a_id				- component id.
-	 * @param a_attributeID		- attribute id.
-	 * @param a_orientation		- slider orientation
-	 * @param a_min				- minimum value.
-	 * @param a_max				- maximum value.
-	 * @param a_value			- initial value.
-	 * @param a_attributes		- MarvinAttributes object
+	 * @param id			component id.
+	 * @param attrID		attribute id.
+	 * @param orientation	slider orientation
+	 * @param a_min			minimum value.
+	 * @param a_max			maximum value.
+	 * @param a_value		initial value.
+	 * @param attr			MarvinAttributes object
 	 */
-	protected void addSlider(String a_id, String a_attributeID, int a_orientation, int a_min, int a_max, int a_value, MarvinAttributes a_attributes){
-		JComponent l_component = new JSlider(a_orientation, a_min, a_max, a_value);
-		plugComponent(a_id, l_component, a_attributeID, a_attributes, ComponentType.COMPONENT_SLIDER);
+	protected void addSlider(String id, String attrID, int orientation, int a_min, int a_max, int a_value, MarvinAttributes attr){
+		JComponent comp = new JSlider(orientation, a_min, a_max, a_value);
+		plugComponent(id, comp, attrID, attr, ComponentType.COMPONENT_SLIDER);
 	}
 
 	/**
 	 * Add HorizontalSlider
-	 * @param a_id			- component ID.
-	 * @param a_attributeID	- attribute ID.
-	 * @param a_min			- minimum value.
-	 * @param a_max			- maximum value.
-	 * @param a_value		- initial value.
-	 * @param a_attributes	- MarvinAttributes object
+	 * @param id		component ID.
+	 * @param attrID	attribute ID.
+	 * @param min		minimum value.
+	 * @param max		maximum value.
+	 * @param value		initial value.
+	 * @param attr		MarvinAttributes object
 	 */
-	public void addHorizontalSlider(String a_id, String a_attributeID, int a_min, int a_max, int a_value, MarvinAttributes a_attributes){
-		addSlider(a_id, a_attributeID, SwingConstants.HORIZONTAL, a_min, a_max, a_value, a_attributes);
+	public void addHorizontalSlider(String id, String attrID, int min, int max, int value, MarvinAttributes attr){
+		addSlider(id, attrID, SwingConstants.HORIZONTAL, min, max, value, attr);
 	}
 	
 	/**
 	 * Add VerticalSlider
-	 * @param a_id			- component ID
-	 * @param a_attributeID	- attribute ID
-	 * @param a_min			- minimum value
-	 * @param a_max			- maximum value
-	 * @param a_value		- initial value
-	 * @param a_attributes	- MarvinAttributes object
+	 * @param id		component ID
+	 * @param attrID	attribute ID
+	 * @param min		minimum value
+	 * @param max		maximum value
+	 * @param value		initial value
+	 * @param attr		MarvinAttributes object
 	 */
-	public void addVerticalSlider(String a_id, String a_attributeID, int a_min, int a_max, int a_value, MarvinAttributes a_attributes){
-		addSlider(a_id, a_attributeID, SwingConstants.VERTICAL, a_min, a_max, a_value, a_attributes);
+	public void addVerticalSlider(String id, String attrID, int min, int max, int value, MarvinAttributes attr){
+		addSlider(id, attrID, SwingConstants.VERTICAL, min, max, value, attr);
 	}
 	
 	/**
 	 * Add CheckBox
-	 * @param a_id				- component ID
-	 * @param a_checkBoxText	- CheckBox text attribute  
-	 * @param a_attirbuteID		- attribute ID
-	 * @param a_attributes		- MarvinAttributes object
+	 * @param id				component ID
+	 * @param cbText			CheckBox text attribute  
+	 * @param a_attirbuteID		attribute ID
+	 * @param attr				MarvinAttributes object
 	 */	
-	public void addCheckBox(String a_id, String a_checkBoxText, String a_attributeID,MarvinAttributes a_attributes){
-		JComponent l_component = new JCheckBox(a_checkBoxText);
-		plugComponent(a_id, l_component, a_attributeID, a_attributes, ComponentType.COMPONENT_CHECKBOX);
+	public void addCheckBox(String id, String cbText, String attrID,MarvinAttributes attr){
+		JComponent comp = new JCheckBox(cbText);
+		plugComponent(id, comp, attrID, attr, ComponentType.COMPONENT_CHECKBOX);
 	}
 	
 	/**
 	 * Add ButtonGroup
 	 */
-	public void addButtonGroup(String a_id, String a_attributeID, MarvinAttributes a_atributes){
+	public void addButtonGroup(String id, String attrID, MarvinAttributes attr){
 		
 	}
 
@@ -283,62 +283,62 @@ public class MarvinPluginWindow extends JFrame
 	 * Update the attributes� value based on the associated components.
 	 */
 	public void applyValues(){
-		MarvinPluginWindowComponent l_filterComponent;
+		MarvinPluginWindowComponent filterComp;
 		enumComponents = hashComponents.elements();
 		while(enumComponents.hasMoreElements()){
-			l_filterComponent = enumComponents.nextElement();
-			if(l_filterComponent.getAttributes() != null){
-				l_filterComponent.getAttributes().set(l_filterComponent.getAttributeID(), getValue(l_filterComponent));
+			filterComp = enumComponents.nextElement();
+			if(filterComp.getAttributes() != null){
+				filterComp.getAttributes().set(filterComp.getAttributeID(), getValue(filterComp));
 			}
 		}
 	}
 
 	/**
 	 * Converts a string to the attribute type.
-	 * @param a_value	- attribute큦 value.
-	 * @param a_type	- attribute큦 type.
+	 * @param value		attribute큦 value.
+	 * @param type		attribute큦 type.
 	 * @return value as the specified type.
 	 */
-	public Object stringToType(String a_value, Object a_type){
-		Class<?> l_class = a_type.getClass();
+	public Object stringToType(String value, Object type){
+		Class<?> l_class = type.getClass();
 		if(l_class == Double.class){
-			return Double.parseDouble(a_value);
+			return Double.parseDouble(value);
 		}
 		else if(l_class == Float.class){
-			return Float.parseFloat(a_value);
+			return Float.parseFloat(value);
 		}
 		else if(l_class == Integer.class){
-			return Integer.parseInt(a_value);
+			return Integer.parseInt(value);
 		}
 		else if(l_class == String.class){
-			return a_value.toString();
+			return value.toString();
 		}
 		else if(l_class == Boolean.class){
-			return Boolean.parseBoolean(a_value);
+			return Boolean.parseBoolean(value);
 		}
 		return null;
 	}
 
 	/**
-	 * @param a_pluginComponent - graphical component;
+	 * @param plgComp - graphical component;
 	 * @return the value associated with the specified component
 	 */
-	public Object getValue(MarvinPluginWindowComponent a_pluginComponent){
-		String l_id = a_pluginComponent.getAttributeID();
-		MarvinAttributes l_attributes = a_pluginComponent.getAttributes();
-		JComponent l_component = a_pluginComponent.getComponent();
+	public Object getValue(MarvinPluginWindowComponent plgComp){
+		String l_id = plgComp.getAttributeID();
+		MarvinAttributes attr = plgComp.getAttributes();
+		JComponent comp = plgComp.getComponent();
 		
-		switch(a_pluginComponent.getType()){
+		switch(plgComp.getType()){
 			case COMPONENT_TEXTFIELD:
-				return stringToType( ((JTextField)l_component).getText(), l_attributes.get(l_id));
+				return stringToType( ((JTextField)comp).getText(), attr.get(l_id));
 			case COMPONENT_COMBOBOX:
-				return ( ((JComboBox)l_component).getSelectedItem());
+				return ( ((JComboBox)comp).getSelectedItem());
 			case COMPONENT_SLIDER:
-				return ( ((JSlider)l_component).getValue());
+				return ( ((JSlider)comp).getValue());
 			case COMPONENT_TEXTAREA:
-				return ( ((JTextArea)l_component).getText());
+				return ( ((JTextArea)comp).getText());
 			case COMPONENT_CHECKBOX:
-				return ( ((JCheckBox)l_component).isSelected());
+				return ( ((JCheckBox)comp).isSelected());
 		}
 		return null;		
 	}

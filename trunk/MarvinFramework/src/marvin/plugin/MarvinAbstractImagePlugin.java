@@ -54,27 +54,27 @@ public abstract class MarvinAbstractImagePlugin implements MarvinImagePlugin
 	
 	/**
 	 * Set an attribute
-	 * @param a_attrName	- attribute큦 name
-	 * @param a_value		- attribute큦 value
+	 * @param a_attrName	attribute큦 name
+	 * @param value			attribute큦 value
 	 **/
-	public void setAttribute(String a_label, Object a_value){
-		marvinAttributes.set(a_label, a_value);
+	public void setAttribute(String label, Object value){
+		marvinAttributes.set(label, value);
 	}
 	
 	/**
-	 * @param a_attrName	- atribute큦 name
+	 * @param a_attrName	atribute큦 name
 	 * @return the attribute큦 value
 	 */
-	public Object getAttribute(String a_label){
-		return marvinAttributes.get(a_label);
+	public Object getAttribute(String label){
+		return marvinAttributes.get(label);
 	}
 	
 	/**
 	 * Associates the plug-in with an MarvinImagePanel
-	 * @param a_imagePanel	- reference to a MarvinImagePanel object
+	 * @param imgPanel	reference to a MarvinImagePanel object
 	 */
-	public void setImagePanel(MarvinImagePanel a_imagePanel){
-		imagePanel = a_imagePanel;
+	public void setImagePanel(MarvinImagePanel imgPanel){
+		imagePanel = imgPanel;
 	}
 	
 	/**
