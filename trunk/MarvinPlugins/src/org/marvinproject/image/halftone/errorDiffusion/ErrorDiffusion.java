@@ -75,7 +75,7 @@ public class ErrorDiffusion extends MarvinAbstractImagePlugin
 		double dif;
 
 		// Gray
-		MarvinImagePlugin l_filter = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.grayScale.jar");
+		MarvinImagePlugin l_filter = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.grayScale.jar");
 		l_filter.process(a_imageIn, a_imageOut, a_attributesOut, a_mask, a_previewMode);
 		
 		performanceMeter.start("Halftone - Error Diffusion");

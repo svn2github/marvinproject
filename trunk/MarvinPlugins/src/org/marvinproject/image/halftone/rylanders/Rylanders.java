@@ -72,7 +72,7 @@ public class Rylanders extends MarvinAbstractImagePlugin
 		double l_intensity;
 
 		// Gray
-		MarvinImagePlugin l_filter = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.grayScale.jar");
+		MarvinImagePlugin l_filter = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.grayScale.jar");
 		l_filter.process(a_imageIn, a_imageIn, a_attributesOut, a_mask, a_previewMode);
 		
 		boolean[][] l_arrMask = a_mask.getMaskArray();

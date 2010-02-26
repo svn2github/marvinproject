@@ -18,8 +18,8 @@ public class DetermineGround extends MarvinAbstractImagePlugin{
 								l_pluginBC;
 	
 	public void load(){
-		l_pluginEdgeDetector = MarvinPluginLoader.loadImagePlugin("org.marvinproject.edge.edgeDetector.jar");
-		l_pluginBC = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.brightnessAndContrast.jar");
+		l_pluginEdgeDetector = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.edge.edgeDetector.jar");
+		l_pluginBC = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.brightnessAndContrast.jar");
 		l_pluginBC.setAttribute("contrast", 255);
 	}
 	

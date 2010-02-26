@@ -51,7 +51,7 @@ public class Thresholding extends MarvinAbstractImagePlugin{
 		
 		attributes = getAttributes();
 		attributes.set("threshold", 125);
-		pluginGray = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.grayScale.jar");
+		pluginGray = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.grayScale.jar");
 	}
 	
 	public void show(){

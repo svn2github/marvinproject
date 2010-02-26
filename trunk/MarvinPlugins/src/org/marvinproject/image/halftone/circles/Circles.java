@@ -95,7 +95,7 @@ public class Circles extends MarvinAbstractImagePlugin
 		Graphics l_graphics = a_imageOut.getBufferedImage().getGraphics();
 
 		// Gray
-		MarvinImagePlugin l_filter = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.grayScale.jar");
+		MarvinImagePlugin l_filter = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.grayScale.jar");
 		l_filter.process(a_imageIn, a_imageIn, a_attributesOut, a_mask, a_previewMode);
 		
 		performanceMeter.enableProgressBar("Halftone - Circles" , (a_imageIn.getHeight()/(circleWidth+circlesDistance))*(a_imageIn.getWidth()/(circleWidth+circlesDistance)));

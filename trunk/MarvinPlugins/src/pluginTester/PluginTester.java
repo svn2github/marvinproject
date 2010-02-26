@@ -47,7 +47,7 @@ import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.plugin.MarvinPlugin;
 
-import org.marvinproject.render.iteratedFunctionSystem.IteratedFunctionSystem;
+import org.marvinproject.image.render.iteratedFunctionSystem.IteratedFunctionSystem;
 
 /**
  * Test plug-ins and generate .jar files

@@ -44,8 +44,8 @@ import marvin.plugin.MarvinPlugin;
 import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
 
-import org.marvinproject.pattern.correlation.Correlation;
-import org.marvinproject.pattern.harrisPlessey.HarrisPlessey;
+import org.marvinproject.image.pattern.correlation.Correlation;
+import org.marvinproject.image.pattern.harrisPlessey.HarrisPlessey;
 
 public class PatternRecognition extends MarvinAbstractImagePlugin {
 
@@ -64,7 +64,7 @@ public class PatternRecognition extends MarvinAbstractImagePlugin {
 		boolean a_previewMode
 	)
 	{
-		MarvinPlugin l_filter = (MarvinPlugin)MarvinPluginLoader.loadImagePlugin("org.marvinproject.pattern.harrisPlessey.jar");
+		MarvinPlugin l_filter = (MarvinPlugin)MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.pattern.harrisPlessey.jar");
 
 		HarrisPlessey hr = (HarrisPlessey) l_filter;
 		hr.load();

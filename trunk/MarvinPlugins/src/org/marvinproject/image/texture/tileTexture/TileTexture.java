@@ -19,7 +19,7 @@ public class TileTexture extends MarvinAbstractImagePlugin{
 		attributes.set("lines", 2);
 		attributes.set("columns", 2);
 		
-		flip = MarvinPluginLoader.loadImagePlugin("org.marvinproject.transform.flip.jar");
+		flip = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.transform.flip.jar");
 	}
 	
 	public void show(){
