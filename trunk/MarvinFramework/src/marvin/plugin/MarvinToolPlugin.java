@@ -11,7 +11,7 @@ import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 
 
-public interface MarvinPluginTool extends MarvinPlugin{
+public interface MarvinToolPlugin extends MarvinPlugin{
 	
 	
 	public abstract void load();
