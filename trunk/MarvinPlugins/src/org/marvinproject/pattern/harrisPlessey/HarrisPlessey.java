@@ -265,9 +265,9 @@ public class HarrisPlessey extends MarvinAbstractImagePlugin{
 
 
 				// calcula o valor da matriz de auto correlacao
-				A = a_imageOut.Multi8p(x, y,Math.pow(Gx,2.0));
-				B = a_imageOut.Multi8p(x, y,Math.pow(Gy,2.0));
-				C = a_imageOut.Multi8p(x, y,Gx+Gy);
+				A = a_imageOut.multi8p(x, y,Math.pow(Gx,2.0));
+				B = a_imageOut.multi8p(x, y,Math.pow(Gy,2.0));
+				C = a_imageOut.multi8p(x, y,Gx+Gy);
 
 				// determinante da matriz de autocorrelacao
 				det = (A * B) - Math.pow(C,2.0);
