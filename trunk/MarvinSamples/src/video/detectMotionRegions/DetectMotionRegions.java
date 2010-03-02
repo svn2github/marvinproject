@@ -92,7 +92,7 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 		
 		attributesOut = new MarvinAttributes();
 		
-		pluginMotionRegions = MarvinPluginLoader.loadImagePlugin("org.marvinproject.difference.differentRegions.jar");
+		pluginMotionRegions = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.difference.differentRegions.jar");
 		pluginMotionRegions.setAttribute("comparisonImage", imageLastFrame);
 		
 		loadGUI();

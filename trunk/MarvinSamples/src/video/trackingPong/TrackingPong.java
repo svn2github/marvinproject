@@ -96,8 +96,8 @@ public class TrackingPong extends JFrame implements Runnable{
 		
 		loadGUI();
 		
-		findColorPattern 	= MarvinPluginLoader.loadImagePlugin("org.marvinproject.pattern.findColorPattern.jar");
-		text				= MarvinPluginLoader.loadImagePlugin("org.marvinproject.render.text.jar");
+		findColorPattern 	= MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.pattern.findColorPattern.jar");
+		text				= MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.render.text.jar");
 		text.setAttribute("fontFile", MarvinImageIO.loadImage("./res/font.png"));
 		text.setAttribute("color", 0xFFFFFFFF);
 		
@@ -292,22 +292,22 @@ public class TrackingPong extends JFrame implements Runnable{
 		return false;
 	}
 	
-	private void combineImage(MarvinImage a_image, int a_x, int a_y){
-		int l_rgb;
-		int l_width = a_image.getWidth();
-		int l_height = a_image.getHeight();
+	private void combineImage(MarvinImage img, int x, int y){
+		int rgb;
+		int width = img.getWidth();
+		int height = img.getHeight();
 		
-		for(int l_y=0; l_y<l_height; l_y++){
-			for(int l_x=0; l_x<l_width; l_x++){
+		for(int iy=0; iy<height; iy++){
+			for(int ix=0; ix<width; ix++){
 				if
 				(
-					l_x+a_x > 0 && l_x+a_x < screenWidth &&
-					l_y+a_y > 0 && l_y+a_y < screenHeight
+					ix+x > 0 && ix+x < screenWidth &&
+					iy+y > 0 && iy+y < screenHeight
 				)
 				{
-					l_rgb=a_image.getIntColor(l_x, l_y);				
-					if(l_rgb != 0xFFFFFFFF){
-						imageOut.setIntColor(l_x+a_x, l_y+a_y, l_rgb);
+					rgb=img.getIntColor(ix, iy);				
+					if(rgb != 0xFFFFFFFF){
+						imageOut.setIntColor(ix+x, iy+y, rgb);
 					}
 				}
 			}

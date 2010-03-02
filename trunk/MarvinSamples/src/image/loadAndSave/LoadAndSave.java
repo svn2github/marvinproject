@@ -56,7 +56,7 @@ public class LoadAndSave extends JFrame
 		MarvinImage l_image;
 		l_image = MarvinImageIO.loadImage("./res/arara.jpg");
 		
-		MarvinImagePlugin l_pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.color.invert.jar");
+		MarvinImagePlugin l_pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.invert.jar");
 		l_pluginImage.process(l_image, l_image, null, MarvinImageMask.NULL_MASK, false);
 		l_image.update();
 		

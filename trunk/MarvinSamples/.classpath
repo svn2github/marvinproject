@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="src/test/eraser/icon.png"/>
 	<classpathentry kind="lib" path="src/test/rectangleSelect/icon.png"/>
 	<classpathentry kind="lib" path="src/test/rectangleSelect/cursorIcon.png"/>
+	<classpathentry kind="lib" path="C:/Users/Gabriel/Documents/Projetos/Java/j2se/MARVIN/repository/dev/trunk/MarvinSamples/lib/junit-4.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -101,8 +101,8 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		screenWidth = videoManager.getCameraWidth();
 		screenHeight = videoManager.getCameraHeight();
 		
-		pluginColorPattern = MarvinPluginLoader.loadImagePlugin("org.marvinproject.pattern.findColorPattern.jar");
-		text				= MarvinPluginLoader.loadImagePlugin("org.marvinproject.render.text.jar");
+		pluginColorPattern = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.pattern.findColorPattern.jar");
+		text				= MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.render.text.jar");
 		text.setAttribute("fontFile", MarvinImageIO.loadImage("./res/font.png"));
 		text.setAttribute("color", 0xFFFFFFFF);
 		
@@ -140,22 +140,22 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		setVisible(true);
 	}
 	
-	private void combineImage(MarvinImage a_image, int a_x, int a_y){
+	private void combineImage(MarvinImage a_image, int x, int y){
 		int l_rgb;
 		int l_width = a_image.getWidth();
 		int l_height = a_image.getHeight();
 		
-		for(int l_y=0; l_y<l_height; l_y++){
-			for(int l_x=0; l_x<l_width; l_x++){
+		for(int iy=0; iy<l_height; iy++){
+			for(int ix=0; ix<l_width; ix++){
 				if
 				(
-					l_x+a_x > 0 && l_x+a_x < screenWidth &&
-					l_y+a_y > 0 && l_y+a_y < screenHeight
+					ix+x > 0 && ix+x < screenWidth &&
+					iy+y > 0 && iy+y < screenHeight
 				)
 				{
-					l_rgb=a_image.getIntColor(l_x, l_y);				
+					l_rgb=a_image.getIntColor(ix, iy);				
 					if(l_rgb != 0xFFFFFFFF){
-						imageOut.setIntColor(l_x+a_x, l_y+a_y, l_rgb);
+						imageOut.setIntColor(ix+x, iy+y, l_rgb);
 					}
 				}
 			}

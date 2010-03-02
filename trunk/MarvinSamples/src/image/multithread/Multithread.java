@@ -135,7 +135,7 @@ public class Multithread extends JFrame implements MarvinThreadListener{
 	
 	private void singleThread(){
 		processStartTime = System.currentTimeMillis();
-		MarvinImagePlugin l_pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.statistical.Maximum.jar");
+		MarvinImagePlugin l_pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.statistical.Maximum.jar");
 		l_pluginImage.process(imageIn, imageOut, null, MarvinImageMask.NULL_MASK, false);
 		imageOut.update();
 		imagePanel.setImage(imageOut);
@@ -147,8 +147,8 @@ public class Multithread extends JFrame implements MarvinThreadListener{
 		processStartTime = System.currentTimeMillis();
 		
 		// Load Plug-ins
-		MarvinImagePlugin l_pluginImage_1 = MarvinPluginLoader.loadImagePlugin("org.marvinproject.statistical.Maximum.jar");
-		MarvinImagePlugin l_pluginImage_2 = MarvinPluginLoader.loadImagePlugin("org.marvinproject.statistical.Maximum.jar");
+		MarvinImagePlugin l_pluginImage_1 = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.statistical.Maximum.jar");
+		MarvinImagePlugin l_pluginImage_2 = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.statistical.Maximum.jar");
 		
 		// Create masks
 		MarvinImageMask l_mask1 = new MarvinImageMask

@@ -57,7 +57,7 @@ public class ObjectTracking extends JFrame implements Runnable{
 		
 		loadGUI();
 		
-		pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.pattern.findColorPattern.jar");
+		pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.pattern.findColorPattern.jar");
 		
 		attributesOut = new MarvinAttributes();
 
