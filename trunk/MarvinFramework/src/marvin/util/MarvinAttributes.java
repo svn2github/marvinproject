@@ -29,7 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package marvin.util;
 
-import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 /**
@@ -41,15 +41,13 @@ import java.util.LinkedList;
  */
 public class MarvinAttributes
 {
-	protected Hashtable<String, Object> hashAttributes;
-	protected LinkedList<String> listAttributesOrder;
-
+	protected LinkedHashMap<String, Object> hashAttributes;
+	
 	/**
 	 * Constructor
 	 */
 	public MarvinAttributes(){
-		hashAttributes = new Hashtable<String, Object>();
-		listAttributesOrder = new LinkedList<String>();
+		hashAttributes = new LinkedHashMap<String, Object>();
 	}
 
 	/**
@@ -58,9 +56,6 @@ public class MarvinAttributes
 	 * @param value		attribute value.
 	 */
 	public void set(String name, Object value){
-		if(!hashAttributes.containsKey(name)){
-			listAttributesOrder.add(name);
-		}
 		hashAttributes.put(name, value);		
 	}
 
@@ -80,25 +75,30 @@ public class MarvinAttributes
 	public String[] toStringArray(){
 		String key;
 		String attrs[] = new String[hashAttributes.size()*2];
-		Object[] l_keysInOrder = listAttributesOrder.toArray();
-		for(int x=0; x<l_keysInOrder.length; x++){
-			key = l_keysInOrder[x].toString();
-			attrs[(x*2)] = key;
-			attrs[(x*2)+1] = ""+hashAttributes.get(key);
+		String[] keys = hashAttributes.keySet().toArray(new String[0]);
+		for(int x=0; x<keys.length; x++){
+			attrs[(x*2)] = keys[x];
+			attrs[(x*2)+1] = ""+hashAttributes.get(keys[x]);
 		}
 		return attrs;
 	}
 	
+	/**
+	 * returns an array containing the attrbiute values
+	 */
+	public Object[] getValues(){
+		Object o[] = hashAttributes.entrySet().toArray(new Object[0]);
+		return o;
+	}
 	/**
 	 * Clones a MarvinAttributes Object.
 	 */
 	public MarvinAttributes clone(){
 		MarvinAttributes attrs = new MarvinAttributes();
 		String key;
-		Object[] keysInOrder = listAttributesOrder.toArray();
-		for(int x=0; x<keysInOrder.length; x++){
-			key = keysInOrder[x].toString();
-			attrs.set(key, hashAttributes.get(key));
+		String[] keys = hashAttributes.keySet().toArray(new String[0]);
+		for(int x=0; x<keys.length; x++){
+			attrs.set(keys[x], hashAttributes.get(keys[x]));
 		}		
 		return attrs;
 	}
