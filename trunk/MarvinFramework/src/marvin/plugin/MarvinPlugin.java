@@ -36,4 +36,23 @@ package marvin.plugin;
  * @version 1.0 02/13/08
  */
 public interface MarvinPlugin{
+	
+	/**
+	 * Ensures that this plug-in is working consistently to its attributes. 
+	 */
+	public void validate();
+	
+	/**
+	 * Invalidate this plug-in. It means that the attributes were changed and the plug-in needs to check whether
+	 * or not change its behavior. 
+	 */
+	public void invalidate();
+	
+	/**
+	 * Determines whether this plug-in is valid. A plug-in is valid when it is correctly configured given a set
+	 * of attributes. When an attribute is changed, the plug-in becomes invalid until the method validate() is
+	 * called. 
+	 * @return
+	 */
+	public boolean isValid();
 }

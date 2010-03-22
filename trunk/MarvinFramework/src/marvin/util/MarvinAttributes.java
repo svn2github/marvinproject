@@ -30,7 +30,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 package marvin.util;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
+
+import marvin.plugin.MarvinPlugin;
 
 /**
  * This class stores and manages plug-ins attributes and either 
@@ -41,12 +42,14 @@ import java.util.LinkedList;
  */
 public class MarvinAttributes
 {
-	protected LinkedHashMap<String, Object> hashAttributes;
+	private MarvinPlugin						plugin;
+	protected LinkedHashMap<String, Object> 	hashAttributes;
 	
 	/**
 	 * Constructor
 	 */
-	public MarvinAttributes(){
+	public MarvinAttributes(MarvinPlugin p){
+		plugin = p;
 		hashAttributes = new LinkedHashMap<String, Object>();
 	}
 
@@ -56,7 +59,8 @@ public class MarvinAttributes
 	 * @param value		attribute value.
 	 */
 	public void set(String name, Object value){
-		hashAttributes.put(name, value);		
+		hashAttributes.put(name, value);
+		plugin.invalidate();
 	}
 
 	/**
@@ -94,7 +98,7 @@ public class MarvinAttributes
 	 * Clones a MarvinAttributes Object.
 	 */
 	public MarvinAttributes clone(){
-		MarvinAttributes attrs = new MarvinAttributes();
+		MarvinAttributes attrs = new MarvinAttributes(plugin);
 		String key;
 		String[] keys = hashAttributes.keySet().toArray(new String[0]);
 		for(int x=0; x<keys.length; x++){
