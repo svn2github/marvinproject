@@ -36,14 +36,22 @@ import marvin.plugin.MarvinPlugin;
  * @author Gabriel Ambrosio Archanjo
  */
 public class MarvinThreadEvent {
-	MarvinPlugin plugin;
+	
+	private long			threadId;		
+	private MarvinPlugin 	plugin;
+	
 	
 	/**
 	 * Constructor.
 	 * @param plg	- plug-in associated with the event.
 	 */
-	MarvinThreadEvent(MarvinPlugin plg){
+	MarvinThreadEvent(long threadId, MarvinPlugin plg){
+		this.threadId = threadId;
 		plugin = plg;
+	}
+	
+	public long getThreadId(){
+		return threadId;
 	}
 	
 	/**

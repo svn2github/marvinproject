@@ -42,10 +42,13 @@ import marvin.plugin.MarvinImagePlugin;
  */
 public class MarvinThread implements Runnable{
 	
+	private static long currentId = 0;
+	
 	private enum PluginType{
 		PLUGIN_IMAGE
 	}
 	
+	private long					id;
 	private MarvinThreadListener 	listener;
 	private Thread 					thread;
 	private MarvinPlugin 			plugin;
@@ -69,12 +72,20 @@ public class MarvinThread implements Runnable{
 		MarvinImageMask mask
 	)
 	{
+		id = currentId++;
 		plugin = plg;
 		imageIn = imgIn;
 		imageOut = imgOut;
 		imageMask = mask;
 		eType = PluginType.PLUGIN_IMAGE;
 		thread = new Thread(this);
+	}
+	
+	/**
+	 * @return MarvinThread id.
+	 */
+	public long getId(){
+		return id;
 	}
 	
 	/**
@@ -101,7 +112,7 @@ public class MarvinThread implements Runnable{
 			case PLUGIN_IMAGE:
 				((MarvinImagePlugin)plugin).process(imageIn, imageOut, null, imageMask, false);
 				if(listener != null){
-					listener.threadFinished(new MarvinThreadEvent(plugin));
+					listener.threadFinished(new MarvinThreadEvent(id, plugin));
 				}
 				break;
 		}

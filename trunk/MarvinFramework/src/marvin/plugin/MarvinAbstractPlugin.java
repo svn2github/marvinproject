@@ -1,8 +1,18 @@
 package marvin.plugin;
 
+import marvin.util.MarvinAttributes;
+
 public class MarvinAbstractPlugin implements MarvinPlugin{
 
+	private MarvinAttributes marvinAttributes;
+	
 	private boolean valid;
+	
+	protected MarvinAbstractPlugin(){
+		marvinAttributes = new MarvinAttributes(this);
+	}
+	
+	
 	/**
 	 * Ensures that this plug-in is working consistently to its attributes. 
 	 */
@@ -26,5 +36,30 @@ public class MarvinAbstractPlugin implements MarvinPlugin{
 	 */
 	public boolean isValid(){
 		return valid;
+	}
+	
+
+	/**
+	 * @return MarvinAttributes object associated with this plug-in
+	 */
+	public MarvinAttributes getAttributes(){
+		return marvinAttributes;
+	}
+	
+	/**
+	 * Set an attribute
+	 * @param a_attrName	attribute큦 name
+	 * @param value			attribute큦 value
+	 **/
+	public void setAttribute(String label, Object value){
+		marvinAttributes.set(label, value);
+	}
+	
+	/**
+	 * @param a_attrName	atribute큦 name
+	 * @return the attribute큦 value
+	 */
+	public Object getAttribute(String label){
+		return marvinAttributes.get(label);
 	}
 }

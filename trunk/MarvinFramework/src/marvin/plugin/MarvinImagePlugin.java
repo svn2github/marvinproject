@@ -63,23 +63,6 @@ public interface MarvinImagePlugin extends MarvinPlugin
 		boolean previewMode
 	);
 	
-	/**
-	 * @return MarvinAttributes object associated with this plug-in
-	 */
-	public MarvinAttributes getAttributes();
-	
-	/**
-	 * Set an attribute
-	 * @param attrName	attribute name
-	 * @param value		attribute value
-	 **/
-	public void setAttribute(String attrName, Object value);
-	
-	/**
-	 * @param attrName		attribute name
-	 * @return the attribute´s value
-	 */
-	public Object getAttribute(String attrName);
 	
 	/**
 	 * Associates the plug-in with an MarvinImagePanel

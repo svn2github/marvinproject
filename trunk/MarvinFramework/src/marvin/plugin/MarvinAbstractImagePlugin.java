@@ -35,42 +35,10 @@ import marvin.util.MarvinAttributes;
 public abstract class MarvinAbstractImagePlugin extends MarvinAbstractPlugin implements MarvinImagePlugin
 {
 	//private Marvin marvinApplication;
-	private MarvinAttributes marvinAttributes;
 	private MarvinImagePanel imagePanel;
 	
 	private boolean valid;
 
-	/**
-	 * Empty constructor 
-	 */
-	protected MarvinAbstractImagePlugin(){
-		marvinAttributes = new MarvinAttributes(this);
-	}
-
-	/**
-	 * @return MarvinAttributes object associated with this plug-in
-	 */
-	public MarvinAttributes getAttributes(){
-		return marvinAttributes;
-	}
-	
-	/**
-	 * Set an attribute
-	 * @param a_attrName	attribute큦 name
-	 * @param value			attribute큦 value
-	 **/
-	public void setAttribute(String label, Object value){
-		marvinAttributes.set(label, value);
-	}
-	
-	/**
-	 * @param a_attrName	atribute큦 name
-	 * @return the attribute큦 value
-	 */
-	public Object getAttribute(String label){
-		return marvinAttributes.get(label);
-	}
-	
 	/**
 	 * Associates the plug-in with an MarvinImagePanel
 	 * @param imgPanel reference to a MarvinImagePanel object

@@ -29,6 +29,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package marvin.plugin;
 
+import marvin.util.MarvinAttributes;
+
 /**
  * Generic Marvin Plug-in. All application plug-ins must be implement this interface. Currently,
  * it´s empty because Marvin suports only one type of plug-in. Nevertheless, different types of
@@ -55,4 +57,23 @@ public interface MarvinPlugin{
 	 * @return
 	 */
 	public boolean isValid();
+	
+	/**
+	 * @return MarvinAttributes object associated with this plug-in
+	 */
+	public MarvinAttributes getAttributes();
+	
+	/**
+	 * Set an attribute
+	 * @param attrName	attribute name
+	 * @param value		attribute value
+	 **/
+	public void setAttribute(String attrName, Object value);
+	
+	/**
+	 * @param attrName		attribute name
+	 * @return the attribute´s value
+	 */
+	public Object getAttribute(String attrName);
+	
 }
