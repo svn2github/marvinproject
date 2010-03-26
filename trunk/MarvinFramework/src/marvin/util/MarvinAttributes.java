@@ -60,7 +60,10 @@ public class MarvinAttributes
 	 */
 	public void set(String name, Object value){
 		hashAttributes.put(name, value);
-		plugin.invalidate();
+		
+		if(plugin != null){
+			plugin.invalidate();
+		}
 	}
 
 	/**
