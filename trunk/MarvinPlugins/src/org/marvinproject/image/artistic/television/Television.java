@@ -51,18 +51,18 @@ public class Television extends MarvinAbstractImagePlugin
 
 	public void process
 	(
-		MarvinImage a_imageIn, 
-		MarvinImage a_imageOut,
-		MarvinAttributes a_attributesOut,
-		MarvinImageMask a_mask, 
-		boolean a_previewMode
+		MarvinImage imageIn, 
+		MarvinImage imageOut,
+		MarvinAttributes attributesOut,
+		MarvinImageMask mask, 
+		boolean previewMode
 	)
 	{
-		boolean[][] l_arrMask = a_mask.getMaskArray();
+		boolean[][] l_arrMask = mask.getMaskArray();
 		
 		int r,g,b;
-		for (int x = 0; x < a_imageIn.getWidth(); x++) {			
-			for (int y = 0; y < a_imageIn.getHeight(); y+=3) {
+		for (int x = 0; x < imageIn.getWidth(); x++) {			
+			for (int y = 0; y < imageIn.getHeight(); y+=3) {
 				if(l_arrMask != null && !l_arrMask[x][y]){
 					continue;
 				}
@@ -72,10 +72,10 @@ public class Television extends MarvinAbstractImagePlugin
 				b=0;
 					
 				for(int w=0; w<3; w++){
-					if(y+w < a_imageIn.getHeight() ){
-						r += (a_imageIn.getIntComponent0(x, y+w))/2;
-						g += (a_imageIn.getIntComponent1(x, y+w))/2;
-						b += (a_imageIn.getIntComponent2(x, y+w))/2;						
+					if(y+w < imageIn.getHeight() ){
+						r += (imageIn.getIntComponent0(x, y+w))/2;
+						g += (imageIn.getIntComponent1(x, y+w))/2;
+						b += (imageIn.getIntComponent2(x, y+w))/2;						
 					}
 				}
 				r = getValidInterval(r);
@@ -83,15 +83,15 @@ public class Television extends MarvinAbstractImagePlugin
 				b = getValidInterval(b);
 						
 				for(int w=0; w<3; w++){
-					if(y+w < a_imageOut.getHeight()){
+					if(y+w < imageOut.getHeight()){
 						if(w == 0){
-							a_imageOut.setIntColor(x,y+w,r,0,0);
+							imageOut.setIntColor(x,y+w,r,0,0);
 						}
 						else if(w ==1){
-							a_imageOut.setIntColor(x,y+w,0,g,0);
+							imageOut.setIntColor(x,y+w,0,g,0);
 						}
 						else if(w==2){
-							a_imageOut.setIntColor(x,y+w,0,0,b);
+							imageOut.setIntColor(x,y+w,0,0,b);
 						}
 					}
 				}				
@@ -99,9 +99,9 @@ public class Television extends MarvinAbstractImagePlugin
 		}
 	}
 
-	public int getValidInterval(int a_value){
-		if(a_value < 0) return 0;
-		if(a_value > 255) return 255;
-		return a_value;
+	public int getValidInterval(int value){
+		if(value < 0) return 0;
+		if(value > 255) return 255;
+		return value;
 	}
 }

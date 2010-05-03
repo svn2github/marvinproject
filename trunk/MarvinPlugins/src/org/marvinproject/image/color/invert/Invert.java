@@ -45,32 +45,32 @@ public class Invert extends MarvinAbstractImagePlugin
 	public void load(){}
 
 	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Negative", 400,350, getImagePanel(), this);
-		l_filterWindow.setVisible(true);
+		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Negative", 400,350, getImagePanel(), this);
+		filterWindow.setVisible(true);
 	}
 
 	public void process
 	(
-		MarvinImage a_imageIn, 
-		MarvinImage a_imageOut,
-		MarvinAttributes a_attributesOut,
-		MarvinImageMask a_mask, 
-		boolean a_previewMode
+		MarvinImage imageIn, 
+		MarvinImage imageOut,
+		MarvinAttributes attributesOut,
+		MarvinImageMask mask, 
+		boolean previewMode
 	)
 	{
-		boolean[][] l_arrMask = a_mask.getMaskArray();
+		boolean[][] l_arrMask = mask.getMaskArray();
 		
 		int r, g, b;
-		for (int x = 0; x < a_imageIn.getWidth(); x++) {
-			for (int y = 0; y < a_imageIn.getHeight(); y++) {
+		for (int x = 0; x < imageIn.getWidth(); x++) {
+			for (int y = 0; y < imageIn.getHeight(); y++) {
 				if(l_arrMask != null && !l_arrMask[x][y]){
 					continue;
 				}
-				r = (255-(int)a_imageIn.getIntComponent0(x, y));
-				g = (255-(int)a_imageIn.getIntComponent1(x, y));
-				b = (255-(int)a_imageIn.getIntComponent2(x, y));
+				r = (255-(int)imageIn.getIntComponent0(x, y));
+				g = (255-(int)imageIn.getIntComponent1(x, y));
+				b = (255-(int)imageIn.getIntComponent2(x, y));
 
-				a_imageOut.setIntColor(x,y,r,g,b);
+				imageOut.setIntColor(x,y,r,g,b);
 			}
 		}
 	}

@@ -105,7 +105,7 @@ public class TrackingPong extends JFrame implements Runnable{
 		imagePaddlePlayer = MarvinImageIO.loadImage("./res/paddleA.png");
 		imagePaddleComputer = MarvinImageIO.loadImage("./res/paddleB.png");
 		
-		attributesOut = new MarvinAttributes();
+		attributesOut = new MarvinAttributes(null);
 		
 		paddlePlayer = new Paddle();
 		paddlePlayer.px=100;

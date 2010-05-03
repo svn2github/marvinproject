@@ -51,42 +51,42 @@ public class GrayScale extends MarvinAbstractImagePlugin
 	}
 
 	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Gray", 400,350, getImagePanel(), this);
-		l_filterWindow.setVisible(true);
+		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Gray", 400,350, getImagePanel(), this);
+		filterWindow.setVisible(true);
 	}
 
 	
 	public void process
 	(
-		MarvinImage a_imageIn, 
-		MarvinImage a_imageOut,
-		MarvinAttributes a_attributesOut,
-		MarvinImageMask a_mask, 
-		boolean a_previewMode
+		MarvinImage imageIn, 
+		MarvinImage imageOut,
+		MarvinAttributes attributesOut,
+		MarvinImageMask mask, 
+		boolean previewMode
 	)
 	{
-		int l_width = a_imageIn.getWidth();
+		int l_width = imageIn.getWidth();
 		
 		// Mask
-		boolean[][] l_arrMask = a_mask.getMaskArray();
+		boolean[][] l_arrMask = mask.getMaskArray();
 		
 		performanceMeter.start("Gray");
 		performanceMeter.startEvent("Gray");
 		int r,g,b,corfinal;
-		for (int x = 0; x < a_imageIn.getWidth(); x++) {
-			for (int y = 0; y < a_imageIn.getHeight(); y++) {
+		for (int x = 0; x < imageIn.getWidth(); x++) {
+			for (int y = 0; y < imageIn.getHeight(); y++) {
 				if(l_arrMask != null && !l_arrMask[x][y]){
 					continue;
 				}
 				//Red - 30% / Blue - 59% / Green - 11%
-				r = a_imageIn.getIntComponent0(x, y);
-				g = a_imageIn.getIntComponent1(x, y);
-				b = a_imageIn.getIntComponent2(x, y);
+				r = imageIn.getIntComponent0(x, y);
+				g = imageIn.getIntComponent1(x, y);
+				b = imageIn.getIntComponent2(x, y);
 				corfinal = (int)((r*0.3)+(b*0.59)+(g*0.11));
-				a_imageOut.setIntColor(x,y,corfinal,corfinal,corfinal);
+				imageOut.setIntColor(x,y,corfinal,corfinal,corfinal);
 								
 			}
-			performanceMeter.stepsFinished(a_imageIn.getHeight());
+			performanceMeter.stepsFinished(imageIn.getHeight());
 		}
 		performanceMeter.finishEvent();
 		performanceMeter.finish();

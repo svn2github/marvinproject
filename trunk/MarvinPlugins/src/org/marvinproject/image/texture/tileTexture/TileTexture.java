@@ -48,6 +48,14 @@ public class TileTexture extends MarvinAbstractImagePlugin{
     	int tileWidth = tile.getWidth();
     	int tileHeight = tile.getHeight();
     	
+    	boolean[][] arrMask = mask.getMaskArray();
+    	if(arrMask != null){
+    		MarvinImage.copyIntColorArray(imgIn, imgOut);
+    	}
+    	else{
+    		imgOut.resize(tile.getWidth()*columns, tile.getHeight()*lines);
+    	}
+    	
     	MarvinImage tileFlippedH = new MarvinImage(tileWidth, tileHeight);
     	MarvinImage tileFlippedV = new MarvinImage(tileWidth, tileHeight);
     	MarvinImage tileFlippedHV = new MarvinImage(tileWidth, tileHeight);
@@ -59,22 +67,20 @@ public class TileTexture extends MarvinAbstractImagePlugin{
     	flip.setAttribute("flip", "vertical");
     	flip.process(tile, tileFlippedV, null, MarvinImageMask.NULL_MASK, false);
     	flip.process(tileFlippedHV, tileFlippedHV, null, MarvinImageMask.NULL_MASK, false);
-    	
-    	imgOut.resize(tile.getWidth()*columns, tile.getHeight()*lines);
-    	
+    	    	
     	for(int y=0; y<lines; y++){
     		for(int x=0; x<columns; x++){
     			if(x % 2 == 0 && y % 2 == 0){
-    				copyImage(tile, imgOut, x*tileWidth, y*tileHeight);
+    				copyImage(tile, imgOut, x*tileWidth, y*tileHeight, arrMask);
     			}
     			else if(y % 2 == 0){
-    				copyImage(tileFlippedH, imgOut, x*tileWidth, y*tileHeight);
+    				copyImage(tileFlippedH, imgOut, x*tileWidth, y*tileHeight, arrMask);
     			}
     			else if(x % 2 == 0){
-    				copyImage(tileFlippedV, imgOut, x*tileWidth, y*tileHeight);
+    				copyImage(tileFlippedV, imgOut, x*tileWidth, y*tileHeight, arrMask);
     			}
     			else{
-    				copyImage(tileFlippedHV, imgOut, x*tileWidth, y*tileHeight);
+    				copyImage(tileFlippedHV, imgOut, x*tileWidth, y*tileHeight, arrMask);
     			}
     		}
     		
@@ -82,10 +88,12 @@ public class TileTexture extends MarvinAbstractImagePlugin{
     	}
     }
     
-    private void copyImage(MarvinImage tile, MarvinImage imgOut, int x, int y){
+    private void copyImage(MarvinImage tile, MarvinImage imgOut, int x, int y, boolean mask[][]){
     	for(int j=0; j<tile.getHeight(); j++){
     		for(int i=0; i<tile.getWidth(); i++){
-    			imgOut.setIntColor(i+x, j+y, tile.getIntColor(i, j));
+    			if(x+i < imgOut.getWidth() && y+j < imgOut.getHeight() && (mask == null || mask[x+i][y+j])){
+    				imgOut.setIntColor(i+x, j+y, tile.getIntColor(i, j));
+    			}
     		}
     	}
     }

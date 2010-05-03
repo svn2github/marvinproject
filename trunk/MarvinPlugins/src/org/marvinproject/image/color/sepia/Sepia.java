@@ -64,11 +64,11 @@ public class Sepia extends MarvinAbstractImagePlugin implements ChangeListener, 
 
 	public void process
 	(
-		MarvinImage a_imageIn, 
-		MarvinImage a_imageOut,
-		MarvinAttributes a_attributesOut,
-		MarvinImageMask a_mask, 
-		boolean a_previewMode
+		MarvinImage imageIn, 
+		MarvinImage imageOut,
+		MarvinAttributes attributesOut,
+		MarvinImageMask mask, 
+		boolean previewMode
 	)
 	{
 		int r, g, b, depth, corfinal;
@@ -76,22 +76,22 @@ public class Sepia extends MarvinAbstractImagePlugin implements ChangeListener, 
 		//Define a intensidade do filtro...
 		depth = Integer.parseInt(attributes.get("intensity").toString());
 		
-		int width    = a_imageIn.getWidth();
-		int height   = a_imageIn.getHeight();
+		int width    = imageIn.getWidth();
+		int height   = imageIn.getHeight();
 		
 		//performanceMeter.enableProgressBar("Filtro de Teste", ((height-2)*(width-2)));
 		
-		boolean[][] l_arrMask = a_mask.getMaskArray();
+		boolean[][] l_arrMask = mask.getMaskArray();
 		
-		for (int x = 0; x < a_imageIn.getWidth(); x++) {
-			for (int y = 0; y < a_imageIn.getHeight(); y++) {
+		for (int x = 0; x < imageIn.getWidth(); x++) {
+			for (int y = 0; y < imageIn.getHeight(); y++) {
 				if(l_arrMask != null && !l_arrMask[x][y]){
 					continue;
 				}
 				//Captura o RGB do ponto...
-				r = a_imageIn.getIntComponent0(x, y);
-				g = a_imageIn.getIntComponent1(x, y);
-				b = a_imageIn.getIntComponent2(x, y);
+				r = imageIn.getIntComponent0(x, y);
+				g = imageIn.getIntComponent1(x, y);
+				b = imageIn.getIntComponent2(x, y);
 				
 				//Define a cor como a média aritmética do pixel...
 				corfinal = (r + g + b) / 3;
@@ -101,7 +101,7 @@ public class Sepia extends MarvinAbstractImagePlugin implements ChangeListener, 
 				g = truncate(g + depth);
 			
 				//Define a nova cor do ponto...
-				a_imageOut.setIntColor(x, y, r, g, b);
+				imageOut.setIntColor(x, y, r, g, b);
 			}
 			//performanceMeter.incProgressBar(width-2);
 		}

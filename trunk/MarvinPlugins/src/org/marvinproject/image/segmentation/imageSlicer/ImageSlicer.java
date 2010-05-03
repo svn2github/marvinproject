@@ -58,7 +58,7 @@ public class ImageSlicer extends MarvinAbstractImagePlugin {
 	private DecimalFormat df = new DecimalFormat("000");
 	
 	public void load() {
-		attributes = new MarvinAttributes();
+		attributes = getAttributes();
 		attributes.set("txtLines", 1);
 		attributes.set("txtCols", 1);
 		performanceMeter = new MarvinPerformanceMeter();

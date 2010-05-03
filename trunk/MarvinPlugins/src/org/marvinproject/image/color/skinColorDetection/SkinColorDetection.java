@@ -92,22 +92,22 @@ public class SkinColorDetection extends MarvinAbstractImagePlugin
 	 */
 	public void process
 	(
-		MarvinImage a_imageIn, 
-		MarvinImage a_imageOut,
-		MarvinAttributes a_attributesOut,
-		MarvinImageMask a_mask, 
-		boolean a_previewMode
+		MarvinImage imageIn, 
+		MarvinImage imageOut,
+		MarvinAttributes attributesOut,
+		MarvinImageMask mask, 
+		boolean previewMode
 	)
 	{
-		MarvinImage l_hsvImage = new MarvinImage(a_imageIn.getWidth(), a_imageIn.getHeight());
+		MarvinImage l_hsvImage = new MarvinImage(imageIn.getWidth(), imageIn.getHeight());
 		ColorSpaceConverter l_colorspaceConverter = new ColorSpaceConverter();
-		l_colorspaceConverter.process(a_imageIn, l_hsvImage, a_attributesOut, a_mask, false);
+		l_colorspaceConverter.process(imageIn, l_hsvImage, attributesOut, mask, false);
 		
 		
 		/*The first step is to determine regions of the scene which
 		 * have appropriate skin tone.
 		 */
-		findSkinColorPixels(a_imageIn, l_hsvImage, a_imageOut);
+		findSkinColorPixels(imageIn, l_hsvImage, imageOut);
 		
 		
 		
@@ -115,13 +115,13 @@ public class SkinColorDetection extends MarvinAbstractImagePlugin
 	}
 	/**
 	 * Using heuristics, identify any pixels which may be skin colored.
-	 * @param a_imageIn
+	 * @param imageIn
 	 * @param a_imageOut
 	 */
-	private void findSkinColorPixels(MarvinImage a_imageIn, MarvinImage a_hsvImage, MarvinImage a_imageOut)
+	private void findSkinColorPixels(MarvinImage imageIn, MarvinImage hsvImage, MarvinImage imageOut)
 	{
-		int l_imageHeight = a_imageIn.getHeight();
-		int l_imageWidth = a_imageIn.getWidth();
+		int l_imageHeight = imageIn.getHeight();
+		int l_imageWidth = imageIn.getWidth();
 		
 		
 		boolean[] l_rules = {false, false, false};
@@ -130,17 +130,17 @@ public class SkinColorDetection extends MarvinAbstractImagePlugin
 		{
 			for(int yy = 0; yy < l_imageHeight; yy++)
 			{
-				int l_currentHue = a_hsvImage.getIntComponent0(xx, yy);
-				int l_currentSat = a_hsvImage.getIntComponent1(xx, yy);
-				int l_currentVar = a_hsvImage.getIntComponent2(xx, yy);
+				int l_currentHue = hsvImage.getIntComponent0(xx, yy);
+				int l_currentSat = hsvImage.getIntComponent1(xx, yy);
+				int l_currentVar = hsvImage.getIntComponent2(xx, yy);
 				
 				if(l_currentHue > 0 && l_currentHue < 23)
 				{
-					a_imageOut.setIntColor(xx, yy, a_imageIn.getIntColor(xx, yy));
+					imageOut.setIntColor(xx, yy, imageIn.getIntColor(xx, yy));
 				}
 				else
 				{
-					a_imageOut.setIntColor(xx, yy, 0);
+					imageOut.setIntColor(xx, yy, 0);
 				}
 			/*	checkRule0(l_currentRed, l_currentGreen, l_currentBlue, l_rules);
 				//checkRule1(l_currentRed, l_currentGreen, l_currentBlue, l_rules);
@@ -159,15 +159,15 @@ public class SkinColorDetection extends MarvinAbstractImagePlugin
 	}
 	
 	//rules from http://graphics.cs.msu.ru/en/publications/text/gc2003vsa.pdf
-	protected void checkRule2(int a_currentRed, int a_currentGreen, int a_currentBlue, boolean[] a_rules)
+	protected void checkRule2(int currentRed, int currentGreen, int currentBlue, boolean[] a_rules)
 	{
-		int l_maxCoords = max3nums(a_currentRed, a_currentGreen, a_currentBlue);
-		int l_minCoords = min3nums(a_currentRed, a_currentGreen, a_currentBlue);
-		if(a_currentRed > 95 && a_currentGreen >40 && a_currentBlue > 20
+		int l_maxCoords = max3nums(currentRed, currentGreen, currentBlue);
+		int l_minCoords = min3nums(currentRed, currentGreen, currentBlue);
+		if(currentRed > 95 && currentGreen >40 && currentBlue > 20
 				&& (l_maxCoords - l_minCoords) > 15
-				&& Math.abs(a_currentRed - a_currentGreen) > 15
-				&& a_currentRed > a_currentGreen
-				&& a_currentRed > a_currentBlue)
+				&& Math.abs(currentRed - currentGreen) > 15
+				&& currentRed > currentGreen
+				&& currentRed > currentBlue)
 		{
 			a_rules[2] = true;
 		}
@@ -217,35 +217,35 @@ public class SkinColorDetection extends MarvinAbstractImagePlugin
 	}
 	
 	//rules from http://lrv.fri.uni-lj.si/~peterp/publications/eurocon03.pdf
-	protected void checkRule1(int a_currentRed, int a_currentGreen, int a_currentBlue, boolean[] a_rules)
+	protected void checkRule1(int currentRed, int currentGreen, int currentBlue, boolean[] rules)
 	{
-		if(a_currentRed > 220 
-				&& a_currentGreen > 210 
-				&& a_currentBlue > 170 
-				&& Math.abs(a_currentRed - a_currentGreen) <= 15 
-				&& a_currentRed > a_currentBlue 
-				&& a_currentGreen > a_currentBlue)
+		if(currentRed > 220 
+				&& currentGreen > 210 
+				&& currentBlue > 170 
+				&& Math.abs(currentRed - currentGreen) <= 15 
+				&& currentRed > currentBlue 
+				&& currentGreen > currentBlue)
 		{
-			a_rules[1] = true;
+			rules[1] = true;
 		}
 		else
 		{
-			a_rules[1] = false;
+			rules[1] = false;
 		}
 	}
 	
 	//rules from http://cs-people.bu.edu/ringb/CS585/PA1/source/ImageFunct.html
-	protected void checkRule0(int a_currentRed, int a_currentGreen, int a_currentBlue, boolean[] a_rules)
+	protected void checkRule0(int currentRed, int currentGreen, int currentBlue, boolean[] rules)
 	{
 		int[] l_currentSkintone = new int[2];
-		l_currentSkintone[0] = a_currentRed;
-		l_currentSkintone[1] = a_currentGreen;
+		l_currentSkintone[0] = currentRed;
+		l_currentSkintone[1] = currentGreen;
 		//check the red and green component of the current pixel
 		//If it does not fall in between the required values set as black
-		if(a_currentRed < 40  || a_currentGreen < 40)
+		if(currentRed < 40  || currentGreen < 40)
 		{
 			//a_imageOut.setRGB(xx, yy, 0, 0, 0);
-			a_rules[0] = false;
+			rules[0] = false;
 			//System.out.println(a_rule1);
 		}
 		else
@@ -262,12 +262,12 @@ public class SkinColorDetection extends MarvinAbstractImagePlugin
 			if(l_angleCurrentSkinVectorA < .995 && l_angleCurrentSkinVectorB < .995)
 			{
 				//a_imageOut.setRGB(xx, yy, 0, 0, 0);
-				a_rules[0] = false;
+				rules[0] = false;
 				
 			}
 			else
 			{
-				a_rules[0] = true;
+				rules[0] = true;
 				//System.out.println(a_rule1);
 				//a_imageOut.setRGB(xx, yy, a_imageIn.getRGB(xx,yy));
 			}
@@ -275,44 +275,44 @@ public class SkinColorDetection extends MarvinAbstractImagePlugin
 	}
 	/**
 	 * Find the minimum and maximum component of all the R, G and B values in an image.
-	 * @param a_imageIn
-	 * @param a_minMax
+	 * @param imageIn
+	 * @param minMax
 	 */
-	protected void findMinMax(MarvinImage a_imageIn, int[] a_minMax)
+	protected void findMinMax(MarvinImage imageIn, int[] minMax)
 	{
-		for(int l_currentX = 0; l_currentX < a_imageIn.getWidth(); l_currentX++)
+		for(int l_currentX = 0; l_currentX < imageIn.getWidth(); l_currentX++)
 		{
-			for(int l_currentY = 0; l_currentY < a_imageIn.getHeight(); l_currentY++)
+			for(int l_currentY = 0; l_currentY < imageIn.getHeight(); l_currentY++)
 			{
-				int l_currentRed = a_imageIn.getIntComponent0(l_currentX, l_currentY);
-				int l_currentGreen = a_imageIn.getIntComponent1(l_currentX, l_currentY);
-				int l_currentBlue = a_imageIn.getIntComponent2(l_currentX, l_currentY);
+				int l_currentRed = imageIn.getIntComponent0(l_currentX, l_currentY);
+				int l_currentGreen = imageIn.getIntComponent1(l_currentX, l_currentY);
+				int l_currentBlue = imageIn.getIntComponent2(l_currentX, l_currentY);
 				//check red
-				if(l_currentRed < a_minMax[0])
+				if(l_currentRed < minMax[0])
 				{
-					a_minMax[0] = l_currentRed;
+					minMax[0] = l_currentRed;
 				}
-				if(l_currentRed > a_minMax[1])
+				if(l_currentRed > minMax[1])
 				{
-					a_minMax[1] = l_currentRed;
+					minMax[1] = l_currentRed;
 				}
 				//check green
-				if(l_currentGreen < a_minMax[0])
+				if(l_currentGreen < minMax[0])
 				{
-					a_minMax[0] = l_currentGreen;
+					minMax[0] = l_currentGreen;
 				}
-				if(l_currentGreen > a_minMax[1])
+				if(l_currentGreen > minMax[1])
 				{
-					a_minMax[1] = l_currentGreen;
+					minMax[1] = l_currentGreen;
 				}
 				//check blue
-				if(l_currentBlue < a_minMax[0])
+				if(l_currentBlue < minMax[0])
 				{
-					a_minMax[0] = l_currentBlue;
+					minMax[0] = l_currentBlue;
 				}
-				if(l_currentBlue > a_minMax[1])
+				if(l_currentBlue > minMax[1])
 				{
-					a_minMax[1] = l_currentBlue;
+					minMax[1] = l_currentBlue;
 				}
 			}
 		}
@@ -328,44 +328,44 @@ public class SkinColorDetection extends MarvinAbstractImagePlugin
  * Get the angle between two, two dimensional vectors
  * @param a_Vector1, a_Vector2 - the vectors who's angle of difference needs to be calculated
  */
-	protected double calculateVectorAngle(int[] a_Vector1, int[] a_Vector2)
+	protected double calculateVectorAngle(int[] vector1, int[] vector2)
 	{
-		if (a_Vector1.length != a_Vector2.length)
+		if (vector1.length != vector2.length)
 		{
 			return 0;
 		}
-		double l_magVector1 = findMagnitude(a_Vector1);
-		double l_magVector2 = findMagnitude(a_Vector2);
-		double l_dotProduct = dotProduct(a_Vector1, a_Vector2);
+		double l_magVector1 = findMagnitude(vector1);
+		double l_magVector2 = findMagnitude(vector2);
+		double l_dotProduct = dotProduct(vector1, vector2);
 		
 		return l_dotProduct / (l_magVector1 * l_magVector2);
 
 	}
 	/**
 	 * Find the magnitude of a 2 element 'vector'
-	 * @param a_Vector
+	 * @param vector
 	 * @return
 	 */
-	protected double findMagnitude(int[] a_Vector)  
+	protected double findMagnitude(int[] vector)  
 	{
-		if (a_Vector.length != 2)
+		if (vector.length != 2)
 		{
 			return 0;
 		}
 		else
 		{
-			return Math.sqrt(a_Vector[0]*a_Vector[0] + a_Vector[1]*a_Vector[1] );
+			return Math.sqrt(vector[0]*vector[0] + vector[1]*vector[1] );
 		}
 	}
 	
 	//Static Method that returns the Dot Product of two Vectors
-	private double dotProduct(int[] a_Vector1, int[] a_Vector2) 
+	private double dotProduct(int[] vector1, int[] vector2) 
 	{
-		if (a_Vector1.length != a_Vector2.length && a_Vector1.length != 2)
+		if (vector1.length != vector2.length && vector1.length != 2)
 		{
 			return 0;
 		}
-	    return a_Vector1[0]*a_Vector2[0] + a_Vector1[1]*a_Vector2[1];
+	    return vector1[0]*vector2[0] + vector1[1]*vector2[1];
 	}
 	
 	

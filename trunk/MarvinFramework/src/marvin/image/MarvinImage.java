@@ -253,6 +253,13 @@ public class MarvinImage implements Cloneable {
 	public int getHeight(){
 		return(image.getHeight());  
 	}
+	
+	public boolean isValidPosition(int x, int y){
+		if(x >= 0 && x < image.getWidth() && y >= 0 && y <= getHeight()){
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Sets the integer color composition in X an Y position

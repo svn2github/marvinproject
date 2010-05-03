@@ -40,6 +40,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
@@ -47,7 +48,7 @@ import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.plugin.MarvinPlugin;
 
-import org.marvinproject.image.render.iteratedFunctionSystem.IteratedFunctionSystem;
+import org.marvinproject.image.fill.boundaryFill.BoundaryFill;
 
 /**
  * Test plug-ins and generate .jar files
@@ -57,7 +58,7 @@ public class PluginTester extends JFrame{
 	
 	// Definitions
 	private final static String PACKAGE_NET_FOLDER = "./bin/org/";
-	private final static String INITIAL_IMAGE = "./res/tucano.jpg";
+	private final static String INITIAL_IMAGE = "./res/fill.png";
 	
 	// Attributes
 	private JButton				buttonReset,
@@ -80,23 +81,31 @@ public class PluginTester extends JFrame{
 		HashMap<Object,Object> test = new HashMap<Object,Object>();
 		test.put("key", null);
 		
-		MarvinImagePlugin l_plugin = new IteratedFunctionSystem();
+		MarvinImagePlugin l_plugin = new BoundaryFill();
+		
+		
 		
 		l_plugin.setImagePanel(imagePanel);
 		MarvinImage i=null; 
 		try{
-			i = MarvinImageIO.loadImage("./res/tile02.png");
+			i = MarvinImageIO.loadImage("./res/tile01.png");
 		}
 		catch(Exception e){
-			
+			e.printStackTrace();
 		}
 		System.out.println("continue running");
 		
 		l_plugin.load();
-		l_plugin.setAttribute("fontFile", i);
+		l_plugin.setAttribute("x", 250);
+		l_plugin.setAttribute("y", 250);
+		
+		l_plugin.setAttribute("lines", 10);
+		l_plugin.setAttribute("columns", 10);
 		l_plugin.setAttribute("tile", i);
 		l_plugin.show();
 		
+		//l_plugin.process(originalImage, originalImage, null, MarvinImageMask.NULL_MASK, false);
+		//imagePanel.update();
 		
 		
 		/*
@@ -123,6 +132,8 @@ public class PluginTester extends JFrame{
 		buttonBenchmark.addActionListener(l_buttonHandler);
 		
 		imagePanel = new MarvinImagePanel();
+		JScrollPane scrollPane = new JScrollPane(imagePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		
 		
 		JPanel panelBottom = new JPanel();
 		panelBottom.add(buttonLoadPlugin);
@@ -135,13 +146,13 @@ public class PluginTester extends JFrame{
 		Container l_con = getContentPane();
 		l_con.setLayout(new BorderLayout());
 		
-		l_con.add(imagePanel, BorderLayout.NORTH);
+		l_con.add(scrollPane, BorderLayout.CENTER);
 		l_con.add(panelBottom, BorderLayout.SOUTH);
 		
 		
 		// Load image
-		//originalImage = MarvinImageIO.loadImage(INITIAL_IMAGE);
-		originalImage = new MarvinImage(500,500);
+		originalImage = MarvinImageIO.loadImage(INITIAL_IMAGE);
+		//originalImage = new MarvinImage(50,50);
 		newImage = originalImage.clone();
 		imagePanel.setImage(newImage);
 		
@@ -155,7 +166,10 @@ public class PluginTester extends JFrame{
 		else{
 			width = originalImage.getWidth();
 		}
-		setSize(width,originalImage.getHeight()+70);
+		setSize(500,500+70);
+		
+		
+		
 		
 		setVisible(true);
 	}

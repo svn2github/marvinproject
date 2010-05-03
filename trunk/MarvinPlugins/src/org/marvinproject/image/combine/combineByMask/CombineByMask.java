@@ -61,7 +61,7 @@ public class CombineByMask extends MarvinAbstractImagePlugin{
 		
 	}
 	
-	public void process(MarvinImage a_imageIn, MarvinImage a_imageOut, MarvinAttributes a_attributesOut, MarvinImageMask a_mask, boolean a_previewMode){
+	public void process(MarvinImage imageIn, MarvinImage imageOut, MarvinAttributes attributesOut, MarvinImageMask mask, boolean previewMode){
 		xi = (Integer)attributes.get("xi");
 		yi = (Integer)attributes.get("yi");		
 		colorMask = (Color)attributes.get("colorMask");
@@ -74,22 +74,22 @@ public class CombineByMask extends MarvinAbstractImagePlugin{
 			l_heightCI = combinationImage.getHeight();
 			
 			
-		for(int l_y=0; l_y<a_imageIn.getHeight(); l_y++){
-    		for(int l_x=0; l_x<a_imageIn.getWidth(); l_x++){
+		for(int y=0; y<imageIn.getHeight(); y++){
+    		for(int x=0; x<imageIn.getWidth(); x++){
     			
-    			l_xCI = l_x-xi;
-    			l_yCI = l_y-yi;
+    			l_xCI = x-xi;
+    			l_yCI = y-yi;
     			
     			if(l_xCI >= 0 && l_xCI < l_widthCI && l_yCI >= 0 && l_yCI < l_heightCI){
-    				if(a_imageIn.getIntColor(l_x, l_y) == colorMask.getRGB()){
-    					a_imageOut.setIntColor(l_x, l_y, combinationImage.getIntColor(l_x, l_y));
+    				if(imageIn.getIntColor(x, y) == colorMask.getRGB()){
+    					imageOut.setIntColor(x, y, combinationImage.getIntColor(x, y));
     				}
     				else{
-    					a_imageOut.setIntColor(l_x, l_y, a_imageIn.getIntColor(l_x, l_y));
+    					imageOut.setIntColor(x, y, imageIn.getIntColor(x, y));
     				}
     			}
     			else{
-    				a_imageOut.setIntColor(l_x, l_y, a_imageIn.getIntColor(l_x, l_y));
+    				imageOut.setIntColor(x, y, imageIn.getIntColor(x, y));
     			}
     		}
 		}

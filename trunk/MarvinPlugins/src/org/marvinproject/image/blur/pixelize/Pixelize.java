@@ -54,31 +54,31 @@ public class Pixelize extends MarvinAbstractImagePlugin
 	}
 
 	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Pixelize", 400,350, getImagePanel(), this);
-		l_filterWindow.addLabel("lblSquareSide", "Square Side");
-		l_filterWindow.addTextField("txtSquareSide", "squareSide", attributes);
-		l_filterWindow.setVisible(true);
+		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Pixelize", 400,350, getImagePanel(), this);
+		filterWindow.addLabel("lblSquareSide", "Square Side");
+		filterWindow.addTextField("txtSquareSide", "squareSide", attributes);
+		filterWindow.setVisible(true);
 	}
 
 	
 	public void process
 	(
-		MarvinImage a_imageIn, 
-		MarvinImage a_imageOut,
-		MarvinAttributes a_attributesOut,
-		MarvinImageMask a_mask, 
-		boolean a_previewMode
+		MarvinImage imageIn, 
+		MarvinImage imageOut,
+		MarvinAttributes attributesOut,
+		MarvinImageMask mask, 
+		boolean previewMode
 	)
 	{
 		int l_rgb;
 		
 		int squareSide = (Integer)attributes.get("squareSide");
-		arrMask = a_mask.getMaskArray();
+		arrMask = mask.getMaskArray();
 			
-		for (int x = 0; x < a_imageIn.getWidth(); x+=squareSide) {
-			for (int y = 0; y < a_imageIn.getHeight(); y+=squareSide) {				
-				l_rgb = getPredominantRGB(a_imageIn, x,y,squareSide);
-				fillRect(a_imageOut, x,y,squareSide, l_rgb);					
+		for (int x = 0; x < imageIn.getWidth(); x+=squareSide) {
+			for (int y = 0; y < imageIn.getHeight(); y+=squareSide) {				
+				l_rgb = getPredominantRGB(imageIn, x,y,squareSide);
+				fillRect(imageOut, x,y,squareSide, l_rgb);					
 			}
 		}
 	}

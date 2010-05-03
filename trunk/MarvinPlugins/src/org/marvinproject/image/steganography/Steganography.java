@@ -89,7 +89,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 	private int xH, yH = 0;
 	
 	public void load() {
-		attributes = new MarvinAttributes();
+		attributes = getAttributes();
 		attributes.set("txtLines", "");
 		attributes.set("cbSelecao", "Gravar na Imagem");
 		attributes.set("cbTipo", "Gravar Arquivo");

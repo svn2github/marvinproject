@@ -107,7 +107,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		text.setAttribute("color", 0xFFFFFFFF);
 		
 		
-		attributesOut = new MarvinAttributes();
+		attributesOut = new MarvinAttributes(null);
 				
 		thread = new Thread(this);
 		thread.start();

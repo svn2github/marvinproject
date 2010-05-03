@@ -93,23 +93,23 @@ public class ColorSpaceConverter extends MarvinAbstractImagePlugin
 	 */
 	public void process
 	(
-		MarvinImage a_imageIn, 
-		MarvinImage a_imageOut,
-		MarvinAttributes a_attributesOut,
-		MarvinImageMask a_mask, 
-		boolean a_previewMode
+		MarvinImage imageIn,
+		MarvinImage imageOut,
+		MarvinAttributes attributesOut,
+		MarvinImageMask mask, 
+		boolean previewMode
 	)
 	{
-		int l_imageWidth = a_imageIn.getWidth();
-		int l_imageHeight = a_imageIn.getHeight();
+		int l_imageWidth = imageIn.getWidth();
+		int l_imageHeight = imageIn.getHeight();
 		
 		for(int l_currentX = 0; l_currentX < l_imageWidth; l_currentX++)
 		{
 			for(int l_currentY = 0; l_currentY < l_imageHeight; l_currentY++)
 			{
-				double l_red = (double)(a_imageIn.getIntComponent0(l_currentX, l_currentY));
-				double l_green = (double)(a_imageIn.getIntComponent1(l_currentX, l_currentY));
-				double l_blue = (double)(a_imageIn.getIntComponent2(l_currentX, l_currentY));
+				double l_red = (double)(imageIn.getIntComponent0(l_currentX, l_currentY));
+				double l_green = (double)(imageIn.getIntComponent1(l_currentX, l_currentY));
+				double l_blue = (double)(imageIn.getIntComponent2(l_currentX, l_currentY));
 				
 				double l_normalisedRed = ( l_red / 255 );                     //RGB from 0 to 255
 				double l_normalisedGreen = ( l_green / 255 );
@@ -155,7 +155,7 @@ public class ColorSpaceConverter extends MarvinAbstractImagePlugin
 				//System.out.println(l_hue);
 				//l_hue = l_hue*255;
 				//System.out.println((int)((l_hue*255)/360) + "\n___________");
-				a_imageOut.setIntColor(l_currentX, l_currentY, (int)((l_hue*255)/360), (int)(l_sat*255), (int)(l_var*255));
+				imageOut.setIntColor(l_currentX, l_currentY, (int)((l_hue*255)/360), (int)(l_sat*255), (int)(l_var*255));
 			}
 		}
 	}

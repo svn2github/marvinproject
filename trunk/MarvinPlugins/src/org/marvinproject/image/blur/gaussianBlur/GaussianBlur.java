@@ -63,25 +63,25 @@ public class GaussianBlur extends MarvinAbstractImagePlugin
 	}
 
 	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Gaussian Blur", 400,350, getImagePanel(), this);
-		l_filterWindow.addLabel("lblWidth", "Radius:");
-		l_filterWindow.addTextField("txtRadius", "radius", attributes);
-		l_filterWindow.setVisible(true);
+		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Gaussian Blur", 400,350, getImagePanel(), this);
+		filterWindow.addLabel("lblWidth", "Radius:");
+		filterWindow.addTextField("txtRadius", "radius", attributes);
+		filterWindow.setVisible(true);
 	}
 
 	public void process
 	(
-		MarvinImage a_imageIn, 
-		MarvinImage a_imageOut,
-		MarvinAttributes a_attributesOut,
-		MarvinImageMask a_mask, 
-		boolean a_previewMode
+		MarvinImage imageIn, 
+		MarvinImage imageOut,
+		MarvinAttributes attributesOut,
+		MarvinImageMask mask, 
+		boolean previewMode
 	)
 	{
 		radius = (Integer)attributes.get("radius");
 
-		int l_imageWidth = a_imageIn.getWidth();
-		int l_imageHeight = a_imageIn.getHeight();
+		int l_imageWidth = imageIn.getWidth();
+		int l_imageHeight = imageIn.getHeight();
 
 		performanceMeter.start("Gaussian Blur");
 		performanceMeter.enableProgressBar("Gaussian Blur", (l_imageWidth*l_imageHeight)+l_imageWidth);
@@ -90,15 +90,15 @@ public class GaussianBlur extends MarvinAbstractImagePlugin
 		//kernelMatrix = getGaussianKernel();
 		resultMatrix = new double[l_imageWidth][l_imageHeight][3];
 		
-		boolean[][] l_arrMask = a_mask.getMaskArray();
+		boolean[][] l_arrMask = mask.getMaskArray();
 		performanceMeter.startEvent("Apply Kernel");
 		for (int x = 0; x < l_imageWidth; x++) {
 			for (int y = 0; y < l_imageHeight; y++) {	
 				if(l_arrMask != null && !l_arrMask[x][y]){
 					continue;
 				}
-				l_pixelColor = a_imageIn.getIntColor(x,y);
-				applyKernel(x,y,l_pixelColor,a_imageOut);
+				l_pixelColor = imageIn.getIntColor(x,y);
+				applyKernel(x,y,l_pixelColor,imageOut);
 			}
 			performanceMeter.incProgressBar(l_imageHeight);
 		}
@@ -114,7 +114,7 @@ public class GaussianBlur extends MarvinAbstractImagePlugin
 				resultMatrix[x][y][RED] = (short)(resultMatrix[x][y][0]%256);
 				resultMatrix[x][y][GREEN] = (short)(resultMatrix[x][y][1]%256);
 				resultMatrix[x][y][BLUE] = (short)(resultMatrix[x][y][2]%256);
-				a_imageOut.setIntColor(x,y,(int)resultMatrix[x][y][0], (int)resultMatrix[x][y][1], (int)resultMatrix[x][y][2]);
+				imageOut.setIntColor(x,y,(int)resultMatrix[x][y][0], (int)resultMatrix[x][y][1], (int)resultMatrix[x][y][2]);
 			}
 			performanceMeter.incProgressBar();
 			performanceMeter.stepsFinished(l_imageHeight);			
@@ -151,14 +151,14 @@ public class GaussianBlur extends MarvinAbstractImagePlugin
 	/*
 	 * Apply the blur matrix on a image region. 
 	 */
-	private void applyKernel(int a_centerPixel_X, int a_centerPixel_Y, int a_pixelColor, MarvinImage a_image)
+	private void applyKernel(int centerPixel_X, int centerPixel_Y, int pixelColor, MarvinImage image)
 	{
-		for(int y=a_centerPixel_Y; y<a_centerPixel_Y+(radius*2); y++){
-			for(int x=a_centerPixel_X; x<a_centerPixel_X+(radius*2); x++){
-				if(x-radius >= 0 && x-radius < a_image.getWidth() && y-radius >=0 && y-radius < a_image.getHeight()){
-					resultMatrix[x-radius][y-radius][RED]+= (((a_pixelColor & 0x00FF0000) >>> 16)*kernelMatrix[x-a_centerPixel_X][y-a_centerPixel_Y]);
-					resultMatrix[x-radius][y-radius][GREEN]+= (((a_pixelColor & 0x0000FF00) >>> 8)*kernelMatrix[x-a_centerPixel_X][y-a_centerPixel_Y]);
-					resultMatrix[x-radius][y-radius][BLUE]+= ((a_pixelColor & 0x000000FF)*kernelMatrix[x-a_centerPixel_X][y-a_centerPixel_Y]);
+		for(int y=centerPixel_Y; y<centerPixel_Y+(radius*2); y++){
+			for(int x=centerPixel_X; x<centerPixel_X+(radius*2); x++){
+				if(x-radius >= 0 && x-radius < image.getWidth() && y-radius >=0 && y-radius < image.getHeight()){
+					resultMatrix[x-radius][y-radius][RED]+= (((pixelColor & 0x00FF0000) >>> 16)*kernelMatrix[x-centerPixel_X][y-centerPixel_Y]);
+					resultMatrix[x-radius][y-radius][GREEN]+= (((pixelColor & 0x0000FF00) >>> 8)*kernelMatrix[x-centerPixel_X][y-centerPixel_Y]);
+					resultMatrix[x-radius][y-radius][BLUE]+= ((pixelColor & 0x000000FF)*kernelMatrix[x-centerPixel_X][y-centerPixel_Y]);
 				}
 			}
 			performanceMeter.stepsFinished(radius*2);

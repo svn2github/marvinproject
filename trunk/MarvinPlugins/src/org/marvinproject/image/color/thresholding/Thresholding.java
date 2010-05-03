@@ -55,38 +55,38 @@ public class Thresholding extends MarvinAbstractImagePlugin{
 	}
 	
 	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Thresholding", 400,350, getImagePanel(), this);
-		l_filterWindow.addLabel("lblThreshold", "Threshold");
-		l_filterWindow.addTextField("txtThreshold", "threshold", attributes);		
-		l_filterWindow.setVisible(true);
+		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Thresholding", 400,350, getImagePanel(), this);
+		filterWindow.addLabel("lblThreshold", "Threshold");
+		filterWindow.addTextField("txtThreshold", "threshold", attributes);		
+		filterWindow.setVisible(true);
 	}
 	
 	public void process
 	(
-		MarvinImage a_imageIn, 
-		MarvinImage a_imageOut,
-		MarvinAttributes a_attributesOut,
-		MarvinImageMask a_mask, 
-		boolean a_previewMode
+		MarvinImage imageIn, 
+		MarvinImage imageOut,
+		MarvinAttributes attributesOut,
+		MarvinImageMask mask, 
+		boolean previewMode
 	)
 	{
 		threshold = (Integer)attributes.get("threshold");
 		
-		pluginGray.process(a_imageIn, a_imageOut, a_attributesOut, a_mask, a_previewMode);
+		pluginGray.process(imageIn, imageOut, attributesOut, mask, previewMode);
 		
-		boolean[][] l_arrMask = a_mask.getMaskArray();
+		boolean[][] l_arrMask = mask.getMaskArray();
 		
-		for(int y=0; y<a_imageIn.getHeight(); y++){
-			for(int x=0; x<a_imageIn.getWidth(); x++){
+		for(int y=0; y<imageIn.getHeight(); y++){
+			for(int x=0; x<imageIn.getWidth(); x++){
 				if(l_arrMask != null && !l_arrMask[x][y]){
 					continue;
 				}
 				
-				if(a_imageIn.getIntComponent0(x,y) < threshold){
-					a_imageOut.setIntColor(x, y, 0,0,0);
+				if(imageIn.getIntComponent0(x,y) < threshold){
+					imageOut.setIntColor(x, y, 0,0,0);
 				}
 				else{
-					a_imageOut.setIntColor(x, y, 255,255,255);
+					imageOut.setIntColor(x, y, 255,255,255);
 				}				
 			}
 		}		

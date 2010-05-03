@@ -67,17 +67,17 @@ public class CombineByTransparency extends MarvinAbstractImagePlugin {
 	}
 	
 	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Gray", 400,350, getImagePanel(), this);
-		l_filterWindow.setVisible(true);
+		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Gray", 400,350, getImagePanel(), this);
+		filterWindow.setVisible(true);
 	}
 
 	public void process
 	(
-		MarvinImage a_imageIn, 
-		MarvinImage a_imageOut,
-		MarvinAttributes a_attributesOut,
-		MarvinImageMask a_mask, 
-		boolean a_previewMode
+		MarvinImage imageIn, 
+		MarvinImage imageOut,
+		MarvinAttributes attributesOut,
+		MarvinImageMask mask, 
+		boolean previewMode
 	)
 	{
 		xi = (Integer)attributes.get("xi");
@@ -101,33 +101,33 @@ public class CombineByTransparency extends MarvinAbstractImagePlugin {
 				l_blueB;
 		
 			
-		for(int l_y=0; l_y<a_imageIn.getHeight(); l_y++){
-    		for(int l_x=0; l_x<a_imageIn.getWidth(); l_x++){
+		for(int y=0; y<imageIn.getHeight(); y++){
+    		for(int x=0; x<imageIn.getWidth(); x++){
     			
-    			l_xCI = l_x-xi;
-    			l_yCI = l_y-yi;
+    			l_xCI = x-xi;
+    			l_yCI = y-yi;
     			
     			if(l_xCI >= 0 && l_xCI < l_widthCI && l_yCI >= 0 && l_yCI < l_heightCI){
     			
-    				l_redA = a_imageIn.getIntComponent0(l_x, l_y);
-    				l_greenA = a_imageIn.getIntComponent1(l_x, l_y);
-    				l_blueA = a_imageIn.getIntComponent2(l_x, l_y);
+    				l_redA = imageIn.getIntComponent0(x, y);
+    				l_greenA = imageIn.getIntComponent1(x, y);
+    				l_blueA = imageIn.getIntComponent2(x, y);
     				
     				l_redB = combinationImage.getIntComponent0(l_xCI, l_yCI);
     				l_greenB = combinationImage.getIntComponent1(l_xCI, l_yCI);
     				l_blueB = combinationImage.getIntComponent2(l_xCI, l_yCI);
     				
-    				a_imageOut.setIntColor
+    				imageOut.setIntColor
     				(
-    					l_x,
-    					l_y,
+    					x,
+    					y,
     					(int)((l_redA*(1.0-l_factor))+(l_redB*l_factor)),
     					(int)((l_greenA*(1.0-l_factor))+(l_greenB*l_factor)),
     					(int)((l_blueA*(1.0-l_factor))+(l_blueB*l_factor))
     				);
     			}
     			else{
-    				a_imageOut.setIntColor(l_x, l_y, a_imageIn.getIntColor(l_x, l_y));
+    				imageOut.setIntColor(x, y, imageIn.getIntColor(x, y));
     			}
     		}
 		}

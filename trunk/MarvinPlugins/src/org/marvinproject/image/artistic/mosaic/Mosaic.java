@@ -67,24 +67,24 @@ public class Mosaic extends MarvinAbstractImagePlugin
 	}
 
 	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Halftone - Circles", 420,350, getImagePanel(), this);
-		l_filterWindow.addLabel("lblWidth", "Tile witdh:");
-		l_filterWindow.addTextField("txtwidth", "width", attributes);
-		l_filterWindow.newComponentRow();
-		l_filterWindow.addLabel("lblWidth", "Format:");
-		l_filterWindow.addComboBox("combShape", "shape", new Object[]{SQUARES, TRIANGLES}, attributes);
-		l_filterWindow.newComponentRow();
-		l_filterWindow.addLabel("lblWidth", "Edge:");
-		l_filterWindow.addComboBox("combBorder", "border", new Object[]{true, false}, attributes);
-		l_filterWindow.setVisible(true);		
+		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Halftone - Circles", 420,350, getImagePanel(), this);
+		filterWindow.addLabel("lblWidth", "Tile witdh:");
+		filterWindow.addTextField("txtwidth", "width", attributes);
+		filterWindow.newComponentRow();
+		filterWindow.addLabel("lblWidth", "Format:");
+		filterWindow.addComboBox("combShape", "shape", new Object[]{SQUARES, TRIANGLES}, attributes);
+		filterWindow.newComponentRow();
+		filterWindow.addLabel("lblWidth", "Edge:");
+		filterWindow.addComboBox("combBorder", "border", new Object[]{true, false}, attributes);
+		filterWindow.setVisible(true);		
 	}
 
 	public void process
 	(
-		MarvinImage a_imageIn, 
-		MarvinImage a_imageOut,
-		MarvinAttributes a_attributesOut,
-		MarvinImageMask a_mask, 
+		MarvinImage imageIn, 
+		MarvinImage imageOut,
+		MarvinAttributes attributesOut,
+		MarvinImageMask mask, 
 		boolean a_previewMode
 	)
 	{		
@@ -92,40 +92,40 @@ public class Mosaic extends MarvinAbstractImagePlugin
 		shape = (String)attributes.get("shape");
 		border = (Boolean)attributes.get("border");
 
-		Graphics l_graphics = a_imageOut.getBufferedImage().getGraphics();
+		Graphics l_graphics = imageOut.getBufferedImage().getGraphics();
 
-		performanceMeter.enableProgressBar("Mosaic", a_imageIn.getHeight()*width);
+		performanceMeter.enableProgressBar("Mosaic", imageIn.getHeight()*width);
 
 		if(shape.equals(SQUARES)){
-			squaresMosaic(width, border, l_graphics, a_imageIn);
+			squaresMosaic(width, border, l_graphics, imageIn);
 		}
 		else if(shape.equals(TRIANGLES)){
-			trianglesMosaic(width, border, l_graphics, a_imageIn);
+			trianglesMosaic(width, border, l_graphics, imageIn);
 		}
 
-		a_imageOut.updateColorArray();
+		imageOut.updateColorArray();
 		performanceMeter.finish();
 	}
 
-	private void squaresMosaic(int a_width, boolean a_border, Graphics a_graphics, MarvinImage a_image){
+	private void squaresMosaic(int width, boolean border, Graphics graphics, MarvinImage image){
 		Color l_color;
 
-		for (int y = 0; y < a_image.getHeight(); y+=a_width) {
-			for (int x = 0; x < a_image.getWidth(); x+=a_width) {			
-				l_color = getSquareColor(x,y,a_image);
-				a_graphics.setColor(l_color);
-				a_graphics.fillRect((int)(x), (int)(y), (int)((a_width)), (int)((a_width)));
+		for (int y = 0; y < image.getHeight(); y+=width) {
+			for (int x = 0; x < image.getWidth(); x+=width) {			
+				l_color = getSquareColor(x,y,image);
+				graphics.setColor(l_color);
+				graphics.fillRect((int)(x), (int)(y), (int)((width)), (int)((width)));
 
-				if(a_border){
-					a_graphics.setColor(Color.black);
-					a_graphics.drawRect((int)(x), (int)(y), (int)((a_width)), (int)((a_width)));
+				if(border){
+					graphics.setColor(Color.black);
+					graphics.drawRect((int)(x), (int)(y), (int)((width)), (int)((width)));
 				}
 			}
-			performanceMeter.stepsFinished(a_image.getWidth());
+			performanceMeter.stepsFinished(image.getWidth());
 		}
 	}
 
-	private void trianglesMosaic(int a_width, boolean a_border, Graphics a_graphics, MarvinImage a_image){
+	private void trianglesMosaic(int width, boolean border, Graphics graphics, MarvinImage image){
 		Color l_colorT1;
 		Color l_colorT2;
 		int t=-1;
@@ -133,57 +133,57 @@ public class Mosaic extends MarvinAbstractImagePlugin
 
 		if
 		(
-			((a_image.getWidth()/a_width)%2 == 0 && a_image.getWidth()%a_width==0) ||
-			((a_image.getWidth()/a_width)%2 == 1 && a_image.getWidth()%a_width!=0)
+			((image.getWidth()/width)%2 == 0 && image.getWidth()%width==0) ||
+			((image.getWidth()/width)%2 == 1 && image.getWidth()%width!=0)
 		)
 		{
 			l_aux=false;
 		}
 		
-		for (int y = 0; y < a_image.getHeight(); y+=a_width) {
-			for (int x = 0; x < a_image.getWidth(); x+=a_width) {
+		for (int y = 0; y < image.getHeight(); y+=width) {
+			for (int x = 0; x < image.getWidth(); x+=width) {
 				if(t ==-1)
 				{
-					l_colorT1 = getTriangleColor(x,y,0, a_image);
-					l_colorT2 = getTriangleColor(x,y,1, a_image);
+					l_colorT1 = getTriangleColor(x,y,0, image);
+					l_colorT2 = getTriangleColor(x,y,1, image);
 
-					a_graphics.setColor(l_colorT1);
-					a_graphics.fillPolygon(new int[]{x,x+a_width,x}, new int[]{y,y,y+a_width},3);
-					if(a_border){
-						a_graphics.setColor(Color.black);
-						a_graphics.drawPolygon(new int[]{x,x+a_width,x}, new int[]{y,y,y+a_width},3);
+					graphics.setColor(l_colorT1);
+					graphics.fillPolygon(new int[]{x,x+width,x}, new int[]{y,y,y+width},3);
+					if(border){
+						graphics.setColor(Color.black);
+						graphics.drawPolygon(new int[]{x,x+width,x}, new int[]{y,y,y+width},3);
 					}
 
 
-					a_graphics.setColor(l_colorT2);
-					a_graphics.fillPolygon(new int[]{x+a_width,x+a_width,x}, new int[]{y,y+a_width,y+a_width},3);
-					if(a_border){
-						a_graphics.setColor(Color.black);
-						a_graphics.drawPolygon(new int[]{x+a_width,x+a_width,x}, new int[]{y,y+a_width,y+a_width},3);
+					graphics.setColor(l_colorT2);
+					graphics.fillPolygon(new int[]{x+width,x+width,x}, new int[]{y,y+width,y+width},3);
+					if(border){
+						graphics.setColor(Color.black);
+						graphics.drawPolygon(new int[]{x+width,x+width,x}, new int[]{y,y+width,y+width},3);
 					}
 				}
 				else{
-					l_colorT1 = getTriangleColor(x,y,2, a_image);
-					l_colorT2 = getTriangleColor(x,y,3, a_image);
+					l_colorT1 = getTriangleColor(x,y,2, image);
+					l_colorT2 = getTriangleColor(x,y,3, image);
 
 
-					a_graphics.setColor(l_colorT1);
-					a_graphics.fillPolygon(new int[]{x,x+a_width,x+a_width}, new int[]{y,y,y+a_width},3);
-					if(a_border){
-						a_graphics.setColor(Color.black);
-						a_graphics.drawPolygon(new int[]{x,x+a_width,x+a_width}, new int[]{y,y,y+a_width},3);
+					graphics.setColor(l_colorT1);
+					graphics.fillPolygon(new int[]{x,x+width,x+width}, new int[]{y,y,y+width},3);
+					if(border){
+						graphics.setColor(Color.black);
+						graphics.drawPolygon(new int[]{x,x+width,x+width}, new int[]{y,y,y+width},3);
 					}	
 
 
 
-					a_graphics.setColor(l_colorT2);
-					a_graphics.fillPolygon(new int[]{x, x+a_width,x}, new int[]{y,y+a_width,y+a_width},3);
-					if(a_border){
-						a_graphics.setColor(Color.black);
-						a_graphics.drawPolygon(new int[]{x, x+a_width,x}, new int[]{y,y+a_width,y+a_width},3);
+					graphics.setColor(l_colorT2);
+					graphics.fillPolygon(new int[]{x, x+width,x}, new int[]{y,y+width,y+width},3);
+					if(border){
+						graphics.setColor(Color.black);
+						graphics.drawPolygon(new int[]{x, x+width,x}, new int[]{y,y+width,y+width},3);
 					}
 				}
-				performanceMeter.stepsFinished(a_image.getWidth());	
+				performanceMeter.stepsFinished(image.getWidth());	
 				t*=-1;
 			}
 			if(l_aux){
@@ -192,7 +192,7 @@ public class Mosaic extends MarvinAbstractImagePlugin
 		}
 	}
 
-	private Color getSquareColor(int a_x, int a_y, MarvinImage image){
+	private Color getSquareColor(int aX, int aY, MarvinImage image){
 		int l_red=-1;
 		int l_green=-1;
 		int l_blue=-1;
@@ -200,16 +200,16 @@ public class Mosaic extends MarvinAbstractImagePlugin
 		for(int y=0; y<width; y++){
 			for(int x=0; x<width; x++)
 			{
-				if(a_x+x > 0 && a_x+x < image.getWidth() &&  a_y+y> 0 && a_y+y < image.getHeight()){
+				if(aX+x > 0 && aX+x < image.getWidth() &&  aY+y> 0 && aY+y < image.getHeight()){
 					if(l_red == -1){
-						l_red = image.getIntComponent0(a_x+x,a_y+y);
-						l_green = image.getIntComponent1(a_x+x,a_y+y);
-						l_blue = image.getIntComponent2(a_x+x,a_y+y);
+						l_red = image.getIntComponent0(aX+x,aY+y);
+						l_green = image.getIntComponent1(aX+x,aY+y);
+						l_blue = image.getIntComponent2(aX+x,aY+y);
 					}
 					else{
-						l_red = (l_red+image.getIntComponent0(a_x+x,a_y+y))/2;
-						l_green = (l_green+image.getIntComponent1(a_x+x,a_y+y))/2;
-						l_blue = (l_blue+image.getIntComponent2(a_x+x,a_y+y))/2;
+						l_red = (l_red+image.getIntComponent0(aX+x,aY+y))/2;
+						l_green = (l_green+image.getIntComponent1(aX+x,aY+y))/2;
+						l_blue = (l_blue+image.getIntComponent2(aX+x,aY+y))/2;
 					}
 				}
 			}
@@ -217,7 +217,7 @@ public class Mosaic extends MarvinAbstractImagePlugin
 		return new Color(l_red,l_green,l_blue);
 	}
 
-	private Color getTriangleColor(int a_x, int a_y, int a_tringlePos, MarvinImage image){
+	private Color getTriangleColor(int aX, int aY, int tringlePos, MarvinImage image){
 		int l_red=-1;
 		int l_green=-1;
 		int l_blue=-1;
@@ -227,7 +227,7 @@ public class Mosaic extends MarvinAbstractImagePlugin
 		int l_xOffSetInc=0;
 		int l_xInitalInc=0;
 
-		switch(a_tringlePos){
+		switch(tringlePos){
 			case 0:
 				l_xInitial=1;
 				l_xOffSet = width;
@@ -260,16 +260,16 @@ public class Mosaic extends MarvinAbstractImagePlugin
 
 		for(int w=0; w< width-1; w++){ 
 			while(x < l_xOffSet){
-				if(a_x+x > 0 && a_x+x < image.getWidth() &&  a_y+y> 0 && a_y+y < image.getHeight()){
+				if(aX+x > 0 && aX+x < image.getWidth() &&  aY+y> 0 && aY+y < image.getHeight()){
 					if(l_red == -1){
-						l_red = image.getIntComponent0(a_x+x,a_y+y);
-						l_green = image.getIntComponent1(a_x+x,a_y+y);
-						l_blue = image.getIntComponent2(a_x+x,a_y+y);
+						l_red = image.getIntComponent0(aX+x,aY+y);
+						l_green = image.getIntComponent1(aX+x,aY+y);
+						l_blue = image.getIntComponent2(aX+x,aY+y);
 					}
 					else{
-						l_red = (l_red+image.getIntComponent0(a_x+x,a_y+y))/2;
-						l_green = (l_green+image.getIntComponent1(a_x+x,a_y+y))/2;
-						l_blue = (l_blue+image.getIntComponent2(a_x+x,a_y+y))/2;
+						l_red = (l_red+image.getIntComponent0(aX+x,aY+y))/2;
+						l_green = (l_green+image.getIntComponent1(aX+x,aY+y))/2;
+						l_blue = (l_blue+image.getIntComponent2(aX+x,aY+y))/2;
 					}
 				}
 				x++;

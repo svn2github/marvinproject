@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="JMF"/>
-	<classpathentry kind="lib" path="C:/Users/Gabriel/Documents/Projetos/Java/j2se/MARVIN/repository/dev/trunk/MarvinSamples/lib/junit-4.7.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Gabriel/Documents/Projetos/Java/j2se/MARVIN/repository/dev/trunk/MarvinSamples/marvin/framework/marvin_1.3_rc2.jar"/>
+	<classpathentry kind="lib" path="lib/junit-4.7.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MarvinFramework"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
