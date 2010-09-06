@@ -83,7 +83,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 	private byte[] put;
 	private byte[] get;
 	
-	private Type tipo;
+	private Type type;
 	private long pixels;
 	private String ext;
 	private int xH, yH = 0;
@@ -91,13 +91,13 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 	public void load() {
 		attributes = getAttributes();
 		attributes.set("txtLines", "");
-		attributes.set("cbSelecao", "Gravar na Imagem");
-		attributes.set("cbTipo", "Gravar Arquivo");
+		attributes.set("cbSelection", "Write on Image");
+		attributes.set("cbType", "Store a file");
 	}
 		
 	public Action getAction(){
-		String s = attributes.get("cbSelecao").toString();
-		if(s.equals("Gravar na Imagem")){
+		String s = attributes.get("cbSelection").toString();
+		if(s.equals("Write on Image")){
 			return (Action.MODE_WRITE);
 		}else{
 			return (Action.MODE_READ);
@@ -105,8 +105,8 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 	}
 	
 	public Type getType(){
-		String s = attributes.get("cbTipo").toString();
-		if(s.equals("Gravar Arquivo")){
+		String s = attributes.get("cbType").toString();
+		if(s.equals("Store a file")){
 			return (Type.TYPE_FILE);
 		}else{
 			return (Type.TYPE_TEXT);
@@ -121,7 +121,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 		String binpar = "";
 		String pixaux = "";
 		ext = "";
-		tipo = null;
+		type = null;
 		pixels = 0L;
 		
 		currentColor = RED;
@@ -130,7 +130,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 		while(cont != numArgs){
 			binpar += readBit(a_image);	
 			if(binpar.length()==8){				
-				//Se for igual a / entao incrementa o CONT
+				//If equals, increment cont
 				if(binpar.equals("00101111")){
 					cont++;
 				}else{		
@@ -139,9 +139,9 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 					//File Type
 					case 0:
 						if(binpar.equals("01010100")){
-							tipo = Type.TYPE_TEXT;
+							type = Type.TYPE_TEXT;
 						}else{
-							tipo = Type.TYPE_FILE;
+							type = Type.TYPE_FILE;
 						}
 						break;
 						//File Extension
@@ -164,8 +164,8 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 	
 	public String setHEADER(File fileOrigin){
 		
-		//Cabeçalho do arquivo no seguinte formato:
-		//Tipo_do_armazenamento/Extensao/Qtde_Pixels
+		//File header in the following format:
+		//Storage type/Extension/Pixel amount
 		//F/docx/12345
 		String rec = "";
 		switch(getType()){
@@ -188,8 +188,8 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 
 	public String setHEADER(String Message){
 		
-		//Cabeçalho do arquivo no seguinte formato:
-		//Tipo_do_armazenamento/Extensao/Qtde_Pixels/
+		//File header in the following format:
+		//Storage type/Extension/Pixel amount
 		//F/docx/12345/
 		String rec = "";
 		switch(getType()){
@@ -229,7 +229,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 				switch(getType()){
 					case TYPE_FILE:
 						try{
-							JOptionPane.showMessageDialog(null, "Selecione um arquivo para armazenar na Imagem!");
+							JOptionPane.showMessageDialog(null, "Select a file to store on image");
 							JFileChooser jfc = new JFileChooser("./img");
 							jfc.setAcceptAllFileFilterUsed(true);
 							l_result = jfc.showOpenDialog(pluginWindow);					
@@ -244,7 +244,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 							File arq = new File(name);
 							PrepareFile(arq);					
 						}else{
-							JOptionPane.showMessageDialog(null, "Nome de Arquivo inválido para armazenar na Imagem!");
+							JOptionPane.showMessageDialog(null, "Invalid file name!");
 							return ;
 						}
 						break;
@@ -252,25 +252,27 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 						PrepareFile(((JTextArea) pluginWindow.getComponent("txtLines").getComponent()).getText());
 						break;
 					}				
-				if(Gravar_Imagem(a_imageIn, put))
-					JOptionPane.showMessageDialog(null, "Imagem modificada com Sucesso!");
+				if(Gravar_Imagem(a_imageIn, put)){
+					JOptionPane.showMessageDialog(null, "Image modified successfully");
+					pluginWindow.setVisible(false);
+				}
 				break;	
 			case MODE_READ:				
 				if(isPng(a_imageIn)){					
 					switch(StorageType(a_imageIn)){
 						case TYPE_TEXT:
-							JOptionPane.showMessageDialog(null, "TEM TEXTO");
+							JOptionPane.showMessageDialog(null, "Text found!");
 							ReadText(a_imageIn);
 							break;
 						case TYPE_FILE:
-							JOptionPane.showMessageDialog(null, "TEM ARQUIVO");
+							JOptionPane.showMessageDialog(null, "File found!");
 							ReadFile(a_imageIn);
 							break;
 						default:
-							JOptionPane.showMessageDialog(null, "Tipo de armazenamento não reconhecido.");
+							JOptionPane.showMessageDialog(null, "This file does not contain any content!");
 					}
 				}else{
-					JOptionPane.showMessageDialog(null, "A imagem deve ser do tipo PNG para ler.");
+					JOptionPane.showMessageDialog(null, "The image must be in PNG format!");
 					return ;
 				}				
 				break;
@@ -278,15 +280,15 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 	}
 	
 	public void show() {
-		pluginWindow = new MarvinPluginWindow("Steganografia",500,200);
+		pluginWindow = new MarvinPluginWindow("Steganografia",500,250);
 		
 		//Create the objects to receive the text that will be masked on the image...				
 		pluginWindow.newComponentRow();
-		pluginWindow.addComboBox("cbSelecao", "cbSelecao", new String[] {"Ler Imagem","Gravar na Imagem"}, attributes);
+		pluginWindow.addComboBox("cbSelection", "cbSelection", new String[] {"Read from Image","Write on Image"}, attributes);
 		pluginWindow.newComponentRow();
-		pluginWindow.addComboBox("cbTipo", "cbTipo", new String[] {"Gravar Arquivo","Gravar Texto"}, attributes);
+		pluginWindow.addComboBox("cbType", "cbType", new String[] {"Store a file","Store a text"}, attributes);
 		pluginWindow.newComponentRow();
-		pluginWindow.addLabel("lblTexto", "Digite abaixo o Texto para Mascarar na Imagem:");
+		pluginWindow.addLabel("lblTexto", "Type below the text to be stored:");
 		pluginWindow.newComponentRow();
 		pluginWindow.addTextArea("txtLines", "txtLines", 2, 40, attributes);
 		
@@ -296,11 +298,11 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 		buttonOK.addActionListener(this);
 		pluginWindow.getCurrentPanel().add(buttonOK);
 		
-		JComboBox cbSel = (JComboBox) pluginWindow.getComponent("cbSelecao").getComponent();	
+		JComboBox cbSel = (JComboBox) pluginWindow.getComponent("cbSelection").getComponent();	
 		cbSel.addActionListener(this);
 		
-		JComboBox cbTipo = (JComboBox) pluginWindow.getComponent("cbTipo").getComponent();
-		cbTipo.setVisible(false);
+		JComboBox cbType = (JComboBox) pluginWindow.getComponent("cbType").getComponent();
+		cbType.setVisible(false);
 		pluginWindow.setVisible(true);
 	}
 		
@@ -321,7 +323,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 	
 	private Type StorageType(MarvinImage a_image){
 		getHEADER(a_image);
-		return tipo;
+		return type;
 	}
 	
 	private void ReadText(MarvinImage a_image){
@@ -362,7 +364,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 		
 		try {			
 			String name = "";
-			JOptionPane.showMessageDialog(null, "Selecione um local para salvar o arquivo extraído da imagem.");
+			JOptionPane.showMessageDialog(null, "Select the file destination.");
 			FileNameExtensionFilter[] vExt = new FileNameExtensionFilter[]{new FileNameExtensionFilter("File - *."+ext,ext)};
 			name = MarvinFileChooser.select(pluginWindow,false,MarvinFileChooser.SAVE_DIALOG,vExt);			
 
@@ -377,7 +379,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 				}
 				on.close();
 			}else{
-				JOptionPane.showMessageDialog(null, "Nome de arquivo inválido para Salvar.");
+				JOptionPane.showMessageDialog(null, "Invalid file name.");
 			}
 		}catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -401,7 +403,6 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 			cont++;
 		}
 			
-		//Armazena os binarios de 3 em 3 bits em um array...
 		for (int j = 0; j < Message.length(); j++){
 			put[cont] = (byte) Message.charAt(j);
 			cont++;			
@@ -462,10 +463,10 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 			process(getImagePanel().getImage(), null, null, MarvinImageMask.NULL_MASK, false);
 		}
 		else{
-			JComboBox cbSel = (JComboBox) pluginWindow.getComponent("cbSelecao").getComponent();
-			JComboBox cbTipo = (JComboBox) pluginWindow.getComponent("cbTipo").getComponent();
+			JComboBox cbSel = (JComboBox) pluginWindow.getComponent("cbSelection").getComponent();
+			JComboBox cbType = (JComboBox) pluginWindow.getComponent("cbType").getComponent();
 	
-			cbTipo.setVisible(cbSel.getSelectedItem() == "Gravar na Imagem");
+			cbType.setVisible(cbSel.getSelectedItem() == "Write on Image");
 		}
 	}
 
@@ -499,16 +500,15 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 		switch(currentColor){
 		    case RED:
 		       if(vbit == 0){
-					//Se g for ímpar...
+					//If r is odd
 					if(r % 2 !=0){
-						//Se g+1 for menor que 255...
+						//If r+i is less than 255
 						if(r + 1 <255){ r += 1; }else{ r -= 1; }
 					}
-					//Se o bit for 1...
 				}else{
-					//Se r for par...
+					//If r is even
 					if(r % 2 ==0){
-						//Se r+1 for menor que 255...
+						//If r+1 is less than 255
 						if(r + 1 < 255){ r += 1; }else{ r -= 1; }
 					}
 			   }
@@ -519,16 +519,15 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 		   
 		   case GREEN:
 		       if(vbit == 0){
-					//Se g for ímpar...
+					//If g is odd
 					if(g % 2 !=0){
-						//Se g+1 for menor que 255...
+						//If g+i is less than 255
 						if(g + 1 <255){ g += 1; }else{ g -= 1; }
 					}
-					//Se o bit for 1...
 				}else{
-					//Se r for par...
+					//If g is even
 					if(g % 2 ==0){
-						//Se r+1 for menor que 255...
+						//If g+1 is less than 255
 						if(g + 1 < 255){ g += 1; }else{ g -= 1; }
 					}
 			   }
@@ -540,16 +539,15 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 		   
 		   case BLUE:
 		       if(vbit == 0){
-					//Se g for ímpar...
+					//If b is odd
 					if(b % 2 !=0){
-						//Se g+1 for menor que 255...
+						//If b+1 is less than 255
 						if(b + 1 <255){ b += 1; }else{ b -= 1; }
 					}
-					//Se o bit for 1...
 				}else{
-					//Se r for par...
+					//If b is even
 					if(b % 2 ==0){
-						//Se r+1 for menor que 255...
+						//If b+1 is less than 255
 						if(b + 1 < 255){ b += 1; }else{ b -= 1; }
 					}
 			   }
