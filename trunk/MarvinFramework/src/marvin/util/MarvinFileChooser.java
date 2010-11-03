@@ -30,6 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 package marvin.util;
 
 import java.awt.Component;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -66,7 +67,7 @@ public class MarvinFileChooser extends JDialog{
 	 * @return Selected file
 	 * @throws IOException 
 	 */
-	public static String select(Component parent, boolean forceExistingFile, int dialogType, FileNameExtensionFilter[] arrExtensions) throws IOException{
+	public static String select(String directory, Component parent, boolean forceExistingFile, int dialogType, FileNameExtensionFilter[] arrExtensions) throws IOException{
 		int res=0;
 		
 		if(chooser == null)
@@ -81,6 +82,11 @@ public class MarvinFileChooser extends JDialog{
 			for(int i=0; i<arrExtensions.length; i++){
 				chooser.addChoosableFileFilter(arrExtensions[i]);
 			}
+		}
+		
+		// Set directory
+		if(directory != null){
+			chooser.setCurrentDirectory(new File(directory));
 		}
 		
 		//Open the image chooser dialog		
@@ -127,6 +133,14 @@ public class MarvinFileChooser extends JDialog{
 	}
 
 	public static String select(Component parent, boolean forceExistingFile, int dialogType) throws IOException{
-		return select(parent, forceExistingFile, dialogType, AllSupportedImages);
+		return select(null, parent, forceExistingFile, dialogType, AllSupportedImages);
+	}
+	
+	public static String select(String directory, Component parent, boolean forceExistingFile, int dialogType) throws IOException{
+		return select(directory, parent, forceExistingFile, dialogType, AllSupportedImages);
+	}
+	
+	public static String select(Component parent, boolean forceExistingFile, int dialogType, FileNameExtensionFilter[] arrExtensions) throws IOException{
+		return select(null, parent, forceExistingFile, dialogType, arrExtensions);
 	}
 }

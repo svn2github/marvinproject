@@ -51,9 +51,6 @@ public class MarvinImage implements Cloneable {
 
 	// Image
 	protected BufferedImage image;
-
-	// File path
-	protected String filePath;
 	
 	// Array Color
 	protected int[] arrColor;
@@ -78,7 +75,6 @@ public class MarvinImage implements Cloneable {
 	 */
 	public MarvinImage(BufferedImage img){		
 		this.image =  img;
-		filePath = "";
 		formatName = "jpg";
 		width = img.getWidth();
 		height = img.getHeight();
@@ -92,9 +88,7 @@ public class MarvinImage implements Cloneable {
 	 */
 	public MarvinImage(BufferedImage img, String fmtName){		
 		this.image =  img;
-		formatName = fmtName;
-		filePath = "";
-		
+		formatName = fmtName;		
 		width = img.getWidth();
 		height = img.getHeight();
 		
@@ -108,7 +102,6 @@ public class MarvinImage implements Cloneable {
 	 */
 	public MarvinImage(int w, int h){
 		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		filePath = "";
 		formatName = "jpg";
 		setDimension(w, h);		
 	}
@@ -152,20 +145,6 @@ public class MarvinImage implements Cloneable {
 	 */
 	public String getFormatName(){
 		return formatName;
-	}
-	
-	/**
-	 * @param fp : file path to this MarvinImage
-	 */
-	public void setFilePath(String fp){
-		filePath = fp;
-	}
-	
-	/**
-	 * @return file path associated to this MarvinImage, if exists.
-	 */
-	public String getFilePath(){
-		return filePath;
 	}
 	
 	public void setDimension(int w, int h){

@@ -106,7 +106,7 @@ public class MarvinImagePanel extends JPanel{
 		image = img;
 		if(fitSizeToImage && img != null){
 			setPreferredSize(new Dimension(image.getWidth(),image.getHeight()));
-		}		
+		}
 		repaint();
 	}
 	

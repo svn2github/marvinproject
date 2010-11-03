@@ -152,7 +152,7 @@ public class AboutDialog extends JDialog implements Runnable{
 			}
 			
 			try{
-				Thread.sleep(3000);
+				Thread.sleep(700);
 			}
 			catch(Exception e){
 				e.printStackTrace();
