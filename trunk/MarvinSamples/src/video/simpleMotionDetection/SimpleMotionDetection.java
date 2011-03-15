@@ -139,8 +139,8 @@ public class SimpleMotionDetection extends JFrame implements Runnable{
 			
 			differencePercentage = getDifference(imageLastFrame, imageIn);
 			
-			MarvinImage.copyIntColorArray(imageIn, imageOut);			
-			MarvinImage.copyIntColorArray(imageOut, imageLastFrame);
+			MarvinImage.copyColorArray(imageIn, imageOut);			
+			MarvinImage.copyColorArray(imageOut, imageLastFrame);
 			videoManager.updatePanel();
 			
 			if(differencePercentage > sensibility){

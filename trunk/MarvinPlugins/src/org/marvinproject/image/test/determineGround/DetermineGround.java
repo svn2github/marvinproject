@@ -46,7 +46,7 @@ public class DetermineGround extends MarvinAbstractImagePlugin{
     	a_imageOut.drawRect(0, 0,a_imageOut.getWidth(), a_imageOut.getHeight(), Color.white);
     	
     	// Copy a_imageOut content to a_imageIn
-    	a_imageOut.copyIntColorArray(a_imageOut, a_imageIn);
+    	a_imageOut.copyColorArray(a_imageOut, a_imageIn);
     	
     	max(a_imageIn, a_imageOut);
     	
@@ -55,7 +55,7 @@ public class DetermineGround extends MarvinAbstractImagePlugin{
     	//System.out.println("time:"+(System.currentTimeMillis()-time));
     	
     	blend(a_imageOut, l_originalImage);
-    	a_imageOut.copyIntColorArray(l_originalImage, a_imageOut);
+    	a_imageOut.copyColorArray(l_originalImage, a_imageOut);
 	}
     
     private void blend(MarvinImage a_imageIn, MarvinImage a_imageOut){

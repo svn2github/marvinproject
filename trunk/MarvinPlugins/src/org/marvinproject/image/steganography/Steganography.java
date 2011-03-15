@@ -249,10 +249,11 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 						}
 						break;
 					case TYPE_TEXT:
-						PrepareFile(((JTextArea) pluginWindow.getComponent("txtLines").getComponent()).getText());
+						prepareFile(((JTextArea) pluginWindow.getComponent("txtLines").getComponent()).getText());
 						break;
 					}				
-				if(Gravar_Imagem(a_imageIn, put)){
+				if(storeOnImage(a_imageIn, put)){
+					a_imageIn.update();
 					JOptionPane.showMessageDialog(null, "Image modified successfully");
 					pluginWindow.setVisible(false);
 				}
@@ -280,7 +281,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 	}
 	
 	public void show() {
-		pluginWindow = new MarvinPluginWindow("Steganografia",500,250);
+		pluginWindow = new MarvinPluginWindow("Steganografia",500,300);
 		
 		//Create the objects to receive the text that will be masked on the image...				
 		pluginWindow.newComponentRow();
@@ -290,7 +291,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 		pluginWindow.newComponentRow();
 		pluginWindow.addLabel("lblTexto", "Type below the text to be stored:");
 		pluginWindow.newComponentRow();
-		pluginWindow.addTextArea("txtLines", "txtLines", 2, 40, attributes);
+		pluginWindow.addTextArea("txtLines", "txtLines", 6, 40, attributes);
 		
 		pluginWindow.newComponentRow();
 		
@@ -306,7 +307,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 		pluginWindow.setVisible(true);
 	}
 		
-	public boolean Gravar_Imagem(MarvinImage a_image, byte[] Put){
+	public boolean storeOnImage(MarvinImage a_image, byte[] Put){
 		
 //		if((Put.length*8) > (a_image.getWidth()*a_image.getHeight()*3)){
 //			JOptionPane.showMessageDialog(null, "Espaço insulficiente na imagem para armazenar informações solicitadas.","Marvin", JOptionPane.ERROR_MESSAGE);
@@ -389,7 +390,7 @@ public class Steganography extends MarvinAbstractImagePlugin implements ActionLi
 						
 	}
 	
-	private void PrepareFile(String Message){
+	private void prepareFile(String Message){
 
 		String header = "";
 		int cont = 0;

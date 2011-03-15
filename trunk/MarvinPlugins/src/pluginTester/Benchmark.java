@@ -88,8 +88,8 @@ public class Benchmark {
 		}
 		
 		totalTime = System.currentTimeMillis();
-		for(int e=0; e<NUM_EXECUTIONS; e++){
-			for(int i=0; i<plugins.size(); i++){
+		for(int i=0; i<plugins.size(); i++){
+			for(int e=0; e<NUM_EXECUTIONS; e++){
 				tempPlugin = (MarvinImagePlugin)plugins.get(i);
 				tempPlugin.load();
 				imageOut = new MarvinImage(image.getWidth(), image.getHeight());
@@ -97,18 +97,20 @@ public class Benchmark {
 				time = System.currentTimeMillis();
 				tempPlugin.process(image, imageOut, null, MarvinImageMask.NULL_MASK, false);
 				timeByPlugin[i][e] = (System.currentTimeMillis()-time);
-				//text.append("\nPlugin:"+tempPlugin.getClass().getSimpleName()+" - time:"+(System.currentTimeMillis()-time));
+				System.out.print(".");
 			}
+			
 		}
+		System.out.println("FINISHED");
 		
-		long leastTime;
+		long avgTime;
 		for(int i=0; i<plugins.size(); i++){
-			leastTime=0;
+			avgTime=0;
 			for(int e=0; e<NUM_EXECUTIONS; e++){
-				leastTime += timeByPlugin[i][e];
+				avgTime += timeByPlugin[i][e];
 			}
-			leastTime /= NUM_EXECUTIONS;
-			text.append("\nPlugin:"+plugins.get(i).getClass().getSimpleName()+" - time:"+leastTime);
+			avgTime /= NUM_EXECUTIONS;
+			text.append("\nPlugin:"+plugins.get(i).getClass().getSimpleName()+" - Avarage time:"+avgTime);
 		}
 		
 		text.append("\n\n total time:"+(System.currentTimeMillis()-totalTime));

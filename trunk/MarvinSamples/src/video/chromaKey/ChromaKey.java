@@ -165,7 +165,7 @@ public class ChromaKey extends JFrame implements Runnable{
 					pluginCombine.process(imageOut, imageOut, null, MarvinImageMask.NULL_MASK, false);					
 				}
 				else{
-					MarvinImage.copyIntColorArray(imageIn, imageOut);
+					MarvinImage.copyColorArray(imageIn, imageOut);
 				}
 				videoManager.updatePanel();
 			}
@@ -180,7 +180,7 @@ public class ChromaKey extends JFrame implements Runnable{
 	private class ButtonHandler implements ActionListener{
 		public void actionPerformed(ActionEvent a_event){
 			if(a_event.getSource() == buttonCaptureBackground){
-				MarvinImage.copyIntColorArray(videoManager.getCapturedImage(), imageBackground);
+				MarvinImage.copyColorArray(videoManager.getCapturedImage(), imageBackground);
 				pluginChroma.setAttribute("backgroundImage", imageBackground);
 				buttonStart.setEnabled(true);
 			}

@@ -32,7 +32,8 @@
 				<entry name="Gray Gradient" package="org.marvinproject.image.render.grayGradient.jar" icon="grayGradient.png"></entry>	
 				<entry name="Iterated Function System" package="org.marvinproject.image.render.iteratedFunctionSystem.jar"></entry>	
 				<entry name="Lindenmayer" package="org.marvinproject.image.render.lindenmayer.jar"></entry>	
-				<entry name="Mandelbrot" package="org.marvinproject.image.render.mandelbrot.jar"></entry>	
+				<entry name="Mandelbrot" package="org.marvinproject.image.render.mandelbrot.jar"></entry>
+				<entry name="JuliaSet" package="org.marvinproject.image.render.juliaSet.jar"></entry>
 			</item>
 			<item name="Restoration">
 				<entry name="Noise Reduction" package="org.marvinproject.image.restoration.noiseReduction.jar" icon="noiseReduction.png"></entry>	
@@ -41,10 +42,10 @@
 				<entry name="Image Slicer" package="org.marvinproject.image.segmentation.imageSlicer.jar" icon="imageSlicer.png"></entry>			
 			</item>
 			<item name="Statistical">
-				<entry name="Minimum" package="org.marvinproject.statistical.minimum.jar"></entry>
-				<entry name="Maximum" package="org.marvinproject.statistical.maximum.jar"></entry>
-				<entry name="Median" package="org.marvinproject.statistical.median.jar"></entry>
-				<entry name="Mode" package="org.marvinproject.statistical.mode.jar"></entry>
+				<entry name="Minimum" package="org.marvinproject.image.statistical.minimum.jar"></entry>
+				<entry name="Maximum" package="org.marvinproject.image.statistical.maximum.jar"></entry>
+				<entry name="Median" package="org.marvinproject.image.statistical.median.jar"></entry>
+				<entry name="Mode" package="org.marvinproject.image.statistical.mode.jar"></entry>
 			</item>
 			<item name="Steganography">
 				<entry name="Steganography" package="org.marvinproject.image.steganography.jar" icon="steganography.png"></entry>

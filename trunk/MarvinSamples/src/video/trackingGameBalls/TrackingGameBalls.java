@@ -207,7 +207,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 			imageIn = videoManager.getCapturedImage();
 			imageOut = videoManager.getResultImage();
 						
-			MarvinImage.copyIntColorArray(imageIn, imageOut);
+			MarvinImage.copyColorArray(imageIn, imageOut);
 			
 			if(regionSelected){
 				pluginColorPattern.setAttribute("differenceColorRange", sensibility);

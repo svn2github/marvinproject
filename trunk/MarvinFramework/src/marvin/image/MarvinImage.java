@@ -44,21 +44,27 @@ import java.awt.image.BufferedImage;
  * @author Gabriel Ambrosio Archanjo
  */
 public class MarvinImage implements Cloneable {
-	// Definitions
-	public final static int TYPE_INT_RGB	= 0;
 	
+	public final static int COLOR_MODEL_RGB 	= 0;
+	public final static int COLOR_MODEL_BINARY 	= 1;
+	
+	// Definitions
 	public final static int PROPORTIONAL = 0;	
 
 	// Image
 	protected BufferedImage image;
 	
 	// Array Color
-	protected int[] arrColor;
+	protected int[] arrIntColor;
+	protected boolean[] arrBinaryColor;
 	
 	// Colors
 	protected int rgb, r, b, g;
 	protected Color color;
 
+	// Color Model
+	protected int colorModel;
+	
 	// Format
 	protected String formatName;
 	
@@ -78,6 +84,7 @@ public class MarvinImage implements Cloneable {
 		formatName = "jpg";
 		width = img.getWidth();
 		height = img.getHeight();
+		colorModel = COLOR_MODEL_RGB;
 		updateColorArray();
 	}
 	
@@ -91,7 +98,7 @@ public class MarvinImage implements Cloneable {
 		formatName = fmtName;		
 		width = img.getWidth();
 		height = img.getHeight();
-		
+		colorModel = COLOR_MODEL_RGB;
 		updateColorArray();
 	}
 
@@ -101,9 +108,15 @@ public class MarvinImage implements Cloneable {
 	 * @param int height
 	 */
 	public MarvinImage(int w, int h){
-		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		colorModel = COLOR_MODEL_RGB;
 		formatName = "jpg";
-		setDimension(w, h);		
+		setDimension(w, h);
+	}
+	
+	public MarvinImage(int w, int h, int cm){
+		colorModel = cm;
+		formatName = "jpg";
+		setDimension(w, h);
 	}
 	
 	
@@ -116,12 +129,19 @@ public class MarvinImage implements Cloneable {
 	}
 	
 	public void updateColorArray(){
-		arrColor = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
+		arrIntColor = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
 	}
 	
 	public void update(){
-		int w = image.getWidth();		
-		image.setRGB(0, 0, image.getWidth(), image.getHeight(), arrColor,0,w);
+		int w = image.getWidth();
+		switch(colorModel){
+			case COLOR_MODEL_RGB:
+				image.setRGB(0, 0, image.getWidth(), image.getHeight(), arrIntColor,0,w);
+				break;
+			case COLOR_MODEL_BINARY:
+				image.setRGB(0, 0, image.getWidth(), image.getHeight(), MarvinColorModelConverter.binaryToRgb(arrBinaryColor),0,w);
+				break;
+		}
 	}
 	
 	public void clearImage(int color){
@@ -139,6 +159,10 @@ public class MarvinImage implements Cloneable {
 		return image.getType();
 	}
 	
+	public int getColorModel(){
+		return colorModel;
+	}
+	
 	//@todo remove ambiguity between Type and FormatName
 	/*
 	 * @return image format name
@@ -151,30 +175,67 @@ public class MarvinImage implements Cloneable {
 		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		width = w;
 		height = h;
-		arrColor = new int[width*height];		
+		
+		switch(colorModel){
+			case COLOR_MODEL_RGB:
+				arrIntColor = new int[width*height];
+				break;
+			case COLOR_MODEL_BINARY:
+				arrBinaryColor = new boolean[width*height];
+				break;
+		}
+				
 	}
 
 	/**
 	 * @return integer color array for the entire image.
 	 */
 	public int[] getIntColorArray(){
-		return arrColor;
+		return arrIntColor;
 	}
 	
 	/**
 	 *	Set the integer color array for the entire image.
 	 **/
 	public void setIntColorArray(int[] arr){
-		arrColor = arr;
+		arrIntColor = arr;
 	}
 	
-	/**
-	 * 
-	 */
-	public static void copyIntColorArray(MarvinImage imgSource, MarvinImage imgDestine){
+	public static void copyColorArray(MarvinImage imgSource, MarvinImage imgDestine){
+		
+		if(imgSource.getColorModel() != imgDestine.getColorModel()){
+			throw new RuntimeException("copyColorArray(): Incompatible Images Color Model");
+		}
+		
+		switch(imgSource.getColorModel()){
+			case COLOR_MODEL_RGB:
+				copyIntColorArray(imgSource, imgDestine);
+				break;
+			case COLOR_MODEL_BINARY:
+				copyBinaryColorArray(imgSource, imgDestine);
+				break;
+		}
+	}
+	
+	protected static void copyIntColorArray(MarvinImage imgSource, MarvinImage imgDestine){
 		System.arraycopy(imgSource.getIntColorArray(), 0, imgDestine.getIntColorArray(), 0, imgSource.getWidth()*imgSource.getHeight());
 	}
 	
+	protected static void copyBinaryColorArray(MarvinImage imgSource, MarvinImage imgDestine){
+		System.arraycopy(imgSource.getBinaryColorArray(), 0, imgDestine.getBinaryColorArray(), 0, imgSource.getWidth()*imgSource.getHeight());
+	}
+	
+	public boolean[] getBinaryColorArray(){
+		return arrBinaryColor;
+	}
+	
+	public boolean getBinaryColor(int x, int y){
+		return arrBinaryColor[y*width+x];
+	}
+	
+	public void setBinaryColor(int x, int y, boolean value){
+		arrBinaryColor[y*width+x] = value;
+	}
 	
 	/**
 	 * Gets the integer color composition for x, y position
@@ -183,7 +244,7 @@ public class MarvinImage implements Cloneable {
 	 * @return int		color
 	 */
 	public int getIntColor(int x, int y){
-		return arrColor[y*width+x];
+		return arrIntColor[y*width+x];
 	}
 	
 	
@@ -194,7 +255,7 @@ public class MarvinImage implements Cloneable {
 	 * @return int		color component 0
 	 */	
 	public int getIntComponent0(int x, int y){
-		return (arrColor[((y*width+x))]& 0x00FF0000) >>> 16;
+		return (arrIntColor[((y*width+x))]& 0x00FF0000) >>> 16;
 	}
 
 	/**
@@ -204,7 +265,7 @@ public class MarvinImage implements Cloneable {
 	 * @return int color component 1
 	 */	
 	public int getIntComponent1(int x, int y){
-		return (arrColor[((y*width+x))]& 0x0000FF00) >>> 8;
+		return (arrIntColor[((y*width+x))]& 0x0000FF00) >>> 8;
 	}
 
 	/**
@@ -214,7 +275,7 @@ public class MarvinImage implements Cloneable {
 	 * @return int blue color
 	 */	
 	public int getIntComponent2(int x, int y){
-		return (arrColor[((y*width+x))] & 0x000000FF);
+		return (arrIntColor[((y*width+x))] & 0x000000FF);
 	}
 
 	/**
@@ -247,7 +308,7 @@ public class MarvinImage implements Cloneable {
 	 * @param color 	color value
 	 */
 	public void setIntColor(int x, int y, int color){
-		arrColor[((y*image.getWidth()+x))] = color;
+		arrIntColor[((y*image.getWidth()+x))] = color;
 	}
 
 	/**
@@ -259,7 +320,7 @@ public class MarvinImage implements Cloneable {
 	 * @param c2 	component 2
 	 */
 	public void setIntColor(int x, int y, int c0, int c1, int c2){
-		arrColor[((y*image.getWidth()+x))] = (255 << 24)+
+		arrIntColor[((y*image.getWidth()+x))] = (255 << 24)+
 		(c0 << 16)+
 		(c1 << 8)+
 		c2;
@@ -435,7 +496,7 @@ public class MarvinImage implements Cloneable {
 			MarvinImage newMarvinImg = (MarvinImage)super.clone();
 			BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
 			newMarvinImg.setBufferedImage(newImage);
-			MarvinImage.copyIntColorArray(this, newMarvinImg);
+			MarvinImage.copyColorArray(this, newMarvinImg);
 			newMarvinImg.update();
 			return newMarvinImg;
 
@@ -586,7 +647,7 @@ public class MarvinImage implements Cloneable {
 		}
 		
 		for(int l_cont=0; l_cont<getHeight(); l_cont++){
-			if(arrColor[l_cont] != l_arrColor[l_cont]){
+			if(arrIntColor[l_cont] != l_arrColor[l_cont]){
 				return false;
 			}
 		}	

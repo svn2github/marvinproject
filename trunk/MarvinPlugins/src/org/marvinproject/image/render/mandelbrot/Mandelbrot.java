@@ -109,7 +109,7 @@ public class Mandelbrot extends MarvinAbstractImagePlugin{
 				iter=0;
 				while(Math.sqrt(nx*nx + ny*ny) < 2.0 && iter < iterations){
 					nx1 = nx*nx-ny*ny;
-					ny1 = nx*ny+ny*nx;
+					ny1 = 2*(nx*ny);
 
 					nx = nx1+x0;
 					ny = ny1+y0;						 

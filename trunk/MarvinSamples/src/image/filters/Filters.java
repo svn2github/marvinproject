@@ -33,6 +33,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.ByteBuffer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -105,7 +106,7 @@ public class Filters extends JFrame
 	
 	private void loadImage(){
 		image = MarvinImageIO.loadImage("./res/arara.jpg");
-		backupImage = image.clone();		
+		backupImage = image.clone();
 	}
 	
 	public static void main(String args[]){

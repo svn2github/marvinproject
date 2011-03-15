@@ -72,18 +72,18 @@ public class GrayScale extends MarvinAbstractImagePlugin
 		
 		performanceMeter.start("Gray");
 		performanceMeter.startEvent("Gray");
-		int r,g,b,corfinal;
+		int r,g,b,finalColor;
 		for (int x = 0; x < imageIn.getWidth(); x++) {
 			for (int y = 0; y < imageIn.getHeight(); y++) {
 				if(l_arrMask != null && !l_arrMask[x][y]){
 					continue;
 				}
-				//Red - 30% / Blue - 59% / Green - 11%
+				//Red - 30% / Green - 59% / Blue - 11%
 				r = imageIn.getIntComponent0(x, y);
 				g = imageIn.getIntComponent1(x, y);
 				b = imageIn.getIntComponent2(x, y);
-				corfinal = (int)((r*0.3)+(b*0.59)+(g*0.11));
-				imageOut.setIntColor(x,y,corfinal,corfinal,corfinal);
+				finalColor = (int)((r*0.3)+(g*0.59)+(b*0.11));
+				imageOut.setIntColor(x,y,finalColor,finalColor,finalColor);
 								
 			}
 			performanceMeter.stepsFinished(imageIn.getHeight());

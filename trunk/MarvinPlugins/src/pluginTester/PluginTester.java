@@ -48,7 +48,7 @@ import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.plugin.MarvinPlugin;
 
-import org.marvinproject.image.fill.boundaryFill.BoundaryFill;
+import org.marvinproject.image.steganography.Steganography;
 
 /**
  * Test plug-ins and generate .jar files
@@ -81,7 +81,7 @@ public class PluginTester extends JFrame{
 		HashMap<Object,Object> test = new HashMap<Object,Object>();
 		test.put("key", null);
 		
-		MarvinImagePlugin l_plugin = new BoundaryFill();
+		MarvinImagePlugin l_plugin = new Steganography();
 		
 		
 		
@@ -151,10 +151,15 @@ public class PluginTester extends JFrame{
 		
 		
 		// Load image
-		originalImage = MarvinImageIO.loadImage(INITIAL_IMAGE);
+		originalImage = MarvinImageIO.loadImage(INITIAL_IMAGE);		
+
 		//originalImage = new MarvinImage(50,50);
 		newImage = originalImage.clone();
 		imagePanel.setImage(newImage);
+		
+		
+		
+		
 		
 		// Benchmark
 		benchmark = new Benchmark(); 
@@ -166,10 +171,7 @@ public class PluginTester extends JFrame{
 		else{
 			width = originalImage.getWidth();
 		}
-		setSize(500,500+70);
-		
-		
-		
+		setSize(600,500+70);
 		
 		setVisible(true);
 	}
