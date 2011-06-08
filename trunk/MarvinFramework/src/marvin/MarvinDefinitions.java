@@ -32,4 +32,10 @@ package marvin;
 public class MarvinDefinitions{
 	
 	public static String PLUGIN_IMAGE_PATH = "./marvin/plugins/image/";
+	
+	
+	
+	public static void setImagePluginPath(String path){
+		PLUGIN_IMAGE_PATH = path;
+	}
 }
