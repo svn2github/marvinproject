@@ -200,7 +200,7 @@ public class PluginTester extends JFrame{
 		else{
 			width = originalImage.getWidth();
 		}
-		setSize(600,500+70);
+		setSize(700,500+70);
 		
 		setVisible(true);
 	}
