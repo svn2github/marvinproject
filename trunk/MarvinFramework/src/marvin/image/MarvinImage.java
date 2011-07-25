@@ -163,6 +163,11 @@ public class MarvinImage implements Cloneable {
 		return colorModel;
 	}
 	
+	public void setColorModel(int cm){
+		colorModel = cm;
+		allocColorArray();
+	}
+	
 	//@todo remove ambiguity between Type and FormatName
 	/*
 	 * @return image format name
@@ -176,15 +181,21 @@ public class MarvinImage implements Cloneable {
 		width = w;
 		height = h;
 		
+		allocColorArray();
+				
+	}
+	
+	public void allocColorArray(){
 		switch(colorModel){
 			case COLOR_MODEL_RGB:
+				arrBinaryColor = null;
 				arrIntColor = new int[width*height];
 				break;
 			case COLOR_MODEL_BINARY:
+				arrIntColor = null;
 				arrBinaryColor = new boolean[width*height];
 				break;
 		}
-				
 	}
 
 	/**
@@ -480,7 +491,7 @@ public class MarvinImage implements Cloneable {
 		BufferedImage buf = new BufferedImage(w,h, image.getType());
 		Graphics2D g2d = (Graphics2D) buf.getGraphics();
 		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g2d.drawImage(image,0,0,h,w,null);
+		g2d.drawImage(image,0,0,w,h,null);
 		g2d.dispose();
 		image = buf;
 		width = w;
@@ -492,18 +503,12 @@ public class MarvinImage implements Cloneable {
 	 * Clones the {@link MarvinImage}
 	 */
 	public MarvinImage clone() {
-		try {
-			MarvinImage newMarvinImg = (MarvinImage)super.clone();
-			BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-			newMarvinImg.setBufferedImage(newImage);
-			MarvinImage.copyColorArray(this, newMarvinImg);
-			newMarvinImg.update();
-			return newMarvinImg;
-
-		}
-		catch (CloneNotSupportedException e) {
-			throw new InternalError(e.toString());
-		}
+		MarvinImage newMarvinImg = new MarvinImage(getWidth(), getHeight(), getColorModel());
+		BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+		newMarvinImg.setBufferedImage(newImage);
+		MarvinImage.copyColorArray(this, newMarvinImg);
+		newMarvinImg.update();
+		return newMarvinImg;
 	}
 	/**
 	 * Multiple of gradient windwos per masc relation of x y 

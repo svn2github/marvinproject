@@ -43,7 +43,7 @@ public class MarvinColorModelConverter {
 	 * @param threshold grays cale threshold
 	 * @return new MarvinImage instance in BINARY mode
 	 */
-	public static MarvinImage rgbToBw(MarvinImage img, int threshold){		
+	public static MarvinImage rgbToBinary(MarvinImage img, int threshold){		
 		MarvinImage resultImage = new MarvinImage(img.getWidth(), img.getHeight(), MarvinImage.COLOR_MODEL_BINARY);
 
 		for(int y=0; y<img.getHeight(); y++){

@@ -141,7 +141,7 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 			panelImage.add(labelImage);
 		}
 		
-		imageOut = new MarvinImage(imagePanel.getImage().getWidth(), imagePanel.getImage().getHeight());
+		imageOut = new MarvinImage(imagePanel.getImage().getWidth(), imagePanel.getImage().getHeight(), imagePanel.getImage().getColorModel());
 		
 		container.add(panelImage, BorderLayout.NORTH);
 		container.add(panelCenter, BorderLayout.CENTER);
