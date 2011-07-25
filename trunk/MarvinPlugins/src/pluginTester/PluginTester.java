@@ -43,12 +43,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import marvin.gui.MarvinImagePanel;
+import marvin.image.MarvinColorModelConverter;
 import marvin.image.MarvinImage;
 import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.plugin.MarvinPlugin;
 
-import org.marvinproject.image.steganography.Steganography;
+import org.marvinproject.image.morphological.dilation.Dilation;
 
 /**
  * Test plug-ins and generate .jar files
@@ -58,10 +59,12 @@ public class PluginTester extends JFrame{
 	
 	// Definitions
 	private final static String PACKAGE_NET_FOLDER = "./bin/org/";
-	private final static String INITIAL_IMAGE = "./res/fill.png";
+	private final static String INITIAL_IMAGE = "./res/dilation.png";
+	//private final static String INITIAL_IMAGE = "C:\\Users\\Gabriel\\Desktop\\placa1_in.jpg";
 	
 	// Attributes
 	private JButton				buttonReset,
+								buttonConvertToBinary,
 								buttonSaveImage,
 								buttonLoadPlugin,
 								buttonGenerateJarFiles,
@@ -81,8 +84,34 @@ public class PluginTester extends JFrame{
 		HashMap<Object,Object> test = new HashMap<Object,Object>();
 		test.put("key", null);
 		
-		MarvinImagePlugin l_plugin = new Steganography();
 		
+		
+		MarvinImagePlugin l_plugin = new Dilation();
+		
+		//MarvinImagePlugin l_plugin = new PluginMw();
+		
+		l_plugin.load();
+//		boolean matrix[][] = new boolean[][]{		{false,true,false},
+//				{true,true,true},
+//				{false,true,false}};
+		
+		boolean matrix[][] = new boolean[][]{		{true,true,true,true,true,true,true,true,true,true},
+				{true,true,true,true,true,true,true,true,true,true},
+				{true,true,true,true,true,true,true,true,true,true},
+				{true,true,true,true,true,true,true,true,true,true},
+				{true,true,true,true,true,true,true,true,true,true},
+				{true,true,true,true,true,true,true,true,true,true},
+				{true,true,true,true,true,true,true,true,true,true},
+				{true,true,true,true,true,true,true,true,true,true},
+				{true,true,true,true,true,true,true,true,true,true},
+				{true,true,true,true,true,true,true,true,true,true},
+				
+				};
+		
+		
+		l_plugin.setAttribute("matrix", matrix);
+		l_plugin.setAttribute("neighborhood", 5);
+		l_plugin.setAttribute("range", 15);
 		
 		
 		l_plugin.setImagePanel(imagePanel);
@@ -95,13 +124,6 @@ public class PluginTester extends JFrame{
 		}
 		System.out.println("continue running");
 		
-		l_plugin.load();
-		l_plugin.setAttribute("x", 250);
-		l_plugin.setAttribute("y", 250);
-		
-		l_plugin.setAttribute("lines", 10);
-		l_plugin.setAttribute("columns", 10);
-		l_plugin.setAttribute("tile", i);
 		l_plugin.show();
 		
 		//l_plugin.process(originalImage, originalImage, null, MarvinImageMask.NULL_MASK, false);
@@ -122,12 +144,14 @@ public class PluginTester extends JFrame{
 		buttonLoadPlugin = new JButton("Load Plugin");
 		buttonSaveImage = new JButton("Save Image");
 		buttonReset = new JButton("Reset");	
+		buttonConvertToBinary = new JButton("To Binary");
 		buttonGenerateJarFiles = new JButton("Generate Jar Files");
 		buttonBenchmark = new JButton("Benchmark");
 		
 		buttonLoadPlugin.addActionListener(l_buttonHandler);
 		buttonSaveImage.addActionListener(l_buttonHandler);
 		buttonReset.addActionListener(l_buttonHandler);
+		buttonConvertToBinary.addActionListener(l_buttonHandler);
 		buttonGenerateJarFiles.addActionListener(l_buttonHandler);
 		buttonBenchmark.addActionListener(l_buttonHandler);
 		
@@ -139,6 +163,7 @@ public class PluginTester extends JFrame{
 		panelBottom.add(buttonLoadPlugin);
 		panelBottom.add(buttonSaveImage);
 		panelBottom.add(buttonReset);
+		panelBottom.add(buttonConvertToBinary);
 		panelBottom.add(buttonGenerateJarFiles);		
 		panelBottom.add(buttonBenchmark);
 		
@@ -151,8 +176,12 @@ public class PluginTester extends JFrame{
 		
 		
 		// Load image
-		originalImage = MarvinImageIO.loadImage(INITIAL_IMAGE);		
-
+		originalImage = MarvinImageIO.loadImage(INITIAL_IMAGE);
+//		originalImage = new MarvinImage(500, 500, MarvinImage.COLOR_MODEL_RGB);
+//		originalImage.fillRect(0, 0, 500, 500, Color.white);
+//		originalImage.fillRect(100, 100, 300, 300, Color.red);
+//		originalImage.update();
+		
 		//originalImage = new MarvinImage(50,50);
 		newImage = originalImage.clone();
 		imagePanel.setImage(newImage);
@@ -283,21 +312,26 @@ public class PluginTester extends JFrame{
 	}
 	
 	private class ButtonHandler implements ActionListener{
-		public void actionPerformed(ActionEvent a_event){
-			if(a_event.getSource() == buttonReset){
+		public void actionPerformed(ActionEvent e){
+			if(e.getSource() == buttonReset){
 				newImage = originalImage.clone();
 				imagePanel.setImage(newImage);
 			}
-			else if(a_event.getSource() == buttonSaveImage){
+			else if(e.getSource() == buttonConvertToBinary){
+				newImage = MarvinColorModelConverter.rgbToBinary(newImage, 120);
+				newImage.update();
+				imagePanel.setImage(newImage);
+			}
+			else if(e.getSource() == buttonSaveImage){
 				saveImage();
 			}
-			else if(a_event.getSource() == buttonLoadPlugin){
+			else if(e.getSource() == buttonLoadPlugin){
 				loadPlugin();
 			}
-			else if(a_event.getSource() == buttonGenerateJarFiles){
+			else if(e.getSource() == buttonGenerateJarFiles){
 				generateJarFiles(new File(PACKAGE_NET_FOLDER));
 			}
-			else if(a_event.getSource() == buttonBenchmark){
+			else if(e.getSource() == buttonBenchmark){
 				benchmark.process(originalImage);
 			}
 		}

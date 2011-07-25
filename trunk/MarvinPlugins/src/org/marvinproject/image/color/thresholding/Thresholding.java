@@ -43,14 +43,20 @@ import marvin.util.MarvinPluginLoader;
  */
 public class Thresholding extends MarvinAbstractImagePlugin{
 
-	private MarvinAttributes attributes;
-	private int threshold;
+	private MarvinAttributes		attributes;
+	private int 					threshold,
+									neighborhood,
+									range;
+	
 	private MarvinImagePlugin pluginGray;
 	
 	public void load(){
 		
 		attributes = getAttributes();
 		attributes.set("threshold", 125);
+		attributes.set("neighborhood", -1);
+		attributes.set("range", -1);
+		
 		pluginGray = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.grayScale.jar");
 	}
 	
@@ -71,14 +77,26 @@ public class Thresholding extends MarvinAbstractImagePlugin{
 	)
 	{
 		threshold = (Integer)attributes.get("threshold");
+		neighborhood = (Integer)attributes.get("neighborhood");
+		range = (Integer)attributes.get("range");
 		
 		pluginGray.process(imageIn, imageOut, attributesOut, mask, previewMode);
 		
-		boolean[][] l_arrMask = mask.getMaskArray();
+		boolean[][] bmask = mask.getMaskArray();
 		
+		if(neighborhood == -1 && range == -1){
+			hardThreshold(imageIn, imageOut, bmask);
+		}
+		else{
+			contrastThreshold(imageIn, imageOut);
+		}
+				
+	}
+	
+	private void hardThreshold(MarvinImage imageIn, MarvinImage imageOut, boolean[][] mask){
 		for(int y=0; y<imageIn.getHeight(); y++){
 			for(int x=0; x<imageIn.getWidth(); x++){
-				if(l_arrMask != null && !l_arrMask[x][y]){
+				if(mask != null && !mask[x][y]){
 					continue;
 				}
 				
@@ -89,6 +107,58 @@ public class Thresholding extends MarvinAbstractImagePlugin{
 					imageOut.setIntColor(x, y, 255,255,255);
 				}				
 			}
-		}		
+		}	
+	}
+	
+	private void contrastThreshold
+	(
+		MarvinImage imageIn,
+		MarvinImage imageOut
+	){
+		range = 1;
+		for (int x = 0; x < imageIn.getWidth(); x++) {
+			for (int y = 0; y < imageIn.getHeight(); y++) {
+				if(checkNeighbors(x,y, 15, 15, imageIn)){
+					imageOut.setIntColor(x,y,0,0,0);
+				}
+				else{
+					imageOut.setIntColor(x,y,255,255,255);
+				}
+			}
+		}
+	}
+	
+	private boolean checkNeighbors(int x, int y, int neighborhoodX, int neighborhoodY, MarvinImage img){
+		
+		int color;
+		int z=0;
+		
+		color = img.getIntComponent0(x, y);
+		
+		for(int i=0-neighborhoodX; i<=neighborhoodX; i++){
+			for(int j=0-neighborhoodY; j<=neighborhoodY; j++){
+				if(i == 0 && j == 0){
+					continue;
+				}
+				
+				if(color < getSafeColor(x+i,y+j, img)-range && getSafeColor(x+i,y+j, img) != -1){
+					z++;
+				}
+			}
+		}
+		
+		if(z > (neighborhoodX*neighborhoodY)*0.5){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private int getSafeColor(int x, int y, MarvinImage img){
+		
+		if(x >= 0 && x < img.getWidth() && y >= 0 && y < img.getHeight()){
+			return img.getIntComponent0(x, y);
+		}
+		return -1;
 	}
 }
