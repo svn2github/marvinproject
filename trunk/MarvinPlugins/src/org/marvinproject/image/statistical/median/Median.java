@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.statistical.median;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -41,8 +42,9 @@ import marvin.util.MarvinAttributes;
  */
 public class Median extends MarvinAbstractImagePlugin {
 
-	MarvinAttributes attributes;
-	MarvinPerformanceMeter performanceMeter;
+	private MarvinAttributesPanel	attributesPanel;
+	MarvinAttributes 				attributes;
+	MarvinPerformanceMeter 			performanceMeter;
 
 	public void load() {
 		attributes = getAttributes();
@@ -131,14 +133,13 @@ public class Median extends MarvinAbstractImagePlugin {
 		performanceMeter.finish();
 	}
 
-	public void show() {
-
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Avarage Filter", 420,350, getImagePanel(), this);
-		l_filterWindow.addLabel("lblWidth", "Size:");
-		l_filterWindow.addTextField("txtSize", "size", attributes);
-		l_filterWindow.newComponentRow();
-		l_filterWindow.setVisible(true);
-
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("lblWidth", "Size:");
+			attributesPanel.addTextField("txtSize", "size", attributes);
+			attributesPanel.newComponentRow();
+		}
+		return attributesPanel;
 	}
-
 }

@@ -31,6 +31,7 @@ package org.marvinproject.image.edge.edgeDetector;
 
 import java.awt.Color;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -53,12 +54,9 @@ public class EdgeDetector extends MarvinAbstractImagePlugin {
         performanceMeter = new MarvinPerformanceMeter();
     }
 
-    public void show() {
-        MarvinFilterWindow l_filterWindow = new MarvinFilterWindow(
-                "EdgeDetector", 400, 350, getImagePanel(),
-                this);
-        l_filterWindow.setVisible(true);
-    }
+    public MarvinAttributesPanel getAttributesPanel(){
+		return null;
+	}
 
     public void process
 	(
@@ -122,6 +120,7 @@ public class EdgeDetector extends MarvinAbstractImagePlugin {
                         - luminance[x-1+2][y-1] - 2* luminance[x-1+2][y-1+1] - luminance[x-1+2][y-1+2];
                 
                 // Magnitudes sum
+                grayX=0;
                 magnitude = 255 - truncate(Math.abs(grayX)
                         + Math.abs(grayY));
               

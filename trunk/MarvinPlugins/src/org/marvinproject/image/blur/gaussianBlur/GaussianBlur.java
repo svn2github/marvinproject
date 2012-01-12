@@ -29,7 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.blur.gaussianBlur;
 
-import marvin.gui.MarvinFilterWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.performance.MarvinPerformanceMeter;
@@ -47,26 +47,30 @@ public class GaussianBlur extends MarvinAbstractImagePlugin
 	private final static int GREEN = 1;
 	private final static int BLUE = 2;
 
-	MarvinAttributes attributes;
-	MarvinPerformanceMeter performanceMeter;
+	MarvinAttributesPanel	attributesPanel;
+	MarvinAttributes 		attributes;
+	MarvinPerformanceMeter 	performanceMeter;
 
 	double kernelMatrix[][];
 	double resultMatrix[][][];
 	int radius;
 	public void load()
 	{
+		// Attributes
 		attributes = getAttributes();
 		attributes.set("radius",3);		
 		performanceMeter = new MarvinPerformanceMeter();
 		radius = 3;
 		kernelMatrix = getGaussianKernel();
 	}
-
-	public void show(){
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Gaussian Blur", 400,350, getImagePanel(), this);
-		filterWindow.addLabel("lblWidth", "Radius:");
-		filterWindow.addTextField("txtRadius", "radius", attributes);
-		filterWindow.setVisible(true);
+	
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("lblWidth", "Radius:");
+			attributesPanel.addTextField("txtRadius", "radius", attributes);
+		}
+		return attributesPanel;
 	}
 
 	public void process

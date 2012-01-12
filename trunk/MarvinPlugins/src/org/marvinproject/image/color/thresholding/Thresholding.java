@@ -29,7 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.color.thresholding;
 
-import marvin.gui.MarvinFilterWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
@@ -43,6 +43,7 @@ import marvin.util.MarvinPluginLoader;
  */
 public class Thresholding extends MarvinAbstractImagePlugin{
 
+	private MarvinAttributesPanel	attributesPanel;
 	private MarvinAttributes		attributes;
 	private int 					threshold,
 									neighborhood,
@@ -52,6 +53,7 @@ public class Thresholding extends MarvinAbstractImagePlugin{
 	
 	public void load(){
 		
+		// Attributes
 		attributes = getAttributes();
 		attributes.set("threshold", 125);
 		attributes.set("neighborhood", -1);
@@ -60,11 +62,17 @@ public class Thresholding extends MarvinAbstractImagePlugin{
 		pluginGray = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.grayScale.jar");
 	}
 	
-	public void show(){
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Thresholding", 400,350, getImagePanel(), this);
-		filterWindow.addLabel("lblThreshold", "Threshold");
-		filterWindow.addTextField("txtThreshold", "threshold", attributes);		
-		filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("lblThreshold", "Threshold");
+			attributesPanel.addTextField("txtThreshold", "threshold", attributes);		
+			attributesPanel.addLabel("lblNeighborhood", "Neighborhood");
+			attributesPanel.addTextField("txtNeighborhood", "neighborhood", attributes);
+			attributesPanel.addLabel("lblRange", "Range");
+			attributesPanel.addTextField("txtRange", "range", attributes);
+		}
+		return attributesPanel;
 	}
 	
 	public void process
@@ -118,7 +126,7 @@ public class Thresholding extends MarvinAbstractImagePlugin{
 		range = 1;
 		for (int x = 0; x < imageIn.getWidth(); x++) {
 			for (int y = 0; y < imageIn.getHeight(); y++) {
-				if(checkNeighbors(x,y, 15, 15, imageIn)){
+				if(checkNeighbors(x,y, neighborhood, neighborhood, imageIn)){
 					imageOut.setIntColor(x,y,0,0,0);
 				}
 				else{

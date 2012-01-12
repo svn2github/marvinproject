@@ -37,6 +37,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -53,8 +54,10 @@ import marvin.util.MarvinFileChooser;
  * @version 1.1 05/11/2008
  */
 public class ImageSlicer extends MarvinAbstractImagePlugin {
-	private MarvinAttributes attributes;
-	private MarvinPerformanceMeter performanceMeter;
+	
+	private MarvinAttributesPanel	attributesPanel;
+	private MarvinAttributes 		attributes;
+	private MarvinPerformanceMeter 	performanceMeter;
 	private DecimalFormat df = new DecimalFormat("000");
 	
 	public void load() {
@@ -173,20 +176,20 @@ public class ImageSlicer extends MarvinAbstractImagePlugin {
 		
 	}
 
-	public void show() {
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Image Slicer",400,350,getImagePanel(),this);
-		
-		//Create the objects to set the number of lines and collumns to slice the image...
-		l_filterWindow.addLabel("lblLinhas", "Number of rows:");
-		l_filterWindow.addTextField("txtLines", "txtLines", attributes);
-		//l_filterWindow.addHorizontalSlider("txtLines", "txtLines", 1, 10, 2, attributes);
-		l_filterWindow.newComponentRow();
-		
-		l_filterWindow.addLabel("lblCols", "Number of columns:");
-		l_filterWindow.addTextField("txtCols", "txtCols", attributes);
-		//l_filterWindow.addHorizontalSlider("txtCols", "txtCols", 1, 10, 2, attributes);
-		l_filterWindow.newComponentRow();
-		
-		l_filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			//Create the objects to set the number of lines and columns to slice the image...
+			attributesPanel.addLabel("lblLinhas", "Number of rows:");
+			attributesPanel.addTextField("txtLines", "txtLines", attributes);
+			//attributesPanel.addHorizontalSlider("txtLines", "txtLines", 1, 10, 2, attributes);
+			attributesPanel.newComponentRow();
+			
+			attributesPanel.addLabel("lblCols", "Number of columns:");
+			attributesPanel.addTextField("txtCols", "txtCols", attributes);
+			//attributesPanel.addHorizontalSlider("txtCols", "txtCols", 1, 10, 2, attributes);
+			attributesPanel.newComponentRow();
+		}
+		return attributesPanel;
 	}
 }

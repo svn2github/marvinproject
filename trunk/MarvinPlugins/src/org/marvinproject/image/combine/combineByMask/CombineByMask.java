@@ -31,6 +31,7 @@ package org.marvinproject.image.combine.combineByMask;
 
 import java.awt.Color;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
@@ -57,9 +58,7 @@ public class CombineByMask extends MarvinAbstractImagePlugin{
 		attributes.set("yi", yi);
 	}
 	
-	public void show(){
-		
-	}
+	public MarvinAttributesPanel getAttributesPanel(){ return null; }
 	
 	public void process(MarvinImage imageIn, MarvinImage imageOut, MarvinAttributes attributesOut, MarvinImageMask mask, boolean previewMode){
 		xi = (Integer)attributes.get("xi");

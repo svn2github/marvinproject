@@ -1,5 +1,6 @@
 package org.marvinproject.image.morphological.dilation;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -72,9 +73,8 @@ public class Dilation extends MarvinAbstractImagePlugin{
 	}
 
 	@Override
-	public void show() {
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Dilation", 400,350, getImagePanel(), this);
-		filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		return null;
 	}
 
 }

@@ -29,13 +29,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package marvin.plugin;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinImagePanel;
-import marvin.util.MarvinAttributes;
+import marvin.image.MarvinImage;
+import marvin.image.MarvinImageMask;
 
 public abstract class MarvinAbstractImagePlugin extends MarvinAbstractPlugin implements MarvinImagePlugin
 {
 	//private Marvin marvinApplication;
-	private MarvinImagePanel imagePanel;
+	private MarvinImagePanel 		imagePanel;
 	
 	private boolean valid;
 
@@ -54,4 +56,32 @@ public abstract class MarvinAbstractImagePlugin extends MarvinAbstractPlugin imp
 	public MarvinImagePanel getImagePanel(){
 		return imagePanel;
 	}
+	
+	/**
+	 * Executes the algorithm.
+	 * @param imgIn				input image.
+	 * @param imgOut			output image.
+	 * @param attrOut			output attributes.
+	 */
+	public void process
+	(
+		MarvinImage imgIn, 
+		MarvinImage imgOut, 
+		MarvinImageMask mask
+	){
+		process(imgIn, imgOut, null, mask, false);
+	}
+	
+	/**
+	 * Executes the algorithm.
+	 * @param imgIn				input image.
+	 * @param imgOut			output image.
+	 */
+	public void process
+	(
+		MarvinImage imgIn, 
+		MarvinImage imgOut
+	){
+		process(imgIn, imgOut, null, MarvinImageMask.NULL_MASK, false);
+	}	
 }

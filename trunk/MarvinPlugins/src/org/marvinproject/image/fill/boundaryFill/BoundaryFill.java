@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.LinkedList;
 
-import marvin.gui.MarvinFilterWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
@@ -102,8 +102,8 @@ public class BoundaryFill extends MarvinAbstractImagePlugin{
     	
     	if(tileImage != null){
     		MarvinImagePlugin p = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.texture.tileTexture.jar");
-    		p.setAttribute("lines", imgOut.getHeight()/tileImage.getHeight());
-    		p.setAttribute("columns", imgOut.getWidth()/tileImage.getWidth());
+    		p.setAttribute("lines", (int)(Math.ceil((double)imgOut.getHeight()/tileImage.getHeight())));
+    		p.setAttribute("columns", (int)(Math.ceil((double)imgOut.getWidth()/tileImage.getWidth())));
     		p.setAttribute("tile", tileImage);
     		MarvinImageMask newMask = new MarvinImageMask(fillMask);    		
     		p.process(imgOut, imgOut, null, newMask, false);
@@ -120,8 +120,6 @@ public class BoundaryFill extends MarvinAbstractImagePlugin{
     }
 	
 	@Override
-	public void show() {
-		new MarvinFilterWindow("x", 500, 500, getImagePanel(), this).setVisible(true);
-	}
+	public MarvinAttributesPanel getAttributesPanel(){ return null; }
 
 }

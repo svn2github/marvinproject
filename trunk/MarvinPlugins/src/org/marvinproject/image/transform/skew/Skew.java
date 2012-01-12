@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.transform.skew;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -47,7 +48,8 @@ public class Skew extends MarvinAbstractImagePlugin
 	private final static String VERTICAL = "Vertical";
 	private int SELECTEDANGLE = 0;
 
-	MarvinAttributes attributes;
+	private MarvinAttributesPanel	attributesPanel;
+	MarvinAttributes 				attributes;
 
 	public void load(){
 		attributes = getAttributes();
@@ -55,36 +57,20 @@ public class Skew extends MarvinAbstractImagePlugin
 		attributes.set("selected", String.valueOf(SELECTEDANGLE));
 	}
 
-	/**
-	 * Displays the interface to the Skew plug-in.
-	 * Adds a horizontal/vertical combo box so the direction can be selected.
-	 * Adds a slider so the magnitude of the angle can be selected.
-	 * 
-	 * @param - none.
-	 * @return - void.
-	 */
-	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Skew", 400,350, getImagePanel(), this);
-	
-		l_filterWindow.addLabel("labelSkew", "Skew:");
-		l_filterWindow.addComboBox("combpSkew", "skew", new Object[]{HORIZONTAL, VERTICAL}, attributes);
-		l_filterWindow.newComponentRow();
-		
-		l_filterWindow.addLabel("lblSkewAngle", "SkewAngle");
-		l_filterWindow.addHorizontalSlider("sliderSkewAngle", "SkewAngle", -89, 89, 0, attributes);
-		l_filterWindow.newComponentRow();
-		
-		/*
-		//In future versions it would be nice to be able to tell the user the selected
-		//skew angle, but at present, I can't set the value for a text field added here
-		//in other methods
-		l_filterWindow.addLabel("lblSelectedAngle", "Selected Angle: ");
-		l_filterWindow.addTextField("txtfieldSelectedAngle", "selected", attributes);
-		*/
-		
-		l_filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("labelSkew", "Skew:");
+			attributesPanel.addComboBox("combpSkew", "skew", new Object[]{HORIZONTAL, VERTICAL}, attributes);
+			attributesPanel.newComponentRow();
+			
+			attributesPanel.addLabel("lblSkewAngle", "SkewAngle");
+			attributesPanel.addHorizontalSlider("sliderSkewAngle", "SkewAngle", -89, 89, 0, attributes);
+			attributesPanel.newComponentRow();
+		}
+		return attributesPanel;
 	}
-
+	
 	/**
 	 * Handles the 'Process' button being pressed. 
 	 * Determines the angle to skew and if the user wants

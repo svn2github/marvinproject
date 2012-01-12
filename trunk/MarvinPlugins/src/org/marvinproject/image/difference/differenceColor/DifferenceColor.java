@@ -30,8 +30,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 package org.marvinproject.image.difference.differenceColor;
 
 import java.awt.Color;
-import java.util.Vector;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
@@ -56,7 +56,7 @@ public class DifferenceColor extends MarvinAbstractImagePlugin{
 		attributes.set("differenceColor", Color.green);
 	}
 	
-	public void show(){}
+	public MarvinAttributesPanel getAttributesPanel(){ return null; }
 	
 	public void process(MarvinImage a_imageIn, MarvinImage a_imageOut, MarvinAttributes a_attributesOut, MarvinImageMask a_mask, boolean a_previewMode){
 		int l_redA,

@@ -2,6 +2,7 @@ package org.marvinproject.image.pattern.findColorPattern;
 
 import java.awt.Color;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
@@ -40,7 +41,7 @@ public class FindColorPattern extends MarvinAbstractImagePlugin{
 		attributes.set("regionHeight", 1);
 	}
 
-	public void show() {}
+	public MarvinAttributesPanel getAttributesPanel(){return null;}
 	
 	public void process
 	(

@@ -29,12 +29,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.blur.pixelize;
 
-import java.awt.Color;
-
-import marvin.gui.MarvinFilterWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
-import marvin.performance.MarvinPerformanceMeter;
 import marvin.plugin.MarvinAbstractImagePlugin;
 import marvin.util.MarvinAttributes;
 
@@ -45,21 +42,24 @@ import marvin.util.MarvinAttributes;
  */
 public class Pixelize extends MarvinAbstractImagePlugin
 {
-	MarvinAttributes 	attributes;
-	private boolean[][]	arrMask;
+	private MarvinAttributesPanel	attributesPanel;
+	MarvinAttributes 				attributes;
+	private boolean[][]				arrMask;
 	
 	public void load(){
+		// Attributes
 		attributes = getAttributes();
 		attributes.set("squareSide", 10);
 	}
 
-	public void show(){
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Pixelize", 400,350, getImagePanel(), this);
-		filterWindow.addLabel("lblSquareSide", "Square Side");
-		filterWindow.addTextField("txtSquareSide", "squareSide", attributes);
-		filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("lblSquareSide", "Square Side");
+			attributesPanel.addTextField("txtSquareSide", "squareSide", attributes);
+		}
+		return attributesPanel;
 	}
-
 	
 	public void process
 	(

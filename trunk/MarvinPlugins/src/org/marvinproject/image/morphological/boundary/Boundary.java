@@ -1,5 +1,6 @@
 package org.marvinproject.image.morphological.boundary;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -55,9 +56,8 @@ public class Boundary extends MarvinAbstractImagePlugin{
 		}
 	}
 	
-	public void show() {
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Boundary", 400,350, getImagePanel(), this);
-		filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		return null;
 	}
 	
 }

@@ -29,10 +29,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.render.iteratedFunctionSystem;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -41,7 +41,8 @@ import marvin.util.MarvinAttributes;
 
 public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 
-	private MarvinAttributes attributes;
+	private MarvinAttributesPanel	attributesPanel;
+	private MarvinAttributes 		attributes;
 	
 	private List<Rule> rules;
 	
@@ -140,12 +141,14 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 	
 
 	@Override
-	public void show() {
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Iterated Funcion System", 500,500, getImagePanel(), this);
-		filterWindow.addLabel("lblRules","Rules:");
-		filterWindow.newComponentRow();
-		filterWindow.addTextArea("txtRules","rules", 8, 40, attributes);
-		filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("lblRules","Rules:");
+			attributesPanel.newComponentRow();
+			attributesPanel.addTextArea("txtRules","rules", 8, 40, attributes);
+		}
+		return attributesPanel;
 	}
 	
 	private void loadRules(){

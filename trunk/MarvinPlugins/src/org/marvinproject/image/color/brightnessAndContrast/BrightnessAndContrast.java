@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.color.brightnessAndContrast;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -43,22 +44,26 @@ import marvin.util.MarvinAttributes;
  */
 public class BrightnessAndContrast extends MarvinAbstractImagePlugin
 {
-	private MarvinAttributes attributes;
+	private MarvinAttributesPanel	attributesPanel;
+	private MarvinAttributes 		attributes;
 
-	public void load(){		
+	public void load(){
+		// Attributes
 		attributes = getAttributes();
 		attributes.set("brightness", 0);
 		attributes.set("contrast", 0);
 	}
 
-	public void show(){
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Brightness and Contrast", 400,400, getImagePanel(), this);
-		filterWindow.addLabel("lblBrightness", "Brightness");
-		filterWindow.addHorizontalSlider("sliderBrightness", "brightness", -127, 127, 0, attributes);
-		filterWindow.newComponentRow();
-		filterWindow.addLabel("lblContrast", "Contrast");
-		filterWindow.addHorizontalSlider("sliderContrast", "contrast", -127, 127, 0, attributes);
-		filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("lblBrightness", "Brightness");
+			attributesPanel.addHorizontalSlider("sliderBrightness", "brightness", -127, 127, 0, attributes);
+			attributesPanel.newComponentRow();
+			attributesPanel.addLabel("lblContrast", "Contrast");
+			attributesPanel.addHorizontalSlider("sliderContrast", "contrast", -127, 127, 0, attributes);
+		}
+		return attributesPanel;
 	}
 
 	public void process

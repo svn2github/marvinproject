@@ -30,6 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 package org.marvinproject.image.halftone.rylanders;
 
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -54,10 +55,8 @@ public class Rylanders extends MarvinAbstractImagePlugin
 
 	public void load(){}
 
-	public void show()
-	{
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Halftone - Raylanders", 400,350, getImagePanel(), this);
-		l_filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		return null;
 	}
 
 	public void process

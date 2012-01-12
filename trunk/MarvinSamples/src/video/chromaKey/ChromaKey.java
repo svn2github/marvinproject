@@ -101,7 +101,7 @@ public class ChromaKey extends JFrame implements Runnable{
 		pluginScale.setAttribute("newHeight", cameraHeight);
 		
 		MarvinImage l_imageParadiseResize = new MarvinImage(1,1); 
-		pluginScale.process(l_imageParadise, l_imageParadiseResize, null, MarvinImageMask.NULL_MASK, false);
+		pluginScale.process(l_imageParadise, l_imageParadiseResize);
 		l_imageParadise = l_imageParadiseResize;
 		
 		pluginCombine.setAttribute("combinationImage", l_imageParadise);
@@ -161,8 +161,8 @@ public class ChromaKey extends JFrame implements Runnable{
 				
 				if(removeBackground){
 					pluginChroma.setAttribute("colorRange", colorRange);
-					pluginChroma.process(imageIn, imageOut, null, MarvinImageMask.NULL_MASK, false);
-					pluginCombine.process(imageOut, imageOut, null, MarvinImageMask.NULL_MASK, false);					
+					pluginChroma.process(imageIn, imageOut);
+					pluginCombine.process(imageOut, imageOut);					
 				}
 				else{
 					MarvinImage.copyColorArray(imageIn, imageOut);

@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.halftone.errorDiffusion;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -53,13 +54,11 @@ public class ErrorDiffusion extends MarvinAbstractImagePlugin
 
 	public void load(){
 		performanceMeter = new MarvinPerformanceMeter();
+		threshold = 128;
 	}
 
-	public void show()
-	{
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Halftone - Error Diffusion ", 400,350, getImagePanel(), this);
-		l_filterWindow.setVisible(true);
-		threshold = 128;
+	public MarvinAttributesPanel getAttributesPanel(){
+		return null;
 	}
 
 	public void process

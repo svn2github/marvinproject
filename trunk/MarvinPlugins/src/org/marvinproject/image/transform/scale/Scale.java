@@ -29,7 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.transform.scale;
 
-import marvin.gui.MarvinFilterWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
@@ -56,17 +56,20 @@ public class Scale extends MarvinAbstractImagePlugin{
 		attributes.set("newHeight", newHeight);
 	}
 	
-	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Scale - Nearest Neighbor", 270,100, getImagePanel(), this);
-		l_filterWindow.disablePreview();
-		l_filterWindow.addLabel("lblWidth", "Width:");
-		l_filterWindow.addTextField("txtWidth", "newWidth", attributes);
-		l_filterWindow.newComponentRow();
-		l_filterWindow.addLabel("lblHeight", "Height:");
-		l_filterWindow.addTextField("txtHeight", "newHeight", attributes);
-
-		l_filterWindow.setVisible(true);
-	}
+	//TODO:
+	public MarvinAttributesPanel getAttributesPanel(){ return null; }
+	
+//	public void show(){
+//		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Scale - Nearest Neighbor", 270,100, getImagePanel(), this);
+//		l_filterWindow.disablePreview();
+//		l_filterWindow.addLabel("lblWidth", "Width:");
+//		l_filterWindow.addTextField("txtWidth", "newWidth", attributes);
+//		l_filterWindow.newComponentRow();
+//		l_filterWindow.addLabel("lblHeight", "Height:");
+//		l_filterWindow.addTextField("txtHeight", "newHeight", attributes);
+//
+//		l_filterWindow.setVisible(true);
+//	}
 		
 	public void process
 	(

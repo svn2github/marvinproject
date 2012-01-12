@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.transform.flip;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -46,8 +47,9 @@ public class Flip extends MarvinAbstractImagePlugin
 	private final static String HORIZONTAL = "horizontal";
 	private final static String VERTICAL = "vertical";
 
-	private MarvinAttributes 	attributes;
-	private boolean[][]			arrMask;
+	private MarvinAttributesPanel	attributesPanel;
+	private MarvinAttributes 		attributes;
+	private boolean[][]				arrMask;
 	
 
 	public void load(){
@@ -55,11 +57,13 @@ public class Flip extends MarvinAbstractImagePlugin
 		attributes.set("flip", "horizontal");
 	}
 
-	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Flip", 400,350, getImagePanel(), this);
-		l_filterWindow.addLabel("labelTipo", "Type:");
-		l_filterWindow.addComboBox("combpFlip", "flip", new Object[]{HORIZONTAL, VERTICAL}, attributes);
-		l_filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("labelTipo", "Type:");
+			attributesPanel.addComboBox("combpFlip", "flip", new Object[]{HORIZONTAL, VERTICAL}, attributes);
+		}
+		return attributesPanel;
 	}
 
 	public void process

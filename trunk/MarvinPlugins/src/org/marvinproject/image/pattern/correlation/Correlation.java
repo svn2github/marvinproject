@@ -36,6 +36,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.performance.MarvinPerformanceMeter;
@@ -254,9 +255,8 @@ public class Correlation extends MarvinAbstractImagePlugin {
 
 	}
 
-	public void show() {
-		// TODO Auto-generated method stub
-
+	public MarvinAttributesPanel getAttributesPanel(){
+		return null;
 	}
 
 }

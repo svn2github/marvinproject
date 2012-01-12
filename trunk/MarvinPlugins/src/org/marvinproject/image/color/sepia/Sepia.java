@@ -37,8 +37,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import marvin.gui.MarvinFilterWindow;
-import marvin.gui.MarvinPluginWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.performance.MarvinPerformanceMeter;
@@ -51,15 +50,15 @@ import marvin.util.MarvinAttributes;
  */
 public class Sepia extends MarvinAbstractImagePlugin implements ChangeListener, KeyListener{
 
-	private MarvinAttributes attributes;
-	private MarvinPerformanceMeter performanceMeter;
-	private MarvinPluginWindow Tela;
+	private MarvinAttributesPanel 	attributesPanel;
+	private MarvinAttributes 		attributes;
+	private MarvinPerformanceMeter 	performanceMeter;
+	
 	
 	public void load() {
 		attributes = getAttributes();
 		attributes.set("txtValue", "20");
 		attributes.set("intensity", 20);
-		//performanceMeter = getApplication().getPerformanceMeter();
 	}
 
 	public void process
@@ -119,29 +118,29 @@ public class Sepia extends MarvinAbstractImagePlugin implements ChangeListener, 
 		else              return a;
 	}
 	
-	public void show() { 
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Sepia", 400,350, getImagePanel(), this);
-		l_filterWindow.addLabel("lblIntensidade", "Intensidade do Filtro");
-		l_filterWindow.addHorizontalSlider("hsIntensidade", "hsIntensidade", 0, 100, 20, attributes);
-		l_filterWindow.newComponentRow();
-		l_filterWindow.addTextField("txtValue", "txtValue",attributes);
-		
-		Tela = l_filterWindow;
+	public MarvinAttributesPanel getAttributesPanel(){ 
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("lblIntensidade", "Intensidade do Filtro");
+			attributesPanel.addHorizontalSlider("hsIntensidade", "hsIntensidade", 0, 100, 20, attributes);
+			attributesPanel.newComponentRow();
+			attributesPanel.addTextField("txtValue", "txtValue",attributes);
+				
+			JTextField txtValue = (JTextField)(attributesPanel.getComponent("txtValue").getComponent());
+			JSlider slider = (JSlider)(attributesPanel.getComponent("hsIntensidade").getComponent());
 			
-		JTextField txtValue = (JTextField)(l_filterWindow.getComponent("txtValue").getComponent());
-		JSlider slider = (JSlider)(l_filterWindow.getComponent("hsIntensidade").getComponent());
+			slider.addChangeListener(this);
+			txtValue.addKeyListener(this);
+		}
 		
-		slider.addChangeListener(this);
-		txtValue.addKeyListener(this);
-		
-		l_filterWindow.setVisible(true);
+		return attributesPanel;
 	}
 	
 	//Manipula as alterações da Horizontal Bar
 	//Handles the Horizontal Bar changes
 	public void stateChanged(ChangeEvent e) {
 		JSlider barra = (JSlider) (e.getSource());
-		JTextField lbl = (JTextField)(Tela.getComponent("txtValue").getComponent());
+		JTextField lbl = (JTextField)(attributesPanel.getComponent("txtValue").getComponent());
 		lbl.setText(""+barra.getValue());
 	}
 
@@ -150,8 +149,8 @@ public class Sepia extends MarvinAbstractImagePlugin implements ChangeListener, 
 	}
 
 	public void keyReleased(KeyEvent e) {
-		JTextField txtValor = (JTextField) (Tela.getComponent("txtValue").getComponent());
-		JSlider barra = (JSlider) (Tela.getComponent("hsIntensidade").getComponent());
+		JTextField txtValor = (JTextField) (attributesPanel.getComponent("txtValue").getComponent());
+		JSlider barra = (JSlider) (attributesPanel.getComponent("hsIntensidade").getComponent());
 		try {
 			barra.setValue(Integer.parseInt(txtValor.getText().trim()));	
 		} catch (Exception exception) {
@@ -161,8 +160,6 @@ public class Sepia extends MarvinAbstractImagePlugin implements ChangeListener, 
 			
 	}
 
-	public void keyTyped(KeyEvent e) {
-	
-	}
+	public void keyTyped(KeyEvent e) {}
 	
 }

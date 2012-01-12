@@ -71,6 +71,11 @@ public interface MarvinPlugin{
 	public void setAttribute(String attrName, Object value);
 	
 	/**
+	 * Set a list of attributes. Format: (String)name, (Object)value...
+	 **/
+	public void setAttributes(Object... params);
+	
+	/**
 	 * @param attrName		attribute name
 	 * @return the attribute´s value
 	 */

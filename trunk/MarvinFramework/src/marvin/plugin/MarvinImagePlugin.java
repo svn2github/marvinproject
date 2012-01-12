@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package marvin.plugin;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -44,7 +45,7 @@ public interface MarvinImagePlugin extends MarvinPlugin
 	/**
 	 * Shows a graphical interface 
 	 */
-	public void show();
+	public MarvinAttributesPanel getAttributesPanel();
 	
 	/**
 	 * Executes the algorithm.
@@ -61,6 +62,30 @@ public interface MarvinImagePlugin extends MarvinPlugin
 		MarvinAttributes attrOut, 
 		MarvinImageMask mask, 
 		boolean previewMode
+	);
+	
+	/**
+	 * Executes the algorithm.
+	 * @param imgIn				input image.
+	 * @param imgOut			output image.
+	 * @param attrOut			output attributes.
+	 */
+	public void process
+	(
+		MarvinImage imgIn, 
+		MarvinImage imgOut, 
+		MarvinImageMask mask
+	);
+	
+	/**
+	 * Executes the algorithm.
+	 * @param imgIn				input image.
+	 * @param imgOut			output image.
+	 */
+	public void process
+	(
+		MarvinImage imgIn, 
+		MarvinImage imgOut
 	);
 	
 	

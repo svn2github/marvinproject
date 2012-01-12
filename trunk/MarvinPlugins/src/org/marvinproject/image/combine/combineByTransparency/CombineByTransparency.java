@@ -29,12 +29,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.combine.combineByTransparency;
 
-import java.awt.Color;
-
-import marvin.gui.MarvinFilterWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
-import marvin.io.MarvinImageIO;
 import marvin.performance.MarvinPerformanceMeter;
 import marvin.plugin.MarvinAbstractImagePlugin;
 import marvin.util.MarvinAttributes;
@@ -66,10 +63,7 @@ public class CombineByTransparency extends MarvinAbstractImagePlugin {
 		performanceMeter = new MarvinPerformanceMeter();
 	}
 	
-	public void show(){
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Gray", 400,350, getImagePanel(), this);
-		filterWindow.setVisible(true);
-	}
+	public MarvinAttributesPanel getAttributesPanel(){ return null; }
 
 	public void process
 	(

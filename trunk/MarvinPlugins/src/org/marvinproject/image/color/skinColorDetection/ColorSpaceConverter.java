@@ -58,7 +58,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 package org.marvinproject.image.color.skinColorDetection;
 
 
-import marvin.gui.MarvinFilterWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
@@ -79,10 +79,8 @@ public class ColorSpaceConverter extends MarvinAbstractImagePlugin
 		attributes = getAttributes();
 	}
 
-	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Convert Colorspace", 400,350, getImagePanel(), this);
-	
-		l_filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		return null;
 	}
 
 	/**

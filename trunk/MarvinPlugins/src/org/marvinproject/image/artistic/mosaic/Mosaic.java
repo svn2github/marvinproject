@@ -33,7 +33,7 @@ package org.marvinproject.image.artistic.mosaic;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import marvin.gui.MarvinFilterWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.performance.MarvinPerformanceMeter;
@@ -54,31 +54,35 @@ public class Mosaic extends MarvinAbstractImagePlugin
 	private String shape;
 	private boolean border;
 
-	private MarvinAttributes attributes;
-	private MarvinPerformanceMeter performanceMeter;
+	private MarvinAttributesPanel	attributesPanel;
+	private MarvinAttributes 		attributes;
+	private MarvinPerformanceMeter 	performanceMeter;
 
 	public void load()
 	{
+		// Attributes
 		attributes = getAttributes();
 		attributes.set("width", 6);
 		attributes.set("shape", SQUARES);
 		attributes.set("border", true);
-		performanceMeter = new MarvinPerformanceMeter();
+		performanceMeter = new MarvinPerformanceMeter();		
 	}
 
-	public void show(){
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Halftone - Circles", 420,350, getImagePanel(), this);
-		filterWindow.addLabel("lblWidth", "Tile witdh:");
-		filterWindow.addTextField("txtwidth", "width", attributes);
-		filterWindow.newComponentRow();
-		filterWindow.addLabel("lblWidth", "Format:");
-		filterWindow.addComboBox("combShape", "shape", new Object[]{SQUARES, TRIANGLES}, attributes);
-		filterWindow.newComponentRow();
-		filterWindow.addLabel("lblWidth", "Edge:");
-		filterWindow.addComboBox("combBorder", "border", new Object[]{true, false}, attributes);
-		filterWindow.setVisible(true);		
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("lblWidth", "Tile witdh:");
+			attributesPanel.addTextField("txtwidth", "width", attributes);
+			attributesPanel.newComponentRow();
+			attributesPanel.addLabel("lblWidth", "Format:");
+			attributesPanel.addComboBox("combShape", "shape", new Object[]{SQUARES, TRIANGLES}, attributes);
+			attributesPanel.newComponentRow();
+			attributesPanel.addLabel("lblWidth", "Edge:");
+			attributesPanel.addComboBox("combBorder", "border", new Object[]{true, false}, attributes);
+		}
+		return attributesPanel;
 	}
-
+	
 	public void process
 	(
 		MarvinImage imageIn, 

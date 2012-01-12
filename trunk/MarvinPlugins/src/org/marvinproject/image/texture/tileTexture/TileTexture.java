@@ -1,5 +1,6 @@
 package org.marvinproject.image.texture.tileTexture;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -10,8 +11,9 @@ import marvin.util.MarvinPluginLoader;
 
 public class TileTexture extends MarvinAbstractImagePlugin{
 
-	private MarvinAttributes attributes;
-	private MarvinImagePlugin flip;
+	private MarvinAttributesPanel	attributesPanel;
+	private MarvinAttributes 		attributes;
+	private MarvinImagePlugin 		flip;
 	
 	public void load(){
 		attributes = getAttributes();
@@ -22,16 +24,17 @@ public class TileTexture extends MarvinAbstractImagePlugin{
 		flip = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.transform.flip.jar");
 	}
 	
-	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Tile Texture", 400,350, getImagePanel(), this);
-		l_filterWindow.addLabel("lblLines", "lines");
-		l_filterWindow.addTextField("txtLines", "lines", attributes);
-		l_filterWindow.newComponentRow();
-		l_filterWindow.addLabel("lblColumns", "columns");
-		l_filterWindow.addTextField("txtColumns", "columns", attributes);
-		l_filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("lblLines", "lines");
+			attributesPanel.addTextField("txtLines", "lines", attributes);
+			attributesPanel.newComponentRow();
+			attributesPanel.addLabel("lblColumns", "columns");
+			attributesPanel.addTextField("txtColumns", "columns", attributes);
+		}
+		return attributesPanel;
 	}
-    
     
     public void process
     (
@@ -61,12 +64,12 @@ public class TileTexture extends MarvinAbstractImagePlugin{
     	MarvinImage tileFlippedHV = new MarvinImage(tileWidth, tileHeight);
     	
     	flip.setAttribute("flip", "horizontal");
-    	flip.process(tile, tileFlippedH, null, MarvinImageMask.NULL_MASK, false);
-    	flip.process(tile, tileFlippedHV, null, MarvinImageMask.NULL_MASK, false);
+    	flip.process(tile, tileFlippedH);
+    	flip.process(tile, tileFlippedHV);
     	
     	flip.setAttribute("flip", "vertical");
-    	flip.process(tile, tileFlippedV, null, MarvinImageMask.NULL_MASK, false);
-    	flip.process(tileFlippedHV, tileFlippedHV, null, MarvinImageMask.NULL_MASK, false);
+    	flip.process(tile, tileFlippedV);
+    	flip.process(tileFlippedHV, tileFlippedHV);
     	    	
     	for(int y=0; y<lines; y++){
     		for(int x=0; x<columns; x++){

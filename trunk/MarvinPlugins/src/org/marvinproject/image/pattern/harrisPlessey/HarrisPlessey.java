@@ -34,6 +34,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -96,10 +97,7 @@ public class HarrisPlessey extends MarvinAbstractImagePlugin{
 		performanceMeter = new MarvinPerformanceMeter();
 	}
 
-	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Difference", 400,350, getImagePanel(), this);
-		l_filterWindow.setVisible(true);
-	}
+	public MarvinAttributesPanel getAttributesPanel(){return null;}
 
 	public void process
 	(

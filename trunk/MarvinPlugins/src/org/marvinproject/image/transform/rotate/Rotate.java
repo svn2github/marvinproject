@@ -57,8 +57,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.transform.rotate;
 
-import java.awt.Color;
-
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -78,28 +77,29 @@ public class Rotate extends MarvinAbstractImagePlugin
 	private final static String OTHER = "Other";
 
 	private int MaximumRotationAngle = 89;
-	
-	MarvinAttributes attributes;
+
+	private MarvinAttributesPanel	attributesPanel;
+	private MarvinAttributes 		attributes;
 
 	public void load(){
 		attributes = getAttributes();
 		attributes.set("rotate", "angle");
 	}
 
-	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Rotate", 400,350, getImagePanel(), this);
-		
-		l_filterWindow.addLabel("labelRotate", "Options:");
-		l_filterWindow.addComboBox("combpRotate", "rotate", new Object[]{CLOCKWISE90, ACLOCKWISE90, OTHER}, attributes);
-		l_filterWindow.newComponentRow();
-		
-		l_filterWindow.addLabel("lblRotateAngle", "Angle of Rotation");
-		l_filterWindow.addHorizontalSlider("sliderRotateAngle", "RotateAngle", -MaximumRotationAngle, MaximumRotationAngle, 0, attributes);
-		l_filterWindow.newComponentRow();
-	
-		l_filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("labelRotate", "Options:");
+			attributesPanel.addComboBox("combpRotate", "rotate", new Object[]{CLOCKWISE90, ACLOCKWISE90, OTHER}, attributes);
+			attributesPanel.newComponentRow();
+			
+			attributesPanel.addLabel("lblRotateAngle", "Angle of Rotation");
+			attributesPanel.addHorizontalSlider("sliderRotateAngle", "RotateAngle", -MaximumRotationAngle, MaximumRotationAngle, 0, attributes);
+			attributesPanel.newComponentRow();
+		}
+		return attributesPanel;
 	}
-
+	
 	/**
 	 * Initiate the rotate process and determine the angle of rotation
 	 * @param MarvinImage - the image to be rotated

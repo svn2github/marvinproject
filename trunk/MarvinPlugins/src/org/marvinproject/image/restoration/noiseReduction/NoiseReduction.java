@@ -38,6 +38,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.restoration.noiseReduction;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -60,10 +61,7 @@ public class NoiseReduction extends MarvinAbstractImagePlugin {
 		performanceMeter = new MarvinPerformanceMeter();
 	}
 
-	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("RestoreNoise", 400,350, getImagePanel(), this);
-		l_filterWindow.setVisible(true);
-	}
+	public MarvinAttributesPanel getAttributesPanel(){return null;}
 
 	public void process
 	(

@@ -108,7 +108,7 @@ public class History extends JFrame {
 		history.addEntry("Original", resultImage, null);
 		
 		tempPlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.edge.edgeDetector.jar");
-		tempPlugin.process(resultImage, l_tempImage, null, new MarvinImageMask(), false);
+		tempPlugin.process(resultImage, l_tempImage);
 		l_tempImage.update();
 		resultImage = l_tempImage.clone();
 		history.addEntry("Edge", resultImage, tempPlugin.getAttributes());
@@ -117,12 +117,12 @@ public class History extends JFrame {
 		tempPlugin.setAttribute("brightness", -127);
 		tempPlugin.setAttribute("contrast", 127);
 		
-		tempPlugin.process(resultImage, resultImage, null, new MarvinImageMask(), false);
+		tempPlugin.process(resultImage, resultImage);
 		resultImage.update();
 		history.addEntry("BrightenessContrast", resultImage, tempPlugin.getAttributes());
 		
 		tempPlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.invert.jar");
-		tempPlugin.process(resultImage, resultImage, null, new MarvinImageMask(), false);
+		tempPlugin.process(resultImage, resultImage);
 		resultImage.update();
 		history.addEntry("Invert", resultImage, tempPlugin.getAttributes());
 		

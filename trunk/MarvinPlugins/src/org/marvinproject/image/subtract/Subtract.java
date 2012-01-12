@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.subtract;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
@@ -49,7 +50,7 @@ public class Subtract extends MarvinAbstractImagePlugin{
 		attributes.set("colorRange", 30);
 	}
 	
-	public void show(){}
+	public MarvinAttributesPanel getAttributesPanel(){ return null; }
     
     
     public void process

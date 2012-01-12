@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.render.lindenmayer;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -40,7 +41,8 @@ import marvin.util.MarvinAttributes;
 */
 public class Lindenmayer extends MarvinAbstractImagePlugin{
 
-	private MarvinAttributes attributes;
+	private MarvinAttributesPanel	attributesPanel;
+	private MarvinAttributes 		attributes;
 	
 	private Grammar 		grammar;
 	private TurtleGraphics	turtle;
@@ -93,24 +95,25 @@ public class Lindenmayer extends MarvinAbstractImagePlugin{
 	}
 
 	@Override
-	public void show() {
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Lindenmayer", 500,570, getImagePanel(), this);
-		
-		filterWindow.addLabel("lblIterations","iterations:");
-		filterWindow.addTextField("txtIterations","iterations", attributes);
-		filterWindow.newComponentRow();
-		
-		filterWindow.addLabel("lblInitialAngle","initialAngle:");
-		filterWindow.addTextField("txtInitialAngle","initialAngle", attributes);
-		filterWindow.newComponentRow();
-		
-		filterWindow.addLabel("lblRotationAngle","rotationAngle:");
-		filterWindow.addTextField("txtRotationAngle","rotationAngle", attributes);
-		filterWindow.newComponentRow();
-		
-		filterWindow.addLabel("lblRules","rules:");
-		filterWindow.addTextArea("txtRules","rules", 8, 40, attributes);
-		filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("lblIterations","iterations:");
+			attributesPanel.addTextField("txtIterations","iterations", attributes);
+			attributesPanel.newComponentRow();
+			
+			attributesPanel.addLabel("lblInitialAngle","initialAngle:");
+			attributesPanel.addTextField("txtInitialAngle","initialAngle", attributes);
+			attributesPanel.newComponentRow();
+			
+			attributesPanel.addLabel("lblRotationAngle","rotationAngle:");
+			attributesPanel.addTextField("txtRotationAngle","rotationAngle", attributes);
+			attributesPanel.newComponentRow();
+			
+			attributesPanel.addLabel("lblRules","rules:");
+			attributesPanel.addTextArea("txtRules","rules", 8, 40, attributes);
+		}
+		return attributesPanel;
 	}
 	
 	private void addRule(String rule){

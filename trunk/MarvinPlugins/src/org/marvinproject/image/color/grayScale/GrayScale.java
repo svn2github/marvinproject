@@ -29,7 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.color.grayScale;
 
-import marvin.gui.MarvinFilterWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.performance.MarvinPerformanceMeter;
@@ -45,17 +45,16 @@ public class GrayScale extends MarvinAbstractImagePlugin
 {
 	MarvinPerformanceMeter performanceMeter;
 	MarvinAttributes attributes;
+	
 	public void load(){
 		performanceMeter = new MarvinPerformanceMeter();
 		attributes = getAttributes();
 	}
-
-	public void show(){
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Gray", 400,350, getImagePanel(), this);
-		filterWindow.setVisible(true);
+	
+	public MarvinAttributesPanel getAttributesPanel(){
+		return null;
 	}
 
-	
 	public void process
 	(
 		MarvinImage imageIn, 
@@ -65,8 +64,6 @@ public class GrayScale extends MarvinAbstractImagePlugin
 		boolean previewMode
 	)
 	{
-		int l_width = imageIn.getWidth();
-		
 		// Mask
 		boolean[][] l_arrMask = mask.getMaskArray();
 		

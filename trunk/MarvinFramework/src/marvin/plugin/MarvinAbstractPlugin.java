@@ -12,7 +12,6 @@ public class MarvinAbstractPlugin implements MarvinPlugin{
 		marvinAttributes = new MarvinAttributes(this);
 	}
 	
-	
 	/**
 	 * Ensures that this plug-in is working consistently to its attributes. 
 	 */
@@ -53,6 +52,13 @@ public class MarvinAbstractPlugin implements MarvinPlugin{
 	 **/
 	public void setAttribute(String label, Object value){
 		marvinAttributes.set(label, value);
+	}
+	
+	/**
+	 * Set a list of attributes. Format: (String)name, (Object)value...
+	 */
+	public void setAttributes(Object... params){
+		marvinAttributes.set(params);
 	}
 	
 	/**

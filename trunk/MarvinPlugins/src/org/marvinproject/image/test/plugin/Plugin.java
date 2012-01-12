@@ -37,6 +37,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.gui.MarvinPluginWindow;
 import marvin.image.MarvinImage;
@@ -50,8 +51,9 @@ import marvin.util.MarvinAttributes;
  */
 public class Plugin extends MarvinAbstractImagePlugin implements ChangeListener, KeyListener{
 
-	private MarvinAttributes attributes;
-	private MarvinPluginWindow tela;
+	private MarvinAttributesPanel	attributesPanel;
+	private MarvinAttributes 		attributes;
+	private MarvinPluginWindow 		tela;
 		
 	public void load() {
 		attributes = getAttributes();
@@ -113,69 +115,67 @@ public class Plugin extends MarvinAbstractImagePlugin implements ChangeListener,
 		}
 	}
 
-	public void show() { 
-		MarvinFilterWindow l_filterWindow = 
-		new MarvinFilterWindow("Plugin", 400,350, getImagePanel(), this);
-		
-		l_filterWindow.addLabel("lblC", "Cyan");
-		l_filterWindow.addHorizontalSlider("hsR", "hsR", -100, 100, 0, attributes);
-		l_filterWindow.addLabel("lblR", "Red");
-		l_filterWindow.addTextField("txtR", "txtR",attributes);
-		
-		l_filterWindow.newComponentRow();
-		l_filterWindow.addLabel("lblM", "Magenta");
-		l_filterWindow.addHorizontalSlider("hsG", "hsG", -100, 100, 0, attributes);
-		l_filterWindow.addLabel("lblG", "Green");
-		l_filterWindow.addTextField("txtG", "txtG",attributes);
-		
-		l_filterWindow.newComponentRow();
-		l_filterWindow.addLabel("lblY", "Yellow");
-		l_filterWindow.addHorizontalSlider("hsB", "hsB", -100, 100, 0, attributes);
-		l_filterWindow.addLabel("lblB", "Blue");
-		l_filterWindow.addTextField("txtB", "txtB",attributes);
-		
-		l_filterWindow.newComponentRow();
-		
-		this.tela = l_filterWindow;
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("lblC", "Cyan");
+			attributesPanel.addHorizontalSlider("hsR", "hsR", -100, 100, 0, attributes);
+			attributesPanel.addLabel("lblR", "Red");
+			attributesPanel.addTextField("txtR", "txtR",attributes);
 			
-		JSlider sliderR = (JSlider)(l_filterWindow.getComponent("hsR").getComponent());
-		JSlider sliderG = (JSlider)(l_filterWindow.getComponent("hsG").getComponent());
-		JSlider sliderB = (JSlider)(l_filterWindow.getComponent("hsB").getComponent());
-		
-		JTextField txtR = (JTextField)(l_filterWindow.getComponent("txtR").getComponent());
-		JTextField txtG = (JTextField)(l_filterWindow.getComponent("txtG").getComponent());
-		JTextField txtB = (JTextField)(l_filterWindow.getComponent("txtB").getComponent());
-		
-		sliderR.addChangeListener(this);
-		sliderG.addChangeListener(this);
-		sliderB.addChangeListener(this);
-		txtR.addKeyListener(this);
-		txtG.addKeyListener(this);
-		txtB.addKeyListener(this);
-		
-		l_filterWindow.setVisible(true);
+			attributesPanel.newComponentRow();
+			attributesPanel.addLabel("lblM", "Magenta");
+			attributesPanel.addHorizontalSlider("hsG", "hsG", -100, 100, 0, attributes);
+			attributesPanel.addLabel("lblG", "Green");
+			attributesPanel.addTextField("txtG", "txtG",attributes);
+			
+			attributesPanel.newComponentRow();
+			attributesPanel.addLabel("lblY", "Yellow");
+			attributesPanel.addHorizontalSlider("hsB", "hsB", -100, 100, 0, attributes);
+			attributesPanel.addLabel("lblB", "Blue");
+			attributesPanel.addTextField("txtB", "txtB",attributes);
+			
+			attributesPanel.newComponentRow();
+			
+				
+			JSlider sliderR = (JSlider)(attributesPanel.getComponent("hsR").getComponent());
+			JSlider sliderG = (JSlider)(attributesPanel.getComponent("hsG").getComponent());
+			JSlider sliderB = (JSlider)(attributesPanel.getComponent("hsB").getComponent());
+			
+			JTextField txtR = (JTextField)(attributesPanel.getComponent("txtR").getComponent());
+			JTextField txtG = (JTextField)(attributesPanel.getComponent("txtG").getComponent());
+			JTextField txtB = (JTextField)(attributesPanel.getComponent("txtB").getComponent());
+			
+			sliderR.addChangeListener(this);
+			sliderG.addChangeListener(this);
+			sliderB.addChangeListener(this);
+			txtR.addKeyListener(this);
+			txtG.addKeyListener(this);
+			txtB.addKeyListener(this);
+		}
+		return attributesPanel;
 	}
 	
 	//Manipula as alterações da Horizontal Bar
 	//Handles the Horizontal Bar changes
 	public void stateChanged(ChangeEvent e) {
-		JSlider barra1 = (JSlider) (tela.getComponent("hsR").getComponent());
-		JSlider barra2 = (JSlider) (tela.getComponent("hsG").getComponent());
-		JSlider barra3 = (JSlider) (tela.getComponent("hsB").getComponent());
+		JSlider barra1 = (JSlider) (attributesPanel.getComponent("hsR").getComponent());
+		JSlider barra2 = (JSlider) (attributesPanel.getComponent("hsG").getComponent());
+		JSlider barra3 = (JSlider) (attributesPanel.getComponent("hsB").getComponent());
 		JSlider barra = (JSlider) (e.getSource());
 		JTextField lbl = null;
 		
 		if(e.getSource()==barra1){
-				lbl = (JTextField)(tela.getComponent("txtR").getComponent());
+				lbl = (JTextField)(attributesPanel.getComponent("txtR").getComponent());
 			}
 			else{ 
 				if(e.getSource()==barra2){
-					lbl = (JTextField)(tela.getComponent("txtG").getComponent());
+					lbl = (JTextField)(attributesPanel.getComponent("txtG").getComponent());
 				}
 				else {
 					if(e.getSource()==barra3){
 					}
-					lbl = (JTextField)(tela.getComponent("txtB").getComponent());
+					lbl = (JTextField)(attributesPanel.getComponent("txtB").getComponent());
 					}
 			}
 		lbl.setText(""+barra.getValue());
@@ -186,13 +186,13 @@ public class Plugin extends MarvinAbstractImagePlugin implements ChangeListener,
 	}
 
 	public void keyReleased(KeyEvent e) {
-		JTextField txtR = (JTextField) (tela.getComponent("txtR").getComponent());
-		JTextField txtG = (JTextField) (tela.getComponent("txtG").getComponent());
-		JTextField txtB = (JTextField) (tela.getComponent("txtB").getComponent());
+		JTextField txtR = (JTextField) (attributesPanel.getComponent("txtR").getComponent());
+		JTextField txtG = (JTextField) (attributesPanel.getComponent("txtG").getComponent());
+		JTextField txtB = (JTextField) (attributesPanel.getComponent("txtB").getComponent());
 		
-		JSlider barra1 = (JSlider) (tela.getComponent("hsR").getComponent());
-		JSlider barra2 = (JSlider) (tela.getComponent("hsG").getComponent());
-		JSlider barra3 = (JSlider) (tela.getComponent("hsB").getComponent());
+		JSlider barra1 = (JSlider) (attributesPanel.getComponent("hsR").getComponent());
+		JSlider barra2 = (JSlider) (attributesPanel.getComponent("hsG").getComponent());
+		JSlider barra3 = (JSlider) (attributesPanel.getComponent("hsB").getComponent());
 		
 		try {
 			if(e.getSource()==txtR){

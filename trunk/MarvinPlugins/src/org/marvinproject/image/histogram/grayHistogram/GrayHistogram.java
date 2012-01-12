@@ -29,15 +29,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.histogram.grayHistogram;
 
-import java.awt.Color;
-
-import marvin.gui.MarvinPluginWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
 import marvin.plugin.MarvinImagePlugin;
-import marvin.statistic.MarvinHistogram;
-import marvin.statistic.MarvinHistogramEntry;
 import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
 
@@ -53,10 +49,13 @@ public class GrayHistogram extends MarvinAbstractImagePlugin
     	pluginGray = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.grayScale.jar");
     }
 
-    public void show(){
-    	MarvinImage l_image = getImagePanel().getImage();
-    	process(l_image, new MarvinImage(l_image.getWidth(), l_image.getHeight()), null, MarvinImageMask.NULL_MASK, false);
-    }
+    
+    // TODO:
+    public MarvinAttributesPanel getAttributesPanel(){ return null; }
+//    public void show(){
+//    	MarvinImage l_image = getImagePanel().getImage();
+//    	process(l_image, new MarvinImage(l_image.getWidth(), l_image.getHeight()));
+//    }
     
     public void process
 	(
@@ -67,27 +66,27 @@ public class GrayHistogram extends MarvinAbstractImagePlugin
 		boolean a_previewMode
 	)
     {
-    	pluginGray.process(a_imageIn, a_imageOut, a_attributesOut, a_mask, a_previewMode);
-    	
-        MarvinPluginWindow l_pluginWindow = new MarvinPluginWindow("Gray Histogram", 440,195);
-
-        MarvinHistogram l_histoGray = new MarvinHistogram("Gray Intensity");
-        l_histoGray.setBarWidth(1);
-
-        int l_arrGray[] = new int[256];
-        
-        for (int x = 0; x < a_imageOut.getWidth(); x++) {
-            for (int y = 0; y < a_imageOut.getHeight(); y++) {
-                l_arrGray[a_imageOut.getIntComponent0(x, y)]++;
-            }
-        }
-
-        for(int x=0; x<256; x++){
-            l_histoGray.addEntry(new MarvinHistogramEntry(x, l_arrGray[x], new Color(x, x, x)));
-        }
-
-        l_pluginWindow.addImage("histoGray", l_histoGray.getImage(400,200));
-        l_pluginWindow.newComponentRow();
-        l_pluginWindow.setVisible(true);
+//    	pluginGray.process(a_imageIn, a_imageOut, a_attributesOut, a_mask, a_previewMode);
+//    	
+//        MarvinPluginWindow l_pluginWindow = new MarvinPluginWindow("Gray Histogram", 440,195);
+//
+//        MarvinHistogram l_histoGray = new MarvinHistogram("Gray Intensity");
+//        l_histoGray.setBarWidth(1);
+//
+//        int l_arrGray[] = new int[256];
+//        
+//        for (int x = 0; x < a_imageOut.getWidth(); x++) {
+//            for (int y = 0; y < a_imageOut.getHeight(); y++) {
+//                l_arrGray[a_imageOut.getIntComponent0(x, y)]++;
+//            }
+//        }
+//
+//        for(int x=0; x<256; x++){
+//            l_histoGray.addEntry(new MarvinHistogramEntry(x, l_arrGray[x], new Color(x, x, x)));
+//        }
+//
+//        l_pluginWindow.addImage("histoGray", l_histoGray.getImage(400,200));
+//        l_pluginWindow.newComponentRow();
+//        l_pluginWindow.setVisible(true);
     }
 }

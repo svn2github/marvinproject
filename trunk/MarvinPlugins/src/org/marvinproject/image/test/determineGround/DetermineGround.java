@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.LinkedList;
 
-import marvin.gui.MarvinFilterWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
@@ -23,10 +23,7 @@ public class DetermineGround extends MarvinAbstractImagePlugin{
 		l_pluginBC.setAttribute("contrast", 255);
 	}
 	
-	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Determine Ground", 400,350, getImagePanel(), this);
-		l_filterWindow.setVisible(true);
-	}
+	public MarvinAttributesPanel getAttributesPanel(){ return null; }
     
     
     public void process

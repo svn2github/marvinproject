@@ -28,10 +28,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 package org.marvinproject.image.render.mandelbrot;
 
-import java.awt.Color;
-
-import javax.swing.JComboBox;
-
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -46,8 +43,9 @@ public class Mandelbrot extends MarvinAbstractImagePlugin{
 	private final static String MODEL_0 = "Model 0";
 	private final static String MODEL_1 = "Model 1";
 	
-	private MarvinAttributes 	attributes;
-	private int					colorModel;
+	private MarvinAttributesPanel	attributesPanel;
+	private MarvinAttributes 		attributes;
+	private int						colorModel;
 	int width;
 	int height;
 	
@@ -143,31 +141,28 @@ public class Mandelbrot extends MarvinAbstractImagePlugin{
 	        return blue + (green << 8) + (red << 16);
 		}
 
-	 MarvinFilterWindow filterWindow;
-	 
-	public void show() {
-		filterWindow = new MarvinFilterWindow("Mandelbrot", 450,500, getImagePanel(), this);
-		
-		filterWindow.addLabel("lblXCenter", "X Center:");
-		filterWindow.addTextField("txtXCenter", "xCenter", attributes);
-		filterWindow.newComponentRow();
-		
-		filterWindow.addLabel("lblYCenter", "Y Center:");
-		filterWindow.addTextField("txtYCenter", "yCenter", attributes);
-		filterWindow.newComponentRow();
-		
-		filterWindow.addLabel("lblZoom", "Zoom:");
-		filterWindow.addTextField("txtZoom", "zoom", attributes);
-		filterWindow.newComponentRow();
-		
-		filterWindow.addLabel("lblIterations", "Iterations:");
-		filterWindow.addTextField("txtIterations", "iterations", attributes);
-		filterWindow.newComponentRow();
-		
-		filterWindow.addLabel("lblColorModel", "Color Model:");
-		filterWindow.addComboBox("combColorModel", "colorModel", new Object[]{MODEL_0, MODEL_1}, attributes);
-		
-		filterWindow.setVisible(true);
-	}
-
+	 public MarvinAttributesPanel getAttributesPanel(){
+			if(attributesPanel == null){
+				attributesPanel = new MarvinAttributesPanel();
+				attributesPanel.addLabel("lblXCenter", "X Center:");
+				attributesPanel.addTextField("txtXCenter", "xCenter", attributes);
+				attributesPanel.newComponentRow();
+				
+				attributesPanel.addLabel("lblYCenter", "Y Center:");
+				attributesPanel.addTextField("txtYCenter", "yCenter", attributes);
+				attributesPanel.newComponentRow();
+				
+				attributesPanel.addLabel("lblZoom", "Zoom:");
+				attributesPanel.addTextField("txtZoom", "zoom", attributes);
+				attributesPanel.newComponentRow();
+				
+				attributesPanel.addLabel("lblIterations", "Iterations:");
+				attributesPanel.addTextField("txtIterations", "iterations", attributes);
+				attributesPanel.newComponentRow();
+				
+				attributesPanel.addLabel("lblColorModel", "Color Model:");
+				attributesPanel.addComboBox("combColorModel", "colorModel", new Object[]{MODEL_0, MODEL_1}, attributes);
+			}
+			return attributesPanel;
+		}
 }

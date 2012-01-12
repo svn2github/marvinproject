@@ -33,6 +33,7 @@ package org.marvinproject.image.halftone.circles;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -54,7 +55,9 @@ public class Circles extends MarvinAbstractImagePlugin
 	private int circlesDistance;
 
 	MarvinPerformanceMeter performanceMeter;
-	private MarvinAttributes attributes;
+	
+	private MarvinAttributesPanel	attributesPanel;
+	private MarvinAttributes 		attributes;
 
 	public void load(){
 		attributes = getAttributes();
@@ -64,19 +67,21 @@ public class Circles extends MarvinAbstractImagePlugin
 		performanceMeter = new MarvinPerformanceMeter();
 	}
 
-	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Halftone - Circles", 420,350, getImagePanel(), this);
-		l_filterWindow.addLabel("lblWidth", "Circle width:");
-		l_filterWindow.addTextField("txtCircleWidth", "circleWidth", attributes);
-		l_filterWindow.newComponentRow();
-		l_filterWindow.addLabel("lblShift", "Line Shift:");
-		l_filterWindow.addTextField("txtShift", "shift", attributes);
-		l_filterWindow.newComponentRow();
-		l_filterWindow.addLabel("lblDistance", "Circles distance:");
-		l_filterWindow.addTextField("lblCirclesDistance", "circlesDistance", attributes);
-		l_filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = getAttributesPanel();
+			attributesPanel.addLabel("lblWidth", "Circle width:");
+			attributesPanel.addTextField("txtCircleWidth", "circleWidth", attributes);
+			attributesPanel.newComponentRow();
+			attributesPanel.addLabel("lblShift", "Line Shift:");
+			attributesPanel.addTextField("txtShift", "shift", attributes);
+			attributesPanel.newComponentRow();
+			attributesPanel.addLabel("lblDistance", "Circles distance:");
+			attributesPanel.addTextField("lblCirclesDistance", "circlesDistance", attributes);
+		}
+		return attributesPanel;
 	}
-
+	
 	public void process
 	(
 		MarvinImage a_imageIn, 

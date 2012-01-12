@@ -277,7 +277,9 @@ public class MarvinVideoManager{
 			dataSource.stop();
 			dataSource.disconnect();
 		}
-		catch(Exception e){}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public MarvinImage getCapturedImage(){

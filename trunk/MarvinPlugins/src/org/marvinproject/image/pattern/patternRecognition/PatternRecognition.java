@@ -37,6 +37,7 @@ import java.util.TreeMap;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
@@ -70,7 +71,7 @@ public class PatternRecognition extends MarvinAbstractImagePlugin {
 		hr.load();
 
 		hr.setModoAnalise(true);
-		hr.process(a_imageIn, null, null, MarvinImageMask.NULL_MASK, false);
+		hr.process(a_imageIn, null);
 
 
 		File dir = new File("./pattern/");
@@ -106,7 +107,7 @@ public class PatternRecognition extends MarvinAbstractImagePlugin {
 						} catch (IOException e) {							
 							e.printStackTrace();
 						}
-						cr.process(mv, null, null, MarvinImageMask.NULL_MASK, false);
+						cr.process(mv, null);
 					
 						if(cr.getCr() > 0.98){
 
@@ -138,9 +139,6 @@ public class PatternRecognition extends MarvinAbstractImagePlugin {
 		JOptionPane.showMessageDialog(null, all);	
 	}
 
-	public void show() {
-		//process(getApplication().getCurrentImage(),true);
-
-	}
+	public MarvinAttributesPanel getAttributesPanel(){return null;}
 
 }

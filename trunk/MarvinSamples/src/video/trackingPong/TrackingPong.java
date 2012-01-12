@@ -180,12 +180,12 @@ public class TrackingPong extends JFrame implements Runnable{
 				text.setAttribute("x", 105);
 				text.setAttribute("y", 3);
 				text.setAttribute("text", "PLAYER:"+playerPoints);
-				text.process(imageOut, imageOut, null, MarvinImageMask.NULL_MASK, false);
+				text.process(imageOut, imageOut);
 				
 				text.setAttribute("x", 105);
 				text.setAttribute("y", 460);
 				text.setAttribute("text", "COMPUTER:"+computerPoints);
-				text.process(imageOut, imageOut, null, MarvinImageMask.NULL_MASK, false);
+				text.process(imageOut, imageOut);
 			}
 
 			videoManager.updatePanel();

@@ -31,12 +31,11 @@ package org.marvinproject.image.difference.differentRegions;
 
 import java.util.Vector;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
 import marvin.util.MarvinAttributes;
-
-import org.w3c.dom.css.Rect;
 
 /**
  * Find the different regions between two images.
@@ -62,7 +61,7 @@ public class DifferentRegions extends MarvinAbstractImagePlugin{
 		attributes.set("colorRange", 30);
 	}
 	
-	public void show(){}
+	public MarvinAttributesPanel getAttributesPanel(){ return null; }
 	
 	public void process(MarvinImage a_imageIn, MarvinImage a_imageOut, MarvinAttributes a_attributesOut, MarvinImageMask a_mask, boolean a_previewMode){
 		int l_redA,

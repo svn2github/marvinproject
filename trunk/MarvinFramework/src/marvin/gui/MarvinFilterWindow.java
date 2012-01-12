@@ -55,11 +55,12 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 	protected JButton 	buttonPreview, buttonApply, buttonReset;
 	protected JLabel 	labelImage;
 
-	MarvinImagePanel	imagePanel;
-	MarvinImage 		imageThumbnail;
-	MarvinImage 		imageResetBuffer;
-	MarvinImage			imageOut;
-	MarvinImagePlugin 	plugin;	
+	MarvinImagePanel		imagePanel;
+	MarvinAttributesPanel	attributesPanel;
+	MarvinImage 			imageThumbnail;
+	MarvinImage 			imageResetBuffer;
+	MarvinImage				imageOut;
+	MarvinImagePlugin 		plugin;	
 
 	// ActionHandler
 	protected ActionHandler actionHandler;
@@ -105,8 +106,9 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 		MarvinImagePlugin plg
 	)
 	{
-		super(name, width, height);
+		super(name, width, height, plg.getAttributesPanel());
 		imagePanel = ip;
+		attributesPanel = plg.getAttributesPanel();
 		plugin = plg;
 		//Buttons
 		actionHandler = new ActionHandler();
@@ -215,14 +217,18 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 	{
 		public void actionPerformed(ActionEvent e){
 			if(e.getSource() == buttonApply){
-				applyValues();
+				if(attributesPanel != null){
+					attributesPanel.applyValues();
+				}
 				apply();
 			}			
 			else if (e.getSource() == buttonReset){
 				reset();	
 			}
 			else if(e.getSource() == buttonPreview){
-				applyValues();
+				if(attributesPanel != null){
+					attributesPanel.applyValues();
+				}
 				preview();
 			}
 		}

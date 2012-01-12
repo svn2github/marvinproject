@@ -136,7 +136,7 @@ public class Multithread extends JFrame implements MarvinThreadListener{
 	private void singleThread(){
 		processStartTime = System.currentTimeMillis();
 		MarvinImagePlugin l_pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.statistical.Maximum.jar");
-		l_pluginImage.process(imageIn, imageOut, null, MarvinImageMask.NULL_MASK, false);
+		l_pluginImage.process(imageIn, imageOut);
 		imageOut.update();
 		imagePanel.setImage(imageOut);
 		labelPerformance.setText("Performance: "+ (System.currentTimeMillis()-processStartTime)+ " milliseconds (Single Thread)");

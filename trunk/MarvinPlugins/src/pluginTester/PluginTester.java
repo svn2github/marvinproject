@@ -42,6 +42,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import marvin.gui.MarvinFilterWindow;
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinColorModelConverter;
 import marvin.image.MarvinImage;
@@ -49,7 +50,8 @@ import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.plugin.MarvinPlugin;
 
-import org.marvinproject.image.morphological.dilation.Dilation;
+import org.marvinproject.image.color.grayScale.GrayScale;
+import org.marvinproject.image.color.thresholding.Thresholding;
 
 /**
  * Test plug-ins and generate .jar files
@@ -59,7 +61,7 @@ public class PluginTester extends JFrame{
 	
 	// Definitions
 	private final static String PACKAGE_NET_FOLDER = "./bin/org/";
-	private final static String INITIAL_IMAGE = "./res/dilation.png";
+	private final static String INITIAL_IMAGE = "./res/tucano.jpg";
 	//private final static String INITIAL_IMAGE = "C:\\Users\\Gabriel\\Desktop\\placa1_in.jpg";
 	
 	// Attributes
@@ -86,45 +88,69 @@ public class PluginTester extends JFrame{
 		
 		
 		
-		MarvinImagePlugin l_plugin = new Dilation();
+		MarvinImagePlugin l_plugin = new Thresholding();
 		
-		//MarvinImagePlugin l_plugin = new PluginMw();
-		
+		//MarvinImagePlugin l_plugin = new Crop();
 		l_plugin.load();
+		
+		
 //		boolean matrix[][] = new boolean[][]{		{false,true,false},
 //				{true,true,true},
 //				{false,true,false}};
-		
-		boolean matrix[][] = new boolean[][]{		{true,true,true,true,true,true,true,true,true,true},
-				{true,true,true,true,true,true,true,true,true,true},
-				{true,true,true,true,true,true,true,true,true,true},
-				{true,true,true,true,true,true,true,true,true,true},
-				{true,true,true,true,true,true,true,true,true,true},
-				{true,true,true,true,true,true,true,true,true,true},
-				{true,true,true,true,true,true,true,true,true,true},
-				{true,true,true,true,true,true,true,true,true,true},
-				{true,true,true,true,true,true,true,true,true,true},
-				{true,true,true,true,true,true,true,true,true,true},
-				
+//		
+		boolean matrix[][] = new boolean[][]{		{true,true,true,true,true},
+				{true,true,true,true,true},
+				{true,true,true,true,true},
+				{true,true,true,true,true},
+				{true,true,true,true,true}
 				};
 		
 		
+		
+		
+//		boolean matrix[][] = new boolean[][]{		{true,true,true,true,true,true,true,true,true,true},
+//				{true,true,true,true,true,true,true,true,true,true},
+//				{true,true,true,true,true,true,true,true,true,true},
+//				{true,true,true,true,true,true,true,true,true,true},
+//				{true,true,true,true,true,true,true,true,true,true},
+//				{true,true,true,true,true,true,true,true,true,true},
+//				{true,true,true,true,true,true,true,true,true,true},
+//				{true,true,true,true,true,true,true,true,true,true},
+//				{true,true,true,true,true,true,true,true,true,true},
+//				{true,true,true,true,true,true,true,true,true,true},
+//				
+//				};
+		
+		
 		l_plugin.setAttribute("matrix", matrix);
-		l_plugin.setAttribute("neighborhood", 5);
-		l_plugin.setAttribute("range", 15);
+		//l_plugin.setAttribute("neighborhood", 5);
+		//l_plugin.setAttribute("range", 15);
+		
+		
+		//l_plugin.setAttribute("color", new Color(51, 102, 153).getRGB());
 		
 		
 		l_plugin.setImagePanel(imagePanel);
 		MarvinImage i=null; 
 		try{
-			i = MarvinImageIO.loadImage("./res/tile01.png");
+			//i = MarvinImageIO.loadImage("./res/tile_04.jpg");
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		
+		l_plugin.setAttribute("tile", i);
+		
 		System.out.println("continue running");
 		
-		l_plugin.show();
+		//l_plugin.show();
+		
+		MarvinFilterWindow filterWindow = new MarvinFilterWindow
+		(
+			"Plugin", 400, 400, l_plugin.getImagePanel(), l_plugin
+		);
+		
+		filterWindow.setVisible(true);
 		
 		//l_plugin.process(originalImage, originalImage, null, MarvinImageMask.NULL_MASK, false);
 		//imagePanel.update();
@@ -177,6 +203,7 @@ public class PluginTester extends JFrame{
 		
 		// Load image
 		originalImage = MarvinImageIO.loadImage(INITIAL_IMAGE);
+		
 //		originalImage = new MarvinImage(500, 500, MarvinImage.COLOR_MODEL_RGB);
 //		originalImage.fillRect(0, 0, 500, 500, Color.white);
 //		originalImage.fillRect(100, 100, 300, 300, Color.red);
@@ -318,7 +345,7 @@ public class PluginTester extends JFrame{
 				imagePanel.setImage(newImage);
 			}
 			else if(e.getSource() == buttonConvertToBinary){
-				newImage = MarvinColorModelConverter.rgbToBinary(newImage, 120);
+				newImage = MarvinColorModelConverter.rgbToBinary(newImage, 200);
 				newImage.update();
 				imagePanel.setImage(newImage);
 			}

@@ -223,7 +223,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 			
 			text.setAttribute("y", 5);
 			text.setAttribute("text", "POINTS:"+playerPoints);
-			text.process(imageOut, imageOut, null, MarvinImageMask.NULL_MASK, false);
+			text.process(imageOut, imageOut);
 			
 			videoManager.updatePanel();
 		}

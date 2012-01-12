@@ -120,16 +120,16 @@ public class Filters extends JFrame
 			image = backupImage.clone();
 			if(a_event.getSource() == buttonGray){
 				imagePlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.grayScale.jar");
-				imagePlugin.process(image, image, null, MarvinImageMask.NULL_MASK, false);
+				imagePlugin.process(image, image);
 			}
 			else if(a_event.getSource() == buttonSepia){
 				imagePlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.sepia.jar");
 				imagePlugin.setAttribute("hsIntensidade", 50);				
-				imagePlugin.process(image, image, null, MarvinImageMask.NULL_MASK, false);
+				imagePlugin.process(image, image);
 			}
 			else if(a_event.getSource() == buttonInvert){
 				imagePlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.invert.jar");
-				imagePlugin.process(image, image, null, MarvinImageMask.NULL_MASK, false);
+				imagePlugin.process(image, image);
 			}
 			image.update();
 			imagePanel.setImage(image);

@@ -30,8 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.interfaceTest;
 
-import javax.swing.JCheckBox;
-
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -45,7 +44,9 @@ import marvin.util.MarvinAttributes;
  */
 public class InterfaceTest extends MarvinAbstractImagePlugin
 {
-	MarvinAttributes attributes;
+	private MarvinAttributesPanel	attributesPanel;
+	MarvinAttributes 				attributes;
+	
 	public void load(){
 		attributes = getAttributes();
 		attributes.set("red", 10);
@@ -55,30 +56,31 @@ public class InterfaceTest extends MarvinAbstractImagePlugin
 		attributes.set("intensity", "option 1");
 	}
 
-	public void show(){
-		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Interface Test", 500,350, getImagePanel(), this);
-		l_filterWindow.addLabel("labelRed", "Red:");
-		l_filterWindow.addTextField("textRed", "red", attributes);
+	public MarvinAttributesPanel getAttributesPanel(){
+		if(attributesPanel == null){
+			attributesPanel = getAttributesPanel();
+			attributesPanel.addLabel("labelRed", "Red:");
+			attributesPanel.addTextField("textRed", "red", attributes);
 
-		l_filterWindow.addLabel("labelGreen", "Green:");
-		l_filterWindow.addTextField("textGreen", "green", attributes);
+			attributesPanel.addLabel("labelGreen", "Green:");
+			attributesPanel.addTextField("textGreen", "green", attributes);
 
-		l_filterWindow.addLabel("labelBlue", "Red:");
-		l_filterWindow.addTextField("textBlue", "blue", attributes);
+			attributesPanel.addLabel("labelBlue", "Red:");
+			attributesPanel.addTextField("textBlue", "blue", attributes);
 
-		l_filterWindow.newComponentRow();
-		l_filterWindow.addComboBox("comboFilter", "filter", new Object[]{"option 1", "option 2", "option 3"}, attributes);
+			attributesPanel.newComponentRow();
+			attributesPanel.addComboBox("comboFilter", "filter", new Object[]{"option 1", "option 2", "option 3"}, attributes);
 
-		l_filterWindow.newComponentRow();
-		l_filterWindow.addLabel("labelIntensity", "Intensity:");
-		l_filterWindow.addHorizontalSlider("sliderIntensity", "intensity", 0,100,0, attributes);
-		
-		l_filterWindow.newComponentRow();
-		l_filterWindow.addCheckBox("checkboxTest", "Check Me!", "checkbox1", attributes);
-		
-		l_filterWindow.setVisible(true);
+			attributesPanel.newComponentRow();
+			attributesPanel.addLabel("labelIntensity", "Intensity:");
+			attributesPanel.addHorizontalSlider("sliderIntensity", "intensity", 0,100,0, attributes);
+			
+			attributesPanel.newComponentRow();
+			attributesPanel.addCheckBox("checkboxTest", "Check Me!", "checkbox1", attributes);
+		}
+		return attributesPanel;
 	}
-
+	
 	public void process
 	(
 		MarvinImage a_imageIn, 

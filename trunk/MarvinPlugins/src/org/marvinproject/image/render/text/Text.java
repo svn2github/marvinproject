@@ -1,12 +1,10 @@
 package org.marvinproject.image.render.text;
 
-import java.io.File;
 import java.util.HashMap;
 
-import marvin.gui.MarvinFilterWindow;
+import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
-import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinAbstractImagePlugin;
 import marvin.util.MarvinAttributes;
 
@@ -106,10 +104,7 @@ public class Text extends MarvinAbstractImagePlugin{
 	}
 
 	@Override
-	public void show() {
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Mandelbrot", 450,500, getImagePanel(), this);
-		filterWindow.setVisible(true);
-	}
+	public MarvinAttributesPanel getAttributesPanel(){ return null; }
 	
 	
 }

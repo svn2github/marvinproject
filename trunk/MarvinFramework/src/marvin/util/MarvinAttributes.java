@@ -65,6 +65,20 @@ public class MarvinAttributes
 			plugin.invalidate();
 		}
 	}
+	
+	/**
+	 * Set a list of parameters. Format: (String)name, (Object)value...
+	 * @param params
+	 */
+	public void set(Object... params){
+		for(int i=0; i<params.length; i+=2){
+			hashAttributes.put((String)params[i], params[i+1]);
+		}
+		
+		if(plugin != null){
+			plugin.invalidate();
+		}
+	}
 
 	/**
 	 * Get an attribute by its name.

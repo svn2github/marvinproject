@@ -1,5 +1,6 @@
 package org.marvinproject.image.morphological.closing;
 
+import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -50,9 +51,8 @@ public class Closing extends MarvinAbstractImagePlugin{
 	}
 
 	@Override
-	public void show() {
-		MarvinFilterWindow filterWindow = new MarvinFilterWindow("Closing", 400,350, getImagePanel(), this);
-		filterWindow.setVisible(true);
+	public MarvinAttributesPanel getAttributesPanel(){
+		return null;
 	}
 
 }
