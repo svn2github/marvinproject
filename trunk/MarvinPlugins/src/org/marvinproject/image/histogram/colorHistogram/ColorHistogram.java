@@ -29,10 +29,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package org.marvinproject.image.histogram.colorHistogram;
 
+import java.awt.Color;
+
 import marvin.gui.MarvinAttributesPanel;
+import marvin.gui.MarvinPluginWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinAbstractImagePlugin;
+import marvin.statistic.MarvinHistogram;
+import marvin.statistic.MarvinHistogramEntry;
 import marvin.util.MarvinAttributes;
 
 /**
@@ -44,13 +49,8 @@ public class ColorHistogram extends MarvinAbstractImagePlugin
 {
     public void load(){}
 
-    // TODO:
     public MarvinAttributesPanel getAttributesPanel(){ return null; }
-    
-//    public void show(){
-//      process(getImagePanel().getImage(), null);
-//    }
-    
+        
     public void process
 	(
 		MarvinImage a_imageIn, 
@@ -60,40 +60,43 @@ public class ColorHistogram extends MarvinAbstractImagePlugin
 		boolean a_previewMode
 	)
     {
-//        MarvinPluginWindow l_pluginWindow = new MarvinPluginWindow("Color Histogram", 440,580);
-//
-//        MarvinHistogram l_histoRed = new MarvinHistogram("Red Intensity");
-//        l_histoRed.setBarWidth(1);
-//
-//        MarvinHistogram l_histoGreen = new MarvinHistogram("Green Intensity");
-//        l_histoGreen.setBarWidth(1);
-//
-//        MarvinHistogram l_histoBlue = new MarvinHistogram("Blue Intensity");
-//        l_histoBlue.setBarWidth(1);
-//
-//        int l_arrRed[] = new int[256];
-//        int l_arrGreen[] = new int[256];
-//        int l_arrBlue[] = new int[256];
-//
-//        for (int x = 0; x < a_imageIn.getWidth(); x++) {
-//            for (int y = 0; y < a_imageIn.getHeight(); y++) {
-//                l_arrRed[a_imageIn.getIntComponent0(x, y)]++;
-//                l_arrGreen[a_imageIn.getIntComponent1(x, y)]++;
-//                l_arrBlue[a_imageIn.getIntComponent2(x, y)]++;
-//            }
-//        }
-//
-//        for(int x=0; x<256; x++){
-//            l_histoRed.addEntry(new MarvinHistogramEntry(x, l_arrRed[x], new Color(x, 0, 0)));
-//            l_histoGreen.addEntry(new MarvinHistogramEntry(x, l_arrGreen[x], new Color(0, x, 0)));
-//            l_histoBlue.addEntry(new MarvinHistogramEntry(x, l_arrBlue[x], new Color(0, 0, x)));
-//        }
-//
-//        l_pluginWindow.addImage("histoRed", l_histoRed.getImage(400,200));
-//        l_pluginWindow.newComponentRow();
-//        l_pluginWindow.addImage("histoGreen", l_histoGreen.getImage(400,200));
-//        l_pluginWindow.newComponentRow();
-//        l_pluginWindow.addImage("histoBlue", l_histoBlue.getImage(400,200));
-//        l_pluginWindow.setVisible(true);
+        MarvinHistogram l_histoRed = new MarvinHistogram("Red Intensity");
+        l_histoRed.setBarWidth(1);
+
+        MarvinHistogram l_histoGreen = new MarvinHistogram("Green Intensity");
+        l_histoGreen.setBarWidth(1);
+
+        MarvinHistogram l_histoBlue = new MarvinHistogram("Blue Intensity");
+        l_histoBlue.setBarWidth(1);
+
+        int l_arrRed[] = new int[256];
+        int l_arrGreen[] = new int[256];
+        int l_arrBlue[] = new int[256];
+
+        for (int x = 0; x < a_imageIn.getWidth(); x++) {
+            for (int y = 0; y < a_imageIn.getHeight(); y++) {
+                l_arrRed[a_imageIn.getIntComponent0(x, y)]++;
+                l_arrGreen[a_imageIn.getIntComponent1(x, y)]++;
+                l_arrBlue[a_imageIn.getIntComponent2(x, y)]++;
+            }
+        }
+
+        for(int x=0; x<256; x++){
+            l_histoRed.addEntry(new MarvinHistogramEntry(x, l_arrRed[x], new Color(x, 0, 0)));
+            l_histoGreen.addEntry(new MarvinHistogramEntry(x, l_arrGreen[x], new Color(0, x, 0)));
+            l_histoBlue.addEntry(new MarvinHistogramEntry(x, l_arrBlue[x], new Color(0, 0, x)));
+        }
+
+        MarvinAttributesPanel panel = new MarvinAttributesPanel();
+        panel.addImage("histoRed", l_histoRed.getImage(400,200));
+        panel.newComponentRow();
+        panel.addImage("histoGreen", l_histoGreen.getImage(400,200));
+        panel.newComponentRow();
+        panel.addImage("histoBlue", l_histoBlue.getImage(400,200));
+        panel.setVisible(true);
+        
+        MarvinPluginWindow pluginWindow = new MarvinPluginWindow("Color Histogram", 440,580, panel);
+        pluginWindow.setVisible(true);
+        
     }
 }

@@ -69,7 +69,7 @@ public class Circles extends MarvinAbstractImagePlugin
 
 	public MarvinAttributesPanel getAttributesPanel(){
 		if(attributesPanel == null){
-			attributesPanel = getAttributesPanel();
+			attributesPanel = new MarvinAttributesPanel();
 			attributesPanel.addLabel("lblWidth", "Circle width:");
 			attributesPanel.addTextField("txtCircleWidth", "circleWidth", attributes);
 			attributesPanel.newComponentRow();

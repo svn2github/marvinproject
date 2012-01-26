@@ -50,8 +50,8 @@ import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.plugin.MarvinPlugin;
 
-import org.marvinproject.image.color.grayScale.GrayScale;
-import org.marvinproject.image.color.thresholding.Thresholding;
+import org.marvinproject.image.histogram.grayHistogram.GrayHistogram;
+import org.marvinproject.image.render.lindenmayer.Lindenmayer;
 
 /**
  * Test plug-ins and generate .jar files
@@ -88,7 +88,7 @@ public class PluginTester extends JFrame{
 		
 		
 		
-		MarvinImagePlugin l_plugin = new Thresholding();
+		MarvinImagePlugin l_plugin = new Lindenmayer();
 		
 		//MarvinImagePlugin l_plugin = new Crop();
 		l_plugin.load();
@@ -147,7 +147,7 @@ public class PluginTester extends JFrame{
 		
 		MarvinFilterWindow filterWindow = new MarvinFilterWindow
 		(
-			"Plugin", 400, 400, l_plugin.getImagePanel(), l_plugin
+			"Plugin", 400, 330, l_plugin.getImagePanel(), l_plugin
 		);
 		
 		filterWindow.setVisible(true);

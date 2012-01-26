@@ -41,10 +41,12 @@ import marvin.util.MarvinAttributes;
  */
 public class Scale extends MarvinAbstractImagePlugin{
 	
-	private int 				width;
-	private int 				height;
-	private int 				newWidth;
-	private int 				newHeight;
+	private MarvinAttributesPanel	attributesPanel;
+	private int 					width;
+	private int 					height;
+	private int 					newWidth;
+	private int 					newHeight;
+	
 	
 	private MarvinAttributes 	attributes;
 	
@@ -56,46 +58,47 @@ public class Scale extends MarvinAbstractImagePlugin{
 		attributes.set("newHeight", newHeight);
 	}
 	
-	//TODO:
-	public MarvinAttributesPanel getAttributesPanel(){ return null; }
-	
-//	public void show(){
-//		MarvinFilterWindow l_filterWindow = new MarvinFilterWindow("Scale - Nearest Neighbor", 270,100, getImagePanel(), this);
-//		l_filterWindow.disablePreview();
-//		l_filterWindow.addLabel("lblWidth", "Width:");
-//		l_filterWindow.addTextField("txtWidth", "newWidth", attributes);
-//		l_filterWindow.newComponentRow();
-//		l_filterWindow.addLabel("lblHeight", "Height:");
-//		l_filterWindow.addTextField("txtHeight", "newHeight", attributes);
-//
-//		l_filterWindow.setVisible(true);
-//	}
+	public MarvinAttributesPanel getAttributesPanel(){
 		
+		if(attributesPanel == null){
+			attributesPanel = new MarvinAttributesPanel();
+			attributesPanel.addLabel("lblWidth", "Width:");
+			attributesPanel.addTextField("txtWidth", "newWidth", attributes);
+			attributesPanel.newComponentRow();
+			attributesPanel.addLabel("lblHeight", "Height:");
+			attributesPanel.addTextField("txtHeight", "newHeight", attributes);
+		}
+		return attributesPanel;
+		
+	}
+			
 	public void process
 	(
 		MarvinImage a_imageIn, 
 		MarvinImage a_imageOut,
 		MarvinAttributes a_attributesOut,
 		MarvinImageMask a_mask, 
-		boolean a_previewMode
+		boolean previewMode
 	){
 		
-		width = a_imageIn.getWidth();
-		height = a_imageIn.getHeight();
-		newWidth = (Integer)attributes.get("newWidth");
-		newHeight = (Integer)attributes.get("newHeight");
-		
-		a_imageOut.setDimension(newWidth, newHeight);
-		
-	    int x_ratio = (int)((width<<16)/newWidth) ;
-	    int y_ratio = (int)((height<<16)/newHeight) ;
-	    int x2, y2 ;
-	    for (int i=0;i<newHeight;i++) {
-	        for (int j=0;j<newWidth;j++) {
-	            x2 = ((j*x_ratio)>>16) ;
-	            y2 = ((i*y_ratio)>>16) ;
-	            a_imageOut.setIntColor(j,i, a_imageIn.getIntColor(x2,y2));
-	        }                
-	    }	    
+		if(!previewMode){
+			width = a_imageIn.getWidth();
+			height = a_imageIn.getHeight();
+			newWidth = (Integer)attributes.get("newWidth");
+			newHeight = (Integer)attributes.get("newHeight");
+			
+			a_imageOut.setDimension(newWidth, newHeight);
+			
+		    int x_ratio = (int)((width<<16)/newWidth) ;
+		    int y_ratio = (int)((height<<16)/newHeight) ;
+		    int x2, y2 ;
+		    for (int i=0;i<newHeight;i++) {
+		        for (int j=0;j<newWidth;j++) {
+		            x2 = ((j*x_ratio)>>16) ;
+		            y2 = ((i*y_ratio)>>16) ;
+		            a_imageOut.setIntColor(j,i, a_imageIn.getIntColor(x2,y2));
+		        }                
+		    }	    
+		}
 	}
 }

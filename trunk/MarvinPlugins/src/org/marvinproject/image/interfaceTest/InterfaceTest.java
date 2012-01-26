@@ -58,7 +58,7 @@ public class InterfaceTest extends MarvinAbstractImagePlugin
 
 	public MarvinAttributesPanel getAttributesPanel(){
 		if(attributesPanel == null){
-			attributesPanel = getAttributesPanel();
+			attributesPanel = new MarvinAttributesPanel();
 			attributesPanel.addLabel("labelRed", "Red:");
 			attributesPanel.addTextField("textRed", "red", attributes);
 

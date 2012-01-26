@@ -44,7 +44,6 @@ import marvin.util.MarvinAttributes;
  */
 public class CombineByTransparency extends MarvinAbstractImagePlugin {
 	
-	private MarvinPerformanceMeter 	performanceMeter;
 	private MarvinAttributes 		attributes;
 	
 	private int 					xi=0,
@@ -60,7 +59,6 @@ public class CombineByTransparency extends MarvinAbstractImagePlugin {
 		attributes.set("xi", xi);
 		attributes.set("yi", yi);
 		attributes.set("transparency", transparency);
-		performanceMeter = new MarvinPerformanceMeter();
 	}
 	
 	public MarvinAttributesPanel getAttributesPanel(){ return null; }

@@ -22,7 +22,7 @@ public class Convolution extends MarvinAbstractImagePlugin{
 	
 	public MarvinAttributesPanel getAttributesPanel(){
 		if(attributesPanel == null){
-			attributesPanel = getAttributesPanel();
+			attributesPanel = new MarvinAttributesPanel();
 			attributesPanel.addMatrixPanel("matrixPanel", "matrix", attributes, 3, 3);
 		}
 		return attributesPanel;
