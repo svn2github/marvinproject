@@ -30,6 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 package marvin.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,6 +43,7 @@ import javax.swing.JPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinImagePlugin;
+import marvin.plugin.MarvinPlugin;
 
 /**
  * Generic Window for filters. This window includes thumbnail, preview and reset support.
@@ -107,8 +109,18 @@ public class MarvinFilterWindow extends MarvinPluginWindow
 	)
 	{
 		super(name, width, height, plg.getAttributesPanel());
-		imagePanel = ip;
 		attributesPanel = plg.getAttributesPanel();
+		
+		if(attributesPanel != null){
+			int newWidth = width;
+			if(attributesPanel.getPreferredSize().width > width){
+				newWidth = attributesPanel.getPreferredSize().width+20;
+			}
+			
+			setSize(newWidth, height+attributesPanel.getPreferredSize().height);
+		}
+			
+		imagePanel = ip;
 		plugin = plg;
 		//Buttons
 		actionHandler = new ActionHandler();

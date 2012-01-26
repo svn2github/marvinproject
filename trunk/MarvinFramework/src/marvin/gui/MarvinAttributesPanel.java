@@ -46,6 +46,14 @@ public class MarvinAttributesPanel extends Box{
 	}
 	
 	/**
+	 * This method is useful if the developer need to add an external component.
+	 * @return current panel.
+	 */
+	public JPanel getCurrentPanel(){
+		return panelCurrent;
+	}
+	
+	/**
 	 * Adds new component
 	 * @param id
 	 * @param comp
