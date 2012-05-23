@@ -21,6 +21,9 @@
 			</item>
 			<item name="Edge">
 				<entry name="Edge Detector" package="org.marvinproject.image.edge.edgeDetector.jar" icon="edgeDetector.png"></entry>
+				<entry name="Sobel" package="org.marvinproject.image.edge.sobel.jar"></entry>
+				<entry name="Roberts" package="org.marvinproject.image.edge.roberts.jar"></entry>
+				<entry name="Prewitt" package="org.marvinproject.image.edge.prewitt.jar"></entry>
 			</item>
 			<item name="Halftone">
 				<entry name="Circles" package="org.marvinproject.image.halftone.circles.jar" icon="circles.png"></entry>
@@ -40,6 +43,7 @@
 			</item>
 			<item name="Segmentation">
 				<entry name="Image Slicer" package="org.marvinproject.image.segmentation.imageSlicer.jar" icon="imageSlicer.png"></entry>			
+				<entry name="Crop" package="org.marvinproject.image.segmentation.crop.jar"></entry>			
 			</item>
 			<item name="Statistical">
 				<entry name="Minimum" package="org.marvinproject.image.statistical.minimum.jar"></entry>
