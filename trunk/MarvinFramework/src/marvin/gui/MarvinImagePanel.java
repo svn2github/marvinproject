@@ -134,6 +134,7 @@ public class MarvinImagePanel extends JPanel{
 	 * Update component´s graphical representation
 	 */
 	public void update(){
+		image.update();
 		repaint();
 	}
 }

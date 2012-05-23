@@ -64,6 +64,10 @@ public class MarvinPluginLoader {
 	 * @return
 	 */
 	private static MarvinPlugin loadPlugin(String pluginPath, String className){
+		if(!pluginPath.substring(pluginPath.length()-4, pluginPath.length()).equals(".jar")){
+			pluginPath = pluginPath + ".jar";
+		}
+		
 		MarvinPlugin l_plugin;
 		MarvinJarLoader l_loader = new MarvinJarLoader(pluginPath);
 		l_plugin = (MarvinPlugin)l_loader.getObject(className);
