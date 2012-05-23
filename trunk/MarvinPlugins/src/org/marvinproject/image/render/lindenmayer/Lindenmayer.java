@@ -76,7 +76,15 @@ public class Lindenmayer extends MarvinAbstractImagePlugin{
 		boolean mode
 	) {
 		
-		String rules[] = ((String)(attributes.get("rules"))).split("\n");
+		String rules[] = null;
+		String strRules = ((String)(attributes.get("rules")));
+		if(strRules.contains("\n")){
+			rules = ((String)(attributes.get("rules"))).split("\n");
+		}
+		else if(strRules.contains("&")){
+			rules = ((String)(attributes.get("rules"))).split("&");
+		}
+		
 		double initialAngle = (Double)attributes.get("initialAngle");
 		double rotationAngle = (Double)attributes.get("rotationAngle");
 		int iterations = (Integer)attributes.get("iterations");

@@ -62,7 +62,6 @@ public class PluginTester extends JFrame{
 	// Definitions
 	private final static String PACKAGE_NET_FOLDER = "./bin/org/";
 	private final static String INITIAL_IMAGE = "./res/tucano.jpg";
-	//private final static String INITIAL_IMAGE = "C:\\Users\\Gabriel\\Desktop\\placa1_in.jpg";
 	
 	// Attributes
 	private JButton				buttonReset,
