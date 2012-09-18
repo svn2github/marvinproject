@@ -39,6 +39,8 @@ import marvin.util.MarvinAttributes;
  */
 public interface MarvinPlugin{
 	
+	public void load();
+	
 	/**
 	 * Ensures that this plug-in is working consistently to its attributes. 
 	 */

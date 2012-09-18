@@ -1,5 +1,9 @@
 package marvin.gui;
 
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -17,6 +21,8 @@ import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import marvin.gui.MarvinPluginWindowComponent.ComponentType;
 import marvin.gui.component.MarvinMatrixPanel;
@@ -24,6 +30,8 @@ import marvin.util.MarvinAttributes;
 
 public class MarvinAttributesPanel extends Box{
 
+	private static FlowLayout flowLayout = new FlowLayout();
+	
 	protected Hashtable<String,MarvinPluginWindowComponent> hashComponents;
 	protected Enumeration <MarvinPluginWindowComponent> enumComponents;
 	
@@ -33,7 +41,6 @@ public class MarvinAttributesPanel extends Box{
 		super(BoxLayout.PAGE_AXIS);
 		
 		hashComponents = new Hashtable<String, MarvinPluginWindowComponent>(10,5);
-		
 		newComponentRow();
 	}
 	
@@ -41,8 +48,17 @@ public class MarvinAttributesPanel extends Box{
 	 * Adds new component Line
 	 */
 	public void newComponentRow(){
+		newComponentRow(flowLayout);
+	}
+	
+	public void newComponentRow(LayoutManager layout){
 		panelCurrent = new JPanel();
+		panelCurrent.setLayout(layout);
 		add(panelCurrent);
+	}
+	
+	public JPanel getCurrentComponentRow(){
+		return panelCurrent;
 	}
 	
 	/**
@@ -53,6 +69,10 @@ public class MarvinAttributesPanel extends Box{
 		return panelCurrent;
 	}
 	
+	
+	public void plugComponent(JComponent comp){
+		panelCurrent.add(comp);
+	}
 	/**
 	 * Adds new component
 	 * @param id
@@ -153,8 +173,34 @@ public class MarvinAttributesPanel extends Box{
 	 * @param attr			MarvinAttributes object
 	 */
 	protected void addSlider(String id, String attrID, int orientation, int a_min, int a_max, int a_value, MarvinAttributes attr){
-		JComponent comp = new JSlider(orientation, a_min, a_max, a_value);
-		plugComponent(id, comp, attrID, attr, ComponentType.COMPONENT_SLIDER);
+		final JSlider slider = new JSlider(orientation, a_min, a_max, a_value);
+		plugComponent(id, slider, attrID, attr, ComponentType.COMPONENT_SLIDER);
+		
+		final JTextField field = new JTextField((""+a_max).length());
+		field.setText(""+a_value);
+		plugComponent(field);
+		
+		slider.addChangeListener(new ChangeListener() {			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				field.setText(""+slider.getValue());
+			}
+		});
+		
+		field.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+				if("ENTER".equals(KeyEvent.getKeyText(e.getKeyChar()).toUpperCase())){
+					slider.setValue(Integer.parseInt(field.getText()));
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {}
+			@Override
+			public void keyPressed(KeyEvent e) {}
+		});
 	}
 
 	/**
@@ -274,6 +320,8 @@ public class MarvinAttributesPanel extends Box{
 				return ( ((JTextArea)comp).getText());
 			case COMPONENT_CHECKBOX:
 				return ( ((JCheckBox)comp).isSelected());
+			case COMPONENT_MATRIX_PANEL:
+				return  ( ((MarvinMatrixPanel)comp).getValue());
 		}
 		return null;		
 	}

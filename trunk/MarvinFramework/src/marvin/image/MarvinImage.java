@@ -33,6 +33,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 /**
  * Image object with many operations. This class is the image
@@ -93,7 +94,7 @@ public class MarvinImage implements Cloneable {
 	 * @param img Image
 	 * @param fmtName Image format name
 	 */
-	public MarvinImage(BufferedImage img, String fmtName){		
+	public MarvinImage(BufferedImage img, String fmtName){
 		this.image =  img;
 		formatName = fmtName;		
 		width = img.getWidth();
@@ -130,6 +131,7 @@ public class MarvinImage implements Cloneable {
 	
 	public void updateColorArray(){
 		arrIntColor = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
+//		arrIntColor = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	}
 	
 	public void update(){
@@ -177,7 +179,7 @@ public class MarvinImage implements Cloneable {
 	}
 	
 	public void setDimension(int w, int h){
-		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 		width = w;
 		height = h;
 		
@@ -258,6 +260,15 @@ public class MarvinImage implements Cloneable {
 		return arrIntColor[y*width+x];
 	}
 	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @return alpha component
+	 */
+	public int getAlphaComponent(int x, int y){
+		return (arrIntColor[((y*width+x))]& 0xFF000000) >>> 24;
+	}
 	
 	/**
 	 * Gets the integer color component 0  in the x and y position
@@ -306,12 +317,16 @@ public class MarvinImage implements Cloneable {
 	}
 	
 	public boolean isValidPosition(int x, int y){
-		if(x >= 0 && x < image.getWidth() && y >= 0 && y <= getHeight()){
+		if(x >= 0 && x < image.getWidth() && y >= 0 && y < getHeight()){
 			return true;
 		}
 		return false;
 	}
 
+	public void setIntColor(int x, int y, int alpha, int color){
+		arrIntColor[((y*image.getWidth()+x))] = (alpha << 24) + color;
+	}
+	
 	/**
 	 * Sets the integer color composition in X an Y position
 	 * @param x 		position
@@ -331,7 +346,20 @@ public class MarvinImage implements Cloneable {
 	 * @param c2 	component 2
 	 */
 	public void setIntColor(int x, int y, int c0, int c1, int c2){
-		arrIntColor[((y*image.getWidth()+x))] = (255 << 24)+
+		int alpha = (arrIntColor[((y*width+x))]& 0xFF000000) >>> 24;
+		setIntColor(x,y,alpha,c0,c1,c2);
+	}
+	
+	/**
+	 * Sets the integer color in X an Y position
+	 * @param x 	position
+	 * @param y 	position
+	 * @param c0	component 0
+	 * @param c1 	component 1
+	 * @param c2 	component 2
+	 */
+	public void setIntColor(int x, int y, int alpha, int c0, int c1, int c2){
+		arrIntColor[((y*image.getWidth()+x))] = (alpha << 24)+
 		(c0 << 16)+
 		(c1 << 8)+
 		c2;
@@ -353,6 +381,22 @@ public class MarvinImage implements Cloneable {
 	 */
 	public BufferedImage getBufferedImage(){
 		return image;
+	}
+	
+	public BufferedImage getBufferedImageNoAlpha(){
+		
+		// Only for RGB images
+		if(colorModel == COLOR_MODEL_RGB){
+			int pixels = width*height;
+			int[] pixelData = new int[pixels];
+			for(int i=0; i<pixels; i++){
+				pixelData[i] = arrIntColor[i] & 0x00FFFFFF;
+			}
+			BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+			image.setRGB(0, 0, width, height, pixelData,0,width);
+			return image;
+		}
+		return null;
 	}
 	
 	/**
@@ -433,7 +477,7 @@ public class MarvinImage implements Cloneable {
 	public BufferedImage getBufferedImage(int width, int height)
 	{
 		// using the new approach of Java 2D API 
-		BufferedImage buf = new BufferedImage(width,height, BufferedImage.TYPE_INT_RGB);
+		BufferedImage buf = new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = (Graphics2D) buf.getGraphics();
 		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		g2d.drawImage(image,0,0,width,height,null);
@@ -504,7 +548,7 @@ public class MarvinImage implements Cloneable {
 	 */
 	public MarvinImage clone() {
 		MarvinImage newMarvinImg = new MarvinImage(getWidth(), getHeight(), getColorModel());
-		BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+		BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		newMarvinImg.setBufferedImage(newImage);
 		MarvinImage.copyColorArray(this, newMarvinImg);
 		newMarvinImg.update();

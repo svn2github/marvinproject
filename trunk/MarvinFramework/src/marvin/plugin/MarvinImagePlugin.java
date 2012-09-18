@@ -38,11 +38,6 @@ import marvin.util.MarvinAttributes;
 public interface MarvinImagePlugin extends MarvinPlugin
 {	
 	/**
-	 * Initializes objects and attributes.
-	 */
-	public void load();
-	
-	/**
 	 * Shows a graphical interface 
 	 */
 	public MarvinAttributesPanel getAttributesPanel();
@@ -75,6 +70,13 @@ public interface MarvinImagePlugin extends MarvinPlugin
 		MarvinImage imgIn, 
 		MarvinImage imgOut, 
 		MarvinImageMask mask
+	);
+	
+	public void process
+	(
+		MarvinImage imgIn, 
+		MarvinImage imgOut, 
+		MarvinAttributes attrOut
 	);
 	
 	/**

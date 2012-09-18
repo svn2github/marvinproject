@@ -2,7 +2,7 @@ package marvin.plugin;
 
 import marvin.util.MarvinAttributes;
 
-public class MarvinAbstractPlugin implements MarvinPlugin{
+public abstract class MarvinAbstractPlugin implements MarvinPlugin{
 
 	private MarvinAttributes marvinAttributes;
 	

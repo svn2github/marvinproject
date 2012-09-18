@@ -105,17 +105,23 @@ public class MarvinImageIO {
 	
 	/**
 	 * Saves a MarvinImage via file system path. 
-	 * @param a_marvinImage	- MarvinImage object
-	 * @param a_filePath	- file path
+	 * @param marvinImage	- MarvinImage object
+	 * @param filePath	- file path
 	 */
-	public static void saveImage(MarvinImage a_marvinImage, String a_filePath){
-		File l_file = new File(a_filePath);
-		String l_fileFormat = a_filePath.substring(a_filePath.lastIndexOf('.')+1);
+	public static void saveImage(MarvinImage marvinImage, String filePath){
+		marvinImage.update();
+		File l_file = new File(filePath);
 		
 		try{
-			ImageIO.write(a_marvinImage.getBufferedImage(), l_fileFormat, l_file);			
+			if(filePath.toUpperCase().endsWith(".JPEG") || filePath.toUpperCase().endsWith(".JPG") ){
+				ImageIO.write(marvinImage.getBufferedImageNoAlpha(),  "JPEG", l_file);
+			}
+			else{
+				ImageIO.write(marvinImage.getBufferedImage(),  filePath.substring(filePath.lastIndexOf('.')+1), l_file);
+			}
+			
 		} catch(Exception e){
-			throw MarvinErrorHandler.handle(MarvinErrorHandler.TYPE.ERROR_FILE_SAVE, a_filePath, e);
+			throw MarvinErrorHandler.handle(MarvinErrorHandler.TYPE.ERROR_FILE_SAVE, filePath, e);
 		}
 	}
 }

@@ -52,6 +52,10 @@ public class MarvinAttributes
 		plugin = p;
 		hashAttributes = new LinkedHashMap<String, Object>();
 	}
+	
+	public MarvinAttributes(){
+		this(null);
+	}
 
 	/**
 	 * Set an attribute.
@@ -88,6 +92,14 @@ public class MarvinAttributes
 	public Object get(String name){
 		return hashAttributes.get(name);
 	}
+	
+	public Object get(String name, Object defaultValue){
+		Object o = get(name);
+		if(o != null){
+			return o;
+		}
+		return defaultValue;
+	}
 
 	/**
 	 * Returns all attributes´ name and value as a String array.
@@ -115,7 +127,8 @@ public class MarvinAttributes
 	 * Clones a MarvinAttributes Object.
 	 */
 	public MarvinAttributes clone(){
-		MarvinAttributes attrs = new MarvinAttributes(plugin);
+		MarvinAttributes attrs = new MarvinAttributes();
+		attrs.plugin = plugin;
 		String key;
 		String[] keys = hashAttributes.keySet().toArray(new String[0]);
 		for(int x=0; x<keys.length; x++){

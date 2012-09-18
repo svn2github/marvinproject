@@ -51,7 +51,7 @@ public class MarvinJarLoader extends ClassLoader {
 	 * @param jarPath 	jar file´s path.
 	 */
 	MarvinJarLoader(String jarPath){
-		super();
+		super(MarvinJarLoader.class.getClassLoader());
 		
 		try{
 			jarFile = new JarFile(jarPath);
