@@ -109,10 +109,10 @@ public class Thresholding extends MarvinAbstractImagePlugin{
 				}
 				
 				if(imageIn.getIntComponent0(x,y) < threshold){
-					imageOut.setIntColor(x, y, 0,0,0);
+					imageOut.setIntColor(x, y, imageIn.getAlphaComponent(x,y), 0,0,0);
 				}
 				else{
-					imageOut.setIntColor(x, y, 255,255,255);
+					imageOut.setIntColor(x, y, imageIn.getAlphaComponent(x,y), 255,255,255);
 				}				
 			}
 		}	

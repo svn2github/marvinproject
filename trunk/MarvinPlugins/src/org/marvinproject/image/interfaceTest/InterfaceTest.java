@@ -73,7 +73,7 @@ public class InterfaceTest extends MarvinAbstractImagePlugin
 
 			attributesPanel.newComponentRow();
 			attributesPanel.addLabel("labelIntensity", "Intensity:");
-			attributesPanel.addHorizontalSlider("sliderIntensity", "intensity", 0,100,0, attributes);
+			attributesPanel.addHorizontalSlider("sliderIntensity", "intensity", -100,100,0, attributes);
 			
 			attributesPanel.newComponentRow();
 			attributesPanel.addCheckBox("checkboxTest", "Check Me!", "checkbox1", attributes);

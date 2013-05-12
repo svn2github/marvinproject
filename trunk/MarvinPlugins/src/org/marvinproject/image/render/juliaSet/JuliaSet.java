@@ -117,7 +117,7 @@ public class JuliaSet extends MarvinAbstractImagePlugin{
 					ny = ny1;						 
 					iter++;
 				}
-				imageOut.setIntColor(j,height-1-i, getColor(iter, iterations, colorModel));
+				imageOut.setIntColor(j,height-1-i, 255, getColor(iter, iterations, colorModel));
 			}
 		}
 	}

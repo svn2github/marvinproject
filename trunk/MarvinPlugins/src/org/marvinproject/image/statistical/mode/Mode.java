@@ -185,7 +185,7 @@ public class Mode extends MarvinAbstractImagePlugin {
 				
 				}
 				
-				a_imageOut.setIntColor(x, y, r1 , g1 , b1 );
+				a_imageOut.setIntColor(x, y, a_imageIn.getAlphaComponent(x, y), r1 , g1 , b1 );
 
 				
 			}

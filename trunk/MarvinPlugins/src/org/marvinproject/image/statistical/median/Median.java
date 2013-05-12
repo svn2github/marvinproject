@@ -119,7 +119,7 @@ public class Median extends MarvinAbstractImagePlugin {
 						}
 					}
 
-					a_imageOut.setIntColor(x, y, l_totalRed / qtd, l_totalGreen / qtd, l_totalBlue / qtd);
+					a_imageOut.setIntColor(x, y, a_imageIn.getAlphaComponent(x, y), l_totalRed / qtd, l_totalGreen / qtd, l_totalBlue / qtd);
 
 					l_totalRed = 0;
 					l_totalGreen = 0;

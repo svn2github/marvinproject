@@ -91,7 +91,7 @@ public class GaussianBlur extends MarvinAbstractImagePlugin
 		performanceMeter.enableProgressBar("Gaussian Blur", (l_imageWidth*l_imageHeight)+l_imageWidth);
 
 		int l_pixelColor;
-		//kernelMatrix = getGaussianKernel();
+		kernelMatrix = getGaussianKernel();
 		resultMatrix = new double[l_imageWidth][l_imageHeight][3];
 		
 		boolean[][] l_arrMask = mask.getMaskArray();
@@ -118,7 +118,7 @@ public class GaussianBlur extends MarvinAbstractImagePlugin
 				resultMatrix[x][y][RED] = (short)(resultMatrix[x][y][0]%256);
 				resultMatrix[x][y][GREEN] = (short)(resultMatrix[x][y][1]%256);
 				resultMatrix[x][y][BLUE] = (short)(resultMatrix[x][y][2]%256);
-				imageOut.setIntColor(x,y,(int)resultMatrix[x][y][0], (int)resultMatrix[x][y][1], (int)resultMatrix[x][y][2]);
+				imageOut.setIntColor(x,y,imageIn.getAlphaComponent(x, y), (int)resultMatrix[x][y][0], (int)resultMatrix[x][y][1], (int)resultMatrix[x][y][2]);
 			}
 			performanceMeter.incProgressBar();
 			performanceMeter.stepsFinished(l_imageHeight);			

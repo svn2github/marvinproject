@@ -79,7 +79,7 @@ public class GrayGradient extends MarvinAbstractImagePlugin
 		for (int x = 0; x < a_imageIn.getWidth(); x++) {
 			for (int y = 0; y < a_imageIn.getHeight(); y++) {
 				try{
-					a_imageOut.setIntColor(x,y,r,g,b);
+					a_imageOut.setIntColor(x,y,a_imageIn.getAlphaComponent(x,y), r,g,b);
 				}
 				catch(Exception e){System.out.println("Error"); e.printStackTrace();}				
 			}

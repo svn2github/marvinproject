@@ -85,13 +85,13 @@ public class Television extends MarvinAbstractImagePlugin
 				for(int w=0; w<3; w++){
 					if(y+w < imageOut.getHeight()){
 						if(w == 0){
-							imageOut.setIntColor(x,y+w,r,0,0);
+							imageOut.setIntColor(x,y+w,imageIn.getAlphaComponent(x, y), r,0,0);
 						}
 						else if(w ==1){
-							imageOut.setIntColor(x,y+w,0,g,0);
+							imageOut.setIntColor(x,y+w,imageIn.getAlphaComponent(x, y), 0,g,0);
 						}
 						else if(w==2){
-							imageOut.setIntColor(x,y+w,0,0,b);
+							imageOut.setIntColor(x,y+w,imageIn.getAlphaComponent(x, y), 0,0,b);
 						}
 					}
 				}				

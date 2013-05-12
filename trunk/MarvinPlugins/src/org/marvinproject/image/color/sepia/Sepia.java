@@ -100,7 +100,7 @@ public class Sepia extends MarvinAbstractImagePlugin implements ChangeListener, 
 				g = truncate(g + depth);
 			
 				//Define a nova cor do ponto...
-				imageOut.setIntColor(x, y, r, g, b);
+				imageOut.setIntColor(x, y, imageIn.getAlphaComponent(x, y), r, g, b);
 			}
 			//performanceMeter.incProgressBar(width-2);
 		}

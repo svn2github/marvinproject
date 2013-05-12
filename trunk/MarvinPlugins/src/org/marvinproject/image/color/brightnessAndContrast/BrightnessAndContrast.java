@@ -97,7 +97,7 @@ public class BrightnessAndContrast extends MarvinAbstractImagePlugin
 				if(b < 0) b=0;
 				if(b > 255) b=255;
 
-				imageOut.setIntColor(x,y,(int)r,(int)g,(int)b);
+				imageOut.setIntColor(x,y,imageIn.getAlphaComponent(x, y), (int)r,(int)g,(int)b);
 			}
 		}
 
@@ -135,7 +135,7 @@ public class BrightnessAndContrast extends MarvinAbstractImagePlugin
 				if(b < 0) b=0;
 				if(b > 255) b=255;
 
-				imageOut.setIntColor(x,y,(int)r,(int)g,(int)b);
+				imageOut.setIntColor(x,y,imageIn.getAlphaComponent(x, y), (int)r,(int)g,(int)b);
 			}
 		}
 	}

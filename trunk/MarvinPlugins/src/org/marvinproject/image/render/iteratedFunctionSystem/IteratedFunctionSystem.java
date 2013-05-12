@@ -134,7 +134,7 @@ public class IteratedFunctionSystem extends MarvinAbstractImagePlugin{
 			y = startY-(int)(point[1]*factor);
 			
 			if(x >= 0 && x<width && y >= 0 && y < height){
-				imageOut.setIntColor((int)x,(int)y , 0);
+				imageOut.setIntColor((int)x,(int)y , 255, 0);
 			}
 		}
 	}

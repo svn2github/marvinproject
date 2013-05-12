@@ -139,7 +139,7 @@ public class Minimum extends MarvinAbstractImagePlugin {
 					}
 				}
 
-				a_imageOut.setIntColor(x, y, l_totalRed, l_totalGreen, l_totalBlue);
+				a_imageOut.setIntColor(x, y, a_imageIn.getAlphaComponent(x, y), l_totalRed, l_totalGreen, l_totalBlue);
 
 				l_totalRed = 0;
 				l_totalGreen = 0;

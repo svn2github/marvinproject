@@ -50,8 +50,7 @@ import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.plugin.MarvinPlugin;
 
-import org.marvinproject.image.histogram.grayHistogram.GrayHistogram;
-import org.marvinproject.image.render.lindenmayer.Lindenmayer;
+import org.marvinproject.image.segmentation.imageSlicer.ImageSlicer;
 
 /**
  * Test plug-ins and generate .jar files
@@ -61,7 +60,7 @@ public class PluginTester extends JFrame{
 	
 	// Definitions
 	private final static String PACKAGE_NET_FOLDER = "./bin/org/";
-	private final static String INITIAL_IMAGE = "./res/tucano.jpg";
+	private final static String INITIAL_IMAGE = "./res/senna.jpg";
 	
 	// Attributes
 	private JButton				buttonReset,
@@ -87,7 +86,7 @@ public class PluginTester extends JFrame{
 		
 		
 		
-		MarvinImagePlugin l_plugin = new Lindenmayer();
+		MarvinImagePlugin l_plugin = new ImageSlicer();
 		
 		//MarvinImagePlugin l_plugin = new Crop();
 		l_plugin.load();

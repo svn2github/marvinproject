@@ -99,10 +99,10 @@ public class Dithering extends MarvinAbstractImagePlugin
 				l_grayIntensity = 255-(a_imageIn.getIntComponent0(a_x+l_x, a_y+l_y));
 
 				if(l_grayIntensity > arrDither[x]){
-					a_imageOut.setIntColor(a_x+l_x, a_y+l_y, 0,0,0);
+					a_imageOut.setIntColor(a_x+l_x, a_y+l_y, a_imageIn.getAlphaComponent(a_x+l_x, a_y+l_y), 0,0,0);
 				}
 				else{
-					a_imageOut.setIntColor(a_x+l_x, a_y+l_y, 255,255,255);
+					a_imageOut.setIntColor(a_x+l_x, a_y+l_y, a_imageIn.getAlphaComponent(a_x+l_x, a_y+l_y), 255,255,255);
 				}
 			}
 		}

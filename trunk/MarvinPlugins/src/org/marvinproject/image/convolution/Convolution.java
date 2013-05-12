@@ -1,5 +1,7 @@
 package org.marvinproject.image.convolution;
 
+import javax.imageio.ImageIO;
+
 import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -105,7 +107,7 @@ public class Convolution extends MarvinAbstractImagePlugin{
 		resultGreen = Math.max(resultGreen, 0);
 		resultBlue 	= Math.max(resultBlue, 0);
 		
-		imageOut.setIntColor(x, y, (int)resultRed, (int)resultGreen, (int)resultBlue);
+		imageOut.setIntColor(x, y, imageIn.getAlphaComponent(x, y), (int)resultRed, (int)resultGreen, (int)resultBlue);
 	}
 	
 }

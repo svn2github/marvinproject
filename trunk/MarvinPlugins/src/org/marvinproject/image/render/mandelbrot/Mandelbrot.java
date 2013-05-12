@@ -113,7 +113,7 @@ public class Mandelbrot extends MarvinAbstractImagePlugin{
 					ny = ny1+y0;						 
 					iter++;
 				}
-				imageOut.setIntColor(j,height-1-i, getColor(iter, iterations, colorModel));
+				imageOut.setIntColor(j,height-1-i, 255, getColor(iter, iterations, colorModel));
 			}
 		}
 	}

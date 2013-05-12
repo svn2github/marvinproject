@@ -69,7 +69,7 @@ public class Invert extends MarvinAbstractImagePlugin
 				g = (255-(int)imageIn.getIntComponent1(x, y));
 				b = (255-(int)imageIn.getIntComponent2(x, y));
 
-				imageOut.setIntColor(x,y,r,g,b);
+				imageOut.setIntColor(x,y,imageIn.getAlphaComponent(x, y), r,g,b);
 			}
 		}
 	}

@@ -99,12 +99,14 @@ public class Flip extends MarvinAbstractImagePlugin
 				b = a_imageIn.getIntComponent2(x, y);
 
 				a_imageOut.setIntColor(x,y,
+						a_imageIn.getAlphaComponent(x, y),
 						a_imageIn.getIntComponent0((a_imageIn.getWidth()-1)-x, y),
 						a_imageIn.getIntComponent1((a_imageIn.getWidth()-1)-x, y),
 						a_imageIn.getIntComponent2((a_imageIn.getWidth()-1)-x, y)
 				);
 
-				a_imageOut.setIntColor((a_imageIn.getWidth() - 1) - x, y, r, g, b);
+				int nx = (a_imageIn.getWidth() - 1) - x;
+				a_imageOut.setIntColor(nx, y, a_imageIn.getAlphaComponent(nx, y), r, g, b);
 			}
 		}
 	}
@@ -123,12 +125,14 @@ public class Flip extends MarvinAbstractImagePlugin
 				b = a_imageIn.getIntComponent2(x, y);
 
 				a_imageOut.setIntColor(x,y,
+						a_imageIn.getAlphaComponent(x,y),
 						a_imageIn.getIntComponent0(x, (a_imageIn.getHeight()-1)-y),
 						a_imageIn.getIntComponent1(x, (a_imageIn.getHeight()-1)-y),
 						a_imageIn.getIntComponent2(x, (a_imageIn.getHeight()-1)-y)
 				);
 
-				a_imageOut.setIntColor(x, (a_imageIn.getHeight() - 1) - y, r, g, b);
+				int ny = (a_imageIn.getHeight() - 1) - y;
+				a_imageOut.setIntColor(x, ny, a_imageIn.getAlphaComponent(x,ny), r, g, b);
 			}
 		}
 	}

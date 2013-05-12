@@ -135,7 +135,7 @@ public class Skew extends MarvinAbstractImagePlugin
 		{
 			for(int yy = 0; yy < l_aHeight; yy++)
 			{
-				a_imageOut.setIntColor(xx, yy, 000000);
+				a_imageOut.setIntColor(xx, yy, a_imageIn.getAlphaComponent(xx,yy), 000000);
 				
 			}
 				
@@ -153,7 +153,7 @@ public class Skew extends MarvinAbstractImagePlugin
 					g = a_imageIn.getIntComponent1(x, y);
 					b = a_imageIn.getIntComponent2(x, y);
 				
-					a_imageOut.setIntColor(l_newXcoordinate, y, r, g, b);	
+					a_imageOut.setIntColor(l_newXcoordinate, y, a_imageIn.getAlphaComponent(l_newXcoordinate, y), r, g, b);	
 				}
 			}
 		}
@@ -169,7 +169,7 @@ public class Skew extends MarvinAbstractImagePlugin
 					g = a_imageIn.getIntComponent1(x, y);
 					b = a_imageIn.getIntComponent2(x, y);
 
-					a_imageOut.setIntColor(new_xcoordinate, y, r, g, b);	
+					a_imageOut.setIntColor(new_xcoordinate, y, a_imageIn.getAlphaComponent(new_xcoordinate, y), r, g, b);	
 				}
 			}
 		}
@@ -202,7 +202,7 @@ public class Skew extends MarvinAbstractImagePlugin
 		{
 			for(int yy = 0; yy < l_aHeight; yy++)
 			{
-				a_imageOut.setIntColor(xx, yy, 000000);
+				a_imageOut.setIntColor(xx, yy, a_imageIn.getAlphaComponent(xx, yy), 000000);
 			}
 		}
 		a_imageOut.resize(l_aWidth, l_newHeight);
@@ -229,7 +229,7 @@ public class Skew extends MarvinAbstractImagePlugin
 				g = a_imageIn.getIntComponent1(x, y);
 				b = a_imageIn.getIntComponent2(x, y);
 				
-				a_imageOut.setIntColor(x, l_newYcoordinate, r, g, b);	
+				a_imageOut.setIntColor(x, l_newYcoordinate, a_imageIn.getAlphaComponent(x, l_newYcoordinate), r, g, b);	
 			}
 		}
 		

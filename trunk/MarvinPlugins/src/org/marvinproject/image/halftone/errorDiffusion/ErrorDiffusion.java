@@ -91,11 +91,11 @@ public class ErrorDiffusion extends MarvinAbstractImagePlugin
 				
 				color = a_imageOut.getIntComponent0(x, y);
 				if(color > threshold){
-					a_imageOut.setIntColor(x,y,255,255,255);
+					a_imageOut.setIntColor(x,y,a_imageIn.getAlphaComponent(x,y), 255,255,255);
 					dif = -(255-color);
 				}
 				else{
-					a_imageOut.setIntColor(x,y,0,0,0);
+					a_imageOut.setIntColor(x,y,a_imageIn.getAlphaComponent(x,y), 0,0,0);
 					dif = color;
 				}
 
@@ -104,14 +104,14 @@ public class ErrorDiffusion extends MarvinAbstractImagePlugin
 					color = a_imageOut.getIntComponent0(x+1,y);
 					color+=(int)(0.4375*dif);
 					color = getValidGray(color); 
-					a_imageOut.setIntColor(x+1,y,color,color,color);
+					a_imageOut.setIntColor(x+1,y,a_imageIn.getAlphaComponent(x+1,y), color,color,color);
 
 					// Pixel Right Down
 					if(y+1 < a_imageOut.getHeight()){
 						color = a_imageOut.getIntComponent0(x+1,y+1);
 						color+=(int)(0.0625*dif);
 						color = getValidGray(color); 
-						a_imageOut.setIntColor(x+1,y+1,color,color,color);
+						a_imageOut.setIntColor(x+1,y+1,a_imageIn.getAlphaComponent(x+1,y+1), color,color,color);
 					}
 				}
 
@@ -120,14 +120,14 @@ public class ErrorDiffusion extends MarvinAbstractImagePlugin
 					color = a_imageOut.getIntComponent0(x,y+1);
 					color+=(int)(0.3125*dif);
 					color = getValidGray(color); 
-					a_imageOut.setIntColor(x,y+1,color,color,color);
+					a_imageOut.setIntColor(x,y+1,a_imageIn.getAlphaComponent(x,y+1), color,color,color);
 
 					// Pixel Down Left
 					if(x-1 >= 0){
 						color = a_imageOut.getIntComponent0(x-1,y+1);
 						color+=(int)(0.1875*dif);
 						color = getValidGray(color); 
-						a_imageOut.setIntColor(x-1,y+1,color,color,color);
+						a_imageOut.setIntColor(x-1,y+1,a_imageIn.getAlphaComponent(x-1,y+1), color,color,color);
 					}
 				}
 			}
