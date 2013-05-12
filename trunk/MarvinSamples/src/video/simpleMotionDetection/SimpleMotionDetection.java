@@ -43,9 +43,8 @@ import javax.swing.event.ChangeListener;
 
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
-import marvin.plugin.MarvinImagePlugin;
-import marvin.util.MarvinPluginLoader;
-import marvin.video.MarvinVideoManager;
+import marvin.video.MarvinJavaCVAdapter;
+import marvin.video.MarvinVideoInterface;
 
 /**
  * Simple motion detection sample
@@ -53,39 +52,42 @@ import marvin.video.MarvinVideoManager;
  */
 public class SimpleMotionDetection extends JFrame implements Runnable{
 
-	private JPanel 				panelCenter,
-								panelSlider;
+	private JPanel 					panelCenter,
+									panelSlider;
 	
 	
-	private JLabel 				labelMotion,
-								labelSlider;
+	private JLabel 					labelMotion,
+									labelSlider;
 	
-	private JSlider 			sliderSensibility;
+	private JSlider 				sliderSensibility;
 	
-	private MarvinVideoManager	videoManager;
-	private MarvinImagePanel 	videoPanel;
+	private MarvinVideoInterface	videoInterface;
+	private MarvinImagePanel 		videoPanel;
 	
-	private int					imageWidth,
-								imageHeight;
+	private int						imageWidth,
+									imageHeight;
 	
-	private Thread 				thread;
+	private Thread 					thread;
 	
-	private MarvinImage 		imageIn, 
-								imageOut, 
-								imageLastFrame;
+	private MarvinImage 			imageIn, 
+									imageOut, 
+									imageLastFrame;
 	
-	private double 				differencePercentage;
+	private double 					differencePercentage;
 	
-	private int 				sensibility = 7;
+	private int 					sensibility = 7;
 	
 	public SimpleMotionDetection(){
 		
 		videoPanel = new MarvinImagePanel();
-		videoManager = new MarvinVideoManager(videoPanel);	
-		videoManager.connect();
 		
-		imageWidth = videoManager.getCameraWidth();
-		imageHeight = videoManager.getCameraHeight();
+		videoInterface = new MarvinJavaCVAdapter();
+		videoInterface.connect(1);
+		
+		imageWidth = videoInterface.getImageWidth();
+		imageHeight = videoInterface.getImageHeight();
+		
+		imageOut = new MarvinImage(imageWidth, imageHeight);
 		
 		imageLastFrame = new MarvinImage(imageWidth,imageHeight);
 		
@@ -111,8 +113,6 @@ public class SimpleMotionDetection extends JFrame implements Runnable{
 		sliderSensibility.setPaintTicks(true);
 		sliderSensibility.addChangeListener(new SliderHandler());
 		
-		
-		
 		panelCenter = new JPanel(new BorderLayout());
 		panelCenter.add(videoPanel, BorderLayout.NORTH);
 		panelCenter.add(labelMotion, BorderLayout.SOUTH);
@@ -134,15 +134,16 @@ public class SimpleMotionDetection extends JFrame implements Runnable{
 	public void run(){
 		while(true){
 			
-			imageIn = videoManager.getCapturedImage();
-			imageOut = videoManager.getResultImage();
+			imageIn = videoInterface.getFrame();
+			MarvinImage.copyColorArray(imageIn, imageOut);
 			
 			differencePercentage = getDifference(imageLastFrame, imageIn);
 			
 			MarvinImage.copyColorArray(imageIn, imageOut);			
 			MarvinImage.copyColorArray(imageOut, imageLastFrame);
-			videoManager.updatePanel();
 			
+			videoPanel.setImage(imageOut);
+						
 			if(differencePercentage > sensibility){
 				labelMotion.setBackground(Color.green);
 				labelMotion.setForeground(Color.white);

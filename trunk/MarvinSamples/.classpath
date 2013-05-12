@@ -2,7 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="var" path="JMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MarvinFramework"/>
+	<classpathentry kind="lib" path="C:/Program Files/javacv-bin/javacv.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/javacv-bin/javacpp.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -33,6 +33,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
+import java.awt.image.ImageProducer;
 import java.util.Vector;
 
 import javax.swing.JFrame;
@@ -48,7 +49,8 @@ import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
-import marvin.video.MarvinVideoManager;
+import marvin.video.MarvinJavaCVAdapter;
+import marvin.video.MarvinVideoInterface;
 
 /**
  * Detect the motion regions considering the difference between frames.
@@ -56,38 +58,39 @@ import marvin.video.MarvinVideoManager;
  */
 public class DetectMotionRegions extends JFrame implements Runnable{
 	
-	private JPanel				panelSlider;
-	private JSlider				sliderSensibility;
-	private JLabel				labelSlider;
+	private JPanel					panelSlider;
+	private JSlider					sliderSensibility;
+	private JLabel					labelSlider;
 	
-	private MarvinVideoManager 	videoManager;
-	private MarvinImagePanel 	videoPanel;
+	private MarvinVideoInterface 	videoInterface;
+	private MarvinImagePanel 		videoPanel;
 	
-	private MarvinImage 		imageIn,
-								imageOut,
-								imageLastFrame;
+	private MarvinImage 			imageIn,
+									imageOut,
+									imageLastFrame;
 	
-	private int					imageWidth,
-								imageHeight;
+	private int						imageWidth,
+									imageHeight;
 								
 	
-	private MarvinAttributes 	attributesOut;
+	private MarvinAttributes 		attributesOut;
 	
-	private Thread 				thread;
+	private Thread 					thread;
 	
-	private MarvinImagePlugin 	pluginMotionRegions;
+	private MarvinImagePlugin 		pluginMotionRegions;
 	
-	private int					sensibility=30;
+	private int						sensibility=30;
 	
 	public DetectMotionRegions(){
 		
 		videoPanel = new MarvinImagePanel();
-		videoManager = new MarvinVideoManager(videoPanel);	
-		videoManager.connect();
+		videoInterface = new MarvinJavaCVAdapter();
+		videoInterface.connect(1);
 		
-		imageWidth = videoManager.getCameraWidth();
-		imageHeight = videoManager.getCameraHeight();
+		imageWidth = videoInterface.getImageWidth();
+		imageHeight = videoInterface.getImageHeight();
 		
+		imageOut = new MarvinImage(imageWidth,imageHeight);
 		imageLastFrame = new MarvinImage(imageWidth,imageHeight);
 		
 		attributesOut = new MarvinAttributes(null);
@@ -120,24 +123,22 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 		l_container.add(videoPanel, BorderLayout.NORTH);
 		l_container.add(panelSlider, BorderLayout.SOUTH);
 		
-		setSize(imageWidth,imageHeight+90);
+		setSize(imageWidth+10,imageHeight+100);
 		setVisible(true);	
 	}
 	
 	public void run(){
 		boolean first = true;
 		
-		Graphics l_graphics = videoManager.getResultGraphics();
+		Graphics l_graphics;
 
 		int[] l_tempRect;
 		
 		while(true){			
-			imageIn = videoManager.getCapturedImage();
-			imageOut = videoManager.getResultImage();
-			
-			if(l_graphics == null){
-				l_graphics = imageOut.getBufferedImage().getGraphics();
-			}
+			imageIn = videoInterface.getFrame();
+			MarvinImage.copyColorArray(imageIn, imageOut);
+		
+			l_graphics = imageOut.getBufferedImage().getGraphics();
 			
 			if(!first){
 				pluginMotionRegions.setAttribute("comparisonImage", imageLastFrame);
@@ -153,7 +154,7 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 					imageOut.drawRect(l_tempRect[0],l_tempRect[1], l_tempRect[2]-l_tempRect[0],l_tempRect[3]-l_tempRect[1], Color.red);
 				}
 				
-				videoManager.updatePanel();
+				videoPanel.setImage(imageOut);
 				MarvinImage.copyColorArray(imageIn, imageLastFrame);
 			}
 			

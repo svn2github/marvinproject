@@ -19,7 +19,8 @@ import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
-import marvin.video.MarvinVideoManager;
+import marvin.video.MarvinJavaCVAdapter;
+import marvin.video.MarvinVideoInterface;
 
 /**
  * Object tracking by color pattern
@@ -28,32 +29,40 @@ import marvin.video.MarvinVideoManager;
 
 public class ObjectTracking extends JFrame implements Runnable{
 
-	private MarvinVideoManager	videoManager;
-	private MarvinImagePanel 	videoPanel;
+	private MarvinVideoInterface	videoInterface;
+	private MarvinImagePanel 		videoPanel;
 	
-	private Thread 				thread;
+	private Thread 					thread;
 	
-	private MarvinImage 		imageIn, 
-								imageOut;
+	private MarvinImage 			imageIn, 
+									imageOut;
 	
-	private JPanel				panelSlider;
+	private JPanel					panelSlider;
 	
-	private JSlider				sliderSensibility;
+	private JSlider					sliderSensibility;
 	
-	private JLabel				labelSlider;
+	private JLabel					labelSlider;
 	
-	private MarvinImagePlugin	pluginImage;
-	private MarvinAttributes	attributesOut;
+	private MarvinImagePlugin		pluginImage;
+	private MarvinAttributes		attributesOut;
 	
-	private int					sensibility=30;
+	private int						sensibility=30;
 	
-	private boolean				regionSelected=false;
-	private int[]				arrInitialRegion;
+	private int						imageWidth,
+									imageHeight;
+	
+	private boolean					regionSelected=false;
+	private int[]					arrInitialRegion;
 	
 	public ObjectTracking(){
 		videoPanel = new MarvinImagePanel();
-		videoManager = new MarvinVideoManager(videoPanel);	
-		videoManager.connect();
+		videoInterface = new MarvinJavaCVAdapter();
+		videoInterface.connect(1);
+		
+		imageWidth = videoInterface.getImageWidth();
+		imageHeight = videoInterface.getImageHeight();
+		
+		imageOut = new MarvinImage(imageWidth, imageHeight);
 		
 		loadGUI();
 		
@@ -86,7 +95,7 @@ public class ObjectTracking extends JFrame implements Runnable{
 		l_container.add(videoPanel, BorderLayout.NORTH);
 		l_container.add(panelSlider, BorderLayout.SOUTH);
 		
-		setSize(videoManager.getCameraWidth()+20,videoManager.getCameraHeight()+100);
+		setSize(imageWidth+20,imageHeight+100);
 		setVisible(true);
 	}
 		
@@ -103,8 +112,8 @@ public class ObjectTracking extends JFrame implements Runnable{
 				time = System.currentTimeMillis();					
 			}
 			
-			imageIn = videoManager.getCapturedImage();
-			imageOut = videoManager.getResultImage();
+			imageIn = videoInterface.getFrame();
+			MarvinImage.copyColorArray(imageIn, imageOut);
 			
 			MarvinImage.copyColorArray(imageIn, imageOut);
 			
@@ -121,7 +130,7 @@ public class ObjectTracking extends JFrame implements Runnable{
 					Color.red
 				);
 			}
-			videoManager.updatePanel();
+			videoPanel.setImage(imageOut);
 		}
 	}
 	

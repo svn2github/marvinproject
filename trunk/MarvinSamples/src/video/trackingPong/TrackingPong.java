@@ -20,7 +20,8 @@ import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
-import marvin.video.MarvinVideoManager;
+import marvin.video.MarvinJavaCVAdapter;
+import marvin.video.MarvinVideoInterface;
 
 /**
  * Tracking game sample
@@ -28,71 +29,74 @@ import marvin.video.MarvinVideoManager;
  */
 public class TrackingPong extends JFrame implements Runnable{
 
-	private final static int 	BALL_INITIAL_PX=100;
-	private final static int 	BALL_INITIAL_PY=100;
-	private final static int 	BALL_INITIAL_SPEED=3;
+	private final static int 		BALL_INITIAL_PX=100;
+	private final static int 		BALL_INITIAL_PY=100;
+	private final static int 		BALL_INITIAL_SPEED=3;
 	
-	private MarvinVideoManager	videoManager;
-	private MarvinImagePanel 	videoPanel;
+	private MarvinVideoInterface	videoInterface;
+	private MarvinImagePanel 		videoPanel;
 	
-	private Thread 				thread;
+	private Thread 					thread;
 	
-	private MarvinImage 		imageIn, 
-								imageOut;
+	private MarvinImage 			imageIn, 
+									imageOut;
 	
-	private JPanel				panelSlider;
+	private JPanel					panelSlider;
 	
-	private JSlider				sliderSensibility;
+	private JSlider					sliderSensibility;
 	
-	private JLabel				labelSlider;
+	private JLabel					labelSlider;
 
-	private int					regionPx,
-								regionPy,
-								regionWidth,
-								regionHeight;
+	private int						regionPx,
+									regionPy,
+									regionWidth,
+									regionHeight;
 			
-	private boolean				regionSelected=false;
-	private int[]				arrInitialRegion;
+	private boolean					regionSelected=false;
+	private int[]					arrInitialRegion;
 	
-	private int					sensibility=30;
+	private int						sensibility=30;
 	
 	
 	
 	// Pong Game Attributes
-	private double				ballPx=BALL_INITIAL_PX,
-								ballPy=BALL_INITIAL_PY;
+	private double					ballPx=BALL_INITIAL_PX,
+									ballPy=BALL_INITIAL_PY;
 	
-	private int					ballSide=15;
+	private int						ballSide=15;
 								
 	
-	double						ballIncX=3;
-	private double				ballIncY=3;	
+	double							ballIncX=3;
+	private double					ballIncY=3;	
 	
-	private int					screenWidth,
-								screenHeight;
+	private int						imageWidth,
+									imageHeight;
 	
-	private Paddle				paddlePlayer,
-								paddleComputer;
+	private Paddle					paddlePlayer,
+									paddleComputer;
 	
-	private int					playerPoints=4,
-								computerPoints=1;
+	private int						playerPoints=4,
+									computerPoints=1;
 	
-	private MarvinImagePlugin 	findColorPattern;
-	private MarvinImagePlugin	text;
+	private MarvinImagePlugin 		findColorPattern;
+	private MarvinImagePlugin		text;
 	
-	private MarvinImage			imageBall,
-								imagePaddlePlayer,
-								imagePaddleComputer;
+	private MarvinImage				imageBall,
+									imagePaddlePlayer,
+									imagePaddleComputer;
 	
-	private MarvinAttributes	attributesOut;
+	private MarvinAttributes		attributesOut;
 	
 	public TrackingPong(){
 		videoPanel = new MarvinImagePanel();
-		videoManager = new MarvinVideoManager(videoPanel);	
-		videoManager.connect();
+		
+		videoInterface = new MarvinJavaCVAdapter();
+		videoInterface.connect(1);
 				
-		screenWidth = videoManager.getCameraWidth();
-		screenHeight = videoManager.getCameraHeight();
+		imageWidth = videoInterface.getImageWidth();
+		imageHeight = videoInterface.getImageHeight();
+		
+		imageOut = new MarvinImage(imageWidth, imageHeight);
 		
 		loadGUI();
 		
@@ -144,7 +148,7 @@ public class TrackingPong extends JFrame implements Runnable{
 		l_container.add(videoPanel, BorderLayout.NORTH);
 		l_container.add(panelSlider, BorderLayout.SOUTH);
 		
-		setSize(videoManager.getCameraWidth()+20,videoManager.getCameraHeight()+100);
+		setSize(videoInterface.getImageWidth()+20,videoInterface.getImageHeight()+100);
 		setVisible(true);
 	}
 	
@@ -161,11 +165,9 @@ public class TrackingPong extends JFrame implements Runnable{
 				time = System.currentTimeMillis();					
 			}
 			
-			imageIn = videoManager.getCapturedImage();
-			imageOut = videoManager.getResultImage();
-						
+			imageIn = videoInterface.getFrame();
 			MarvinImage.copyColorArray(imageIn, imageOut);
-			
+						
 			if(regionSelected){
 				findColorPattern.setAttribute("differenceColorRange", sensibility);
 				findColorPattern.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
@@ -188,7 +190,7 @@ public class TrackingPong extends JFrame implements Runnable{
 				text.process(imageOut, imageOut);
 			}
 
-			videoManager.updatePanel();
+			videoPanel.setImage(imageOut);
 		}
 	}
 	
@@ -206,8 +208,8 @@ public class TrackingPong extends JFrame implements Runnable{
 		collisionScreen();
 		collisionTap();
 		
-		imageOut.fillRect(horizontalMargin, 0, 5, screenHeight, Color.black);
-		imageOut.fillRect(screenWidth-horizontalMargin, 0, 5, screenHeight, Color.black);
+		imageOut.fillRect(horizontalMargin, 0, 5, imageHeight, Color.black);
+		imageOut.fillRect(imageWidth-horizontalMargin, 0, 5, imageHeight, Color.black);
 		
 		//imageOut.fillRect(paddlePlayer.px, paddlePlayer.py, paddlePlayer.width, paddlePlayer.height, Color.green);
 		//imageOut.fillRect(paddleComputer.px, paddleComputer.py, paddleComputer.width, paddleComputer.height, Color.red);
@@ -221,8 +223,8 @@ public class TrackingPong extends JFrame implements Runnable{
 		if(a_paddle.px < horizontalMargin){
 			a_paddle.px = horizontalMargin;
 		}
-		if(a_paddle.px+a_paddle.width > screenWidth-horizontalMargin){
-			a_paddle.px = screenWidth-horizontalMargin-a_paddle.width;
+		if(a_paddle.px+a_paddle.width > imageWidth-horizontalMargin){
+			a_paddle.px = imageWidth-horizontalMargin-a_paddle.width;
 		}		
 	}
 	
@@ -242,8 +244,8 @@ public class TrackingPong extends JFrame implements Runnable{
 			ballPx = horizontalMargin;
 			ballIncX*=-1;
 		}
-		if(ballPx+ballSide >= screenWidth-horizontalMargin){
-			ballPx=(screenWidth-horizontalMargin)-ballSide;
+		if(ballPx+ballSide >= imageWidth-horizontalMargin){
+			ballPx=(imageWidth-horizontalMargin)-ballSide;
 			ballIncX*=-1;
 		}
 		if(ballPy < 0){
@@ -252,7 +254,7 @@ public class TrackingPong extends JFrame implements Runnable{
 			ballPy = BALL_INITIAL_PY;
 			ballIncY=BALL_INITIAL_SPEED;
 			ballIncX=BALL_INITIAL_SPEED;
-		} else if(ballPy+ballSide >= screenHeight){
+		} else if(ballPy+ballSide >= imageHeight){
 			computerPoints++;
 			ballPx = BALL_INITIAL_PX;
 			ballPy = BALL_INITIAL_PY;
@@ -301,8 +303,8 @@ public class TrackingPong extends JFrame implements Runnable{
 			for(int ix=0; ix<width; ix++){
 				if
 				(
-					ix+x > 0 && ix+x < screenWidth &&
-					iy+y > 0 && iy+y < screenHeight
+					ix+x > 0 && ix+x < imageWidth &&
+					iy+y > 0 && iy+y < imageHeight
 				)
 				{
 					rgb=img.getIntColor(ix, iy);				

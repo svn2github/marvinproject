@@ -45,11 +45,11 @@ import javax.swing.event.ChangeListener;
 
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
-import marvin.image.MarvinImageMask;
 import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinPluginLoader;
-import marvin.video.MarvinVideoManager;
+import marvin.video.MarvinJavaCVAdapter;
+import marvin.video.MarvinVideoInterface;
 
 /**
  * Subtract the background and combine other image.
@@ -57,35 +57,43 @@ import marvin.video.MarvinVideoManager;
  */
 public class ChromaKey extends JFrame implements Runnable{
 	
-	private JPanel 				panelBottom,
-								panelSlider;	
-	private JSlider				sliderColorRange;
-	private JButton 			buttonCaptureBackground,
-								buttonStart;
-	private JLabel				labelColorRange;
+	private JPanel 					panelBottom,
+									panelSlider;	
+	private JSlider					sliderColorRange;
+	private JButton 				buttonCaptureBackground,
+									buttonStart;
+	private JLabel					labelColorRange;
 				
-	private MarvinVideoManager 	videoManager;
-	private MarvinImagePanel 	videoPanel;
+	private MarvinVideoInterface	 videoInterface;
+	private MarvinImagePanel 		videoPanel;
 	
-	private boolean 			playing;
-	private boolean 			removeBackground;
+	private boolean 				playing;
+	private boolean 				removeBackground;
 	
-	private Thread 				thread;
+	private Thread 					thread;
 	
-	private MarvinImage 		imageIn,
-								imageOut,
-								imageBackground;
+	private MarvinImage 			imageIn,
+									imageOut,
+									imageBackground;
 	
-	private MarvinImagePlugin 	pluginChroma, 
-								pluginCombine;
+	private MarvinImagePlugin 		pluginChroma, 
+									pluginCombine;
 	
-	private int 				colorRange=30;
+	private int						imageWidth,
+									imageHeight;
+	
+	private int 					colorRange=30;
 	
 	public ChromaKey(){
 		
 		videoPanel = new MarvinImagePanel();
-		videoManager = new MarvinVideoManager(videoPanel);	
-		videoManager.connect();
+		videoInterface = new MarvinJavaCVAdapter();
+		videoInterface.connect(1);
+		
+		imageWidth = videoInterface.getImageWidth();
+		imageHeight = videoInterface.getImageHeight();
+		
+		imageOut = new MarvinImage(imageWidth, imageHeight);
 		
 		loadGUI();
 		
@@ -93,8 +101,8 @@ public class ChromaKey extends JFrame implements Runnable{
 		pluginCombine = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.combine.combineByMask.jar");
 		
 		MarvinImage l_imageParadise = MarvinImageIO.loadImage("./res/paradise.jpg");
-		Integer cameraWidth = videoManager.getCameraWidth();
-		Integer cameraHeight = videoManager.getCameraHeight();
+		Integer cameraWidth = videoInterface.getImageWidth();
+		Integer cameraHeight = videoInterface.getImageHeight();
 		 		
 		MarvinImagePlugin pluginScale = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.transform.scale.jar");
 		pluginScale.setAttribute("newWidth", cameraWidth);
@@ -148,7 +156,7 @@ public class ChromaKey extends JFrame implements Runnable{
 		l_container.add(panelBottom, BorderLayout.SOUTH);
 		
 		
-		setSize(videoManager.getCameraWidth(),videoManager.getCameraHeight()+100);
+		setSize(videoInterface.getImageWidth(),videoInterface.getImageHeight()+100);
 		setVisible(true);
 	}
 	
@@ -156,8 +164,8 @@ public class ChromaKey extends JFrame implements Runnable{
 		while(true){			
 			if(playing)
 			{	
-				imageIn = videoManager.getCapturedImage();
-				imageOut = videoManager.getResultImage();
+				imageIn = videoInterface.getFrame();
+				MarvinImage.copyColorArray(imageIn, imageOut);
 				
 				if(removeBackground){
 					pluginChroma.setAttribute("colorRange", colorRange);
@@ -167,7 +175,7 @@ public class ChromaKey extends JFrame implements Runnable{
 				else{
 					MarvinImage.copyColorArray(imageIn, imageOut);
 				}
-				videoManager.updatePanel();
+				videoPanel.setImage(imageOut);
 			}
 		}
 	}
@@ -180,7 +188,7 @@ public class ChromaKey extends JFrame implements Runnable{
 	private class ButtonHandler implements ActionListener{
 		public void actionPerformed(ActionEvent a_event){
 			if(a_event.getSource() == buttonCaptureBackground){
-				MarvinImage.copyColorArray(videoManager.getCapturedImage(), imageBackground);
+				MarvinImage.copyColorArray(videoInterface.getFrame(), imageBackground);
 				pluginChroma.setAttribute("backgroundImage", imageBackground);
 				buttonStart.setEnabled(true);
 			}

@@ -46,7 +46,9 @@ import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinPluginLoader;
-import marvin.video.MarvinVideoManager;
+import marvin.video.MarvinJavaCVAdapter;
+import marvin.video.MarvinVideoInterface;
+import video.simpleVideoTest.SimpleVideoTest;
 
 /**
  * Using filters with video.
@@ -79,7 +81,7 @@ public class VideoFilters extends JFrame implements Runnable{
 	private JLabel				labelCurrentPlugin,
 								labelFPS;						
 	
-	private MarvinVideoManager 	videoManager;
+	//private MarvinVideoManager 	videoManager;
 	private MarvinImagePanel 	videoPanel;
 	
 	private MarvinImage 		imageIn;
@@ -98,13 +100,20 @@ public class VideoFilters extends JFrame implements Runnable{
 	private boolean 			playing;
 	private boolean				rect;
 	
+	private MarvinVideoInterface videoInterface;
+	
 	public VideoFilters(){
 		
+		
+		videoInterface = new MarvinJavaCVAdapter();
+		videoInterface.connect(1);
+		
+		
 		videoPanel = new MarvinImagePanel();
-		videoManager = new MarvinVideoManager(videoPanel);	
-		videoManager.connect();
-		cameraWidth = videoManager.getCameraWidth();
-		cameraHeight = videoManager.getCameraHeight();
+		cameraWidth = videoInterface.getImageWidth();
+		cameraHeight = videoInterface.getImageHeight();
+		
+		imageOut = new MarvinImage(cameraWidth, cameraHeight);
 		
 		imageLastFrame = new MarvinImage(cameraWidth,cameraHeight);
 		imageMask = MarvinImageMask.NULL_MASK;
@@ -112,7 +121,7 @@ public class VideoFilters extends JFrame implements Runnable{
 		
 		rect = false;
 		
-		System.out.println(videoManager.getCameraWidth()+","+videoManager.getCameraHeight());
+		//System.out.println(videoManager.getCameraWidth()+","+videoManager.getCameraHeight());
 		
 		loadGUI();
 		
@@ -220,19 +229,25 @@ public class VideoFilters extends JFrame implements Runnable{
 					time = System.currentTimeMillis();					
 				}
 				
-				imageIn = videoManager.getCapturedImage();
-				imageOut = videoManager.getResultImage();
+				imageIn = videoInterface.getFrame();
+				MarvinImage.copyColorArray(imageIn, imageOut);
+				
+				//imageIn = videoManager.getCapturedImage();
+				//imageOut = videoManager.getResultImage();
 				
 				if(pluginImage == null || rect){
 					MarvinImage.copyColorArray(imageIn, imageOut);
 				}
-				
+//				
 				if(pluginImage != null){					
 					pluginImage.process(imageIn, imageOut, null, imageMask, false);
 				}
+//				
+//				MarvinImage.copyColorArray(imageIn, imageLastFrame);
 				
-				MarvinImage.copyColorArray(imageIn, imageLastFrame);
-				videoManager.updatePanel();
+				//videoManager.updatePanel();
+				imageOut.update();
+				videoPanel.setImage(imageOut);
 			}
 		}
 		

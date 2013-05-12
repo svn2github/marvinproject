@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,7 +20,8 @@ import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
-import marvin.video.MarvinVideoManager;
+import marvin.video.MarvinJavaCVAdapter;
+import marvin.video.MarvinVideoInterface;
 
 /**
  * Tracking game sample
@@ -31,62 +30,68 @@ import marvin.video.MarvinVideoManager;
 
 public class TrackingGameBalls extends JFrame implements Runnable{
 
-	private MarvinVideoManager	videoManager;
-	private MarvinImagePanel 	videoPanel;
+	private MarvinVideoInterface	videoInterface;
+	private MarvinImagePanel 		videoPanel;
 	
-	private Thread 				thread;
+	private Thread 					thread;
 	
-	private MarvinImage 		imageIn, 
-								imageOut,
-								imageHat,
-								imageBall;
+	private MarvinImage 			imageIn, 
+									imageOut,
+									imageHat,
+									imageBall;
 							
 	
-	private JPanel				panelSlider;
+	private JPanel					panelSlider;
 	
-	private JSlider				sliderSensibility;
+	private JSlider					sliderSensibility;
 	
-	private JButton				buttonStart;
+	private JButton					buttonStart;
 	
-	private JLabel				labelSlider;
+	private JLabel					labelSlider;
 	
-	private int					regionPx,
-								regionPy;
+	private int						regionPx,
+									regionPy;
 	
-	private int					sensibility=30;
+	private int						sensibility=30;
 
-	private int playerPoints=15;
+	private int 					playerPoints=15;
 	
-	private boolean				regionSelected=false;
-	private int[]				arrInitialRegion;
+	private boolean					regionSelected=false;
+	private int[]					arrInitialRegion;
 	
-	private Ball[]				arrBall;
+	private Ball[]					arrBall;
 	
-	private int					screenWidth,
-								screenHeight;
+	private int						imageWidth,
+									imageHeight;
 	
-	private int					maskPx,
-								maskPy,
-								maskWidth=120,
-								maskHeight=60;
+	private int						maskPx,
+									maskPy,
+									maskWidth=120,
+									maskHeight=60;
 	
-	private MarvinImagePlugin	pluginColorPattern,
-								text;
+	private MarvinImagePlugin		pluginColorPattern,
+									text;
 	
-	private MarvinAttributes	attributesOut;
+	private MarvinAttributes		attributesOut;
 	
 	
 	// Game Attributes
-	private long lastBall=0;
-	private final static int BALL_DELAY = 1000;
-	private long currentTime;
+	private long 					lastBall=0;
+	private final static int 		BALL_DELAY = 1000;
+	private long 					currentTime;
 	
 	
 	
 	public TrackingGameBalls(){
 		videoPanel = new MarvinImagePanel();
-		videoManager = new MarvinVideoManager(videoPanel);	
-		videoManager.connect();
+		
+		videoInterface = new MarvinJavaCVAdapter();
+		videoInterface.connect(1);
+		
+		imageWidth = videoInterface.getImageWidth();
+		imageHeight = videoInterface.getImageHeight();
+		
+		imageOut = new MarvinImage(imageWidth, imageHeight);
 		
 		imageHat = MarvinImageIO.loadImage("./res/hat.png");
 		imageBall = MarvinImageIO.loadImage("./res/ball.png");
@@ -97,9 +102,6 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 			arrBall[l_i] = new Ball();
 			arrBall[l_i].used = false;
 		}
-		
-		screenWidth = videoManager.getCameraWidth();
-		screenHeight = videoManager.getCameraHeight();
 		
 		pluginColorPattern = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.pattern.findColorPattern.jar");
 		text				= MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.render.text.jar");
@@ -136,7 +138,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		l_container.add(panelSlider, BorderLayout.CENTER);
 		l_container.add(buttonStart, BorderLayout.SOUTH);
 		
-		setSize(videoManager.getCameraWidth()+20,videoManager.getCameraHeight()+100);
+		setSize(imageWidth+20,imageHeight+100);
 		setVisible(true);
 	}
 	
@@ -149,8 +151,8 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 			for(int ix=0; ix<l_width; ix++){
 				if
 				(
-					ix+x > 0 && ix+x < screenWidth &&
-					iy+y > 0 && iy+y < screenHeight
+					ix+x > 0 && ix+x < imageWidth &&
+					iy+y > 0 && iy+y < imageHeight
 				)
 				{
 					l_rgb=a_image.getIntColor(ix, iy);				
@@ -184,7 +186,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		for(int l_i=0; l_i<5; l_i++){
 			if(!arrBall[l_i].used){
 				arrBall[l_i].py = 1;
-				arrBall[l_i].px = (Math.random()*(screenWidth-300))+150;
+				arrBall[l_i].px = (Math.random()*(imageWidth-300))+150;
 				arrBall[l_i].used = true;
 				return;
 			}
@@ -204,8 +206,8 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 				time = System.currentTimeMillis();					
 			}
 			
-			imageIn = videoManager.getCapturedImage();
-			imageOut = videoManager.getResultImage();
+			imageIn = videoInterface.getFrame();
+			MarvinImage.copyColorArray(imageIn, imageOut);	
 						
 			MarvinImage.copyColorArray(imageIn, imageOut);
 			
@@ -225,7 +227,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 			text.setAttribute("text", "POINTS:"+playerPoints);
 			text.process(imageOut, imageOut);
 			
-			videoManager.updatePanel();
+			videoPanel.setImage(imageOut);
 		}
 	}
 	
@@ -249,7 +251,7 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 	}
 	
 	private void collisionBallScreen(Ball a_ball){
-		if(a_ball.py > screenHeight){
+		if(a_ball.py > imageHeight){
 			a_ball.used = false;
 		}
 	}
