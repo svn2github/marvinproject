@@ -47,6 +47,8 @@ public class MarvinImagePanel extends JPanel{
 	protected MarvinImage 			image;
 	protected MarvinPluginHistory 	history;
 	private boolean					fitSizeToImage;
+	private int						width;
+	private int						height;
 	
 	/**
 	 * Constructor
@@ -103,9 +105,15 @@ public class MarvinImagePanel extends JPanel{
 	 * @param img	image´s reference to be associated with the image panel.
 	 */
 	public void setImage(MarvinImage img){
+		img.update();
 		image = img;
-		if(fitSizeToImage && img != null){
-			setPreferredSize(new Dimension(image.getWidth(),image.getHeight()));
+		if(fitSizeToImage && img != null && this.width != image.getWidth() && this.height != image.getHeight()){
+			this.width = image.getWidth();
+			this.height = image.getHeight();
+			Dimension d = new Dimension(this.width, this.height);
+			setSize(d);
+			setPreferredSize(d);
+			validate();
 		}
 		repaint();
 	}
