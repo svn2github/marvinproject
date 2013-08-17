@@ -45,6 +45,7 @@ import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.video.MarvinJavaCVAdapter;
 import marvin.video.MarvinVideoInterface;
+import marvin.video.MarvinVideoInterfaceException;
 
 /**
  * Simple motion detection sample
@@ -79,22 +80,27 @@ public class SimpleMotionDetection extends JFrame implements Runnable{
 	
 	public SimpleMotionDetection(){
 		
-		videoPanel = new MarvinImagePanel();
-		
-		videoInterface = new MarvinJavaCVAdapter();
-		videoInterface.connect(1);
-		
-		imageWidth = videoInterface.getImageWidth();
-		imageHeight = videoInterface.getImageHeight();
-		
-		imageOut = new MarvinImage(imageWidth, imageHeight);
-		
-		imageLastFrame = new MarvinImage(imageWidth,imageHeight);
-		
-		loadGUI();
-		
-		thread = new Thread(this);
-		thread.start();
+		try{
+			videoPanel = new MarvinImagePanel();
+			
+			videoInterface = new MarvinJavaCVAdapter();
+			videoInterface.connect(1);
+			
+			imageWidth = videoInterface.getImageWidth();
+			imageHeight = videoInterface.getImageHeight();
+			
+			imageOut = new MarvinImage(imageWidth, imageHeight);
+			
+			imageLastFrame = new MarvinImage(imageWidth,imageHeight);
+			
+			loadGUI();
+			
+			thread = new Thread(this);
+			thread.start();
+		}
+		catch(MarvinVideoInterfaceException e){
+			e.printStackTrace();
+		}
 	}
 	
 	private void loadGUI(){
@@ -132,28 +138,33 @@ public class SimpleMotionDetection extends JFrame implements Runnable{
 	}
 	
 	public void run(){
-		while(true){
-			
-			imageIn = videoInterface.getFrame();
-			MarvinImage.copyColorArray(imageIn, imageOut);
-			
-			differencePercentage = getDifference(imageLastFrame, imageIn);
-			
-			MarvinImage.copyColorArray(imageIn, imageOut);			
-			MarvinImage.copyColorArray(imageOut, imageLastFrame);
-			
-			videoPanel.setImage(imageOut);
-						
-			if(differencePercentage > sensibility){
-				labelMotion.setBackground(Color.green);
-				labelMotion.setForeground(Color.white);
-				labelMotion.setText("MOTION: YES");
+		try{
+			while(true){
+				
+				imageIn = videoInterface.getFrame();
+				MarvinImage.copyColorArray(imageIn, imageOut);
+				
+				differencePercentage = getDifference(imageLastFrame, imageIn);
+				
+				MarvinImage.copyColorArray(imageIn, imageOut);			
+				MarvinImage.copyColorArray(imageOut, imageLastFrame);
+				
+				videoPanel.setImage(imageOut);
+							
+				if(differencePercentage > sensibility){
+					labelMotion.setBackground(Color.green);
+					labelMotion.setForeground(Color.white);
+					labelMotion.setText("MOTION: YES");
+				}
+				else{
+					labelMotion.setBackground(Color.red);
+					labelMotion.setForeground(Color.white);
+					labelMotion.setText("MOTION: NO");
+				}
 			}
-			else{
-				labelMotion.setBackground(Color.red);
-				labelMotion.setForeground(Color.white);
-				labelMotion.setText("MOTION: NO");
-			}
+		}
+		catch(MarvinVideoInterfaceException e){
+			e.printStackTrace();
 		}
 	}
 

@@ -51,6 +51,7 @@ import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
 import marvin.video.MarvinJavaCVAdapter;
 import marvin.video.MarvinVideoInterface;
+import marvin.video.MarvinVideoInterfaceException;
 
 /**
  * Detect the motion regions considering the difference between frames.
@@ -82,26 +83,30 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 	private int						sensibility=30;
 	
 	public DetectMotionRegions(){
-		
-		videoPanel = new MarvinImagePanel();
-		videoInterface = new MarvinJavaCVAdapter();
-		videoInterface.connect(1);
-		
-		imageWidth = videoInterface.getImageWidth();
-		imageHeight = videoInterface.getImageHeight();
-		
-		imageOut = new MarvinImage(imageWidth,imageHeight);
-		imageLastFrame = new MarvinImage(imageWidth,imageHeight);
-		
-		attributesOut = new MarvinAttributes(null);
-		
-		pluginMotionRegions = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.difference.differentRegions.jar");
-		pluginMotionRegions.setAttribute("comparisonImage", imageLastFrame);
-		
-		loadGUI();
-		
-		thread = new Thread(this);
-		thread.start();
+		try{
+			videoPanel = new MarvinImagePanel();
+			videoInterface = new MarvinJavaCVAdapter();
+			videoInterface.connect(1);
+			
+			imageWidth = videoInterface.getImageWidth();
+			imageHeight = videoInterface.getImageHeight();
+			
+			imageOut = new MarvinImage(imageWidth,imageHeight);
+			imageLastFrame = new MarvinImage(imageWidth,imageHeight);
+			
+			attributesOut = new MarvinAttributes(null);
+			
+			pluginMotionRegions = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.difference.differentRegions.jar");
+			pluginMotionRegions.setAttribute("comparisonImage", imageLastFrame);
+			
+			loadGUI();
+			
+			thread = new Thread(this);
+			thread.start();
+		}
+		catch(MarvinVideoInterfaceException e){
+			e.printStackTrace();
+		}
 	}
 	
 	private void loadGUI(){
@@ -118,10 +123,10 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 		panelSlider.add(labelSlider);
 		panelSlider.add(sliderSensibility);
 		
-		Container l_container = getContentPane();
-		l_container.setLayout(new BorderLayout());
-		l_container.add(videoPanel, BorderLayout.NORTH);
-		l_container.add(panelSlider, BorderLayout.SOUTH);
+		Container container = getContentPane();
+		container.setLayout(new BorderLayout());
+		container.add(videoPanel, BorderLayout.NORTH);
+		container.add(panelSlider, BorderLayout.SOUTH);
 		
 		setSize(imageWidth+10,imageHeight+100);
 		setVisible(true);	
@@ -130,35 +135,37 @@ public class DetectMotionRegions extends JFrame implements Runnable{
 	public void run(){
 		boolean first = true;
 		
-		Graphics l_graphics;
-
-		int[] l_tempRect;
+		int[] tempRect;
 		
-		while(true){			
-			imageIn = videoInterface.getFrame();
-			MarvinImage.copyColorArray(imageIn, imageOut);
-		
-			l_graphics = imageOut.getBufferedImage().getGraphics();
-			
-			if(!first){
-				pluginMotionRegions.setAttribute("comparisonImage", imageLastFrame);
-				pluginMotionRegions.setAttribute("colorRange", sensibility);
-				
+		try{
+			while(true){			
+				imageIn = videoInterface.getFrame();
 				MarvinImage.copyColorArray(imageIn, imageOut);
-				pluginMotionRegions.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
-				
-				Vector<int[]> regions = (Vector<int[]>)attributesOut.get("regions");
-				
-				for(int i=0; i<regions.size(); i++){					
-					l_tempRect = regions.get(i);					
-					imageOut.drawRect(l_tempRect[0],l_tempRect[1], l_tempRect[2]-l_tempRect[0],l_tempRect[3]-l_tempRect[1], Color.red);
+			
+				if(!first){
+					pluginMotionRegions.setAttribute("comparisonImage", imageLastFrame);
+					pluginMotionRegions.setAttribute("colorRange", sensibility);
+					
+					MarvinImage.copyColorArray(imageIn, imageOut);
+					pluginMotionRegions.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
+					
+					Vector<int[]> regions = (Vector<int[]>)attributesOut.get("regions");
+					
+					for(int i=0; i<regions.size(); i++){					
+						tempRect = regions.get(i);					
+						imageOut.drawRect(tempRect[0],tempRect[1], tempRect[2]-tempRect[0],tempRect[3]-tempRect[1], Color.red);
+						imageOut.drawRect(tempRect[0]+1,tempRect[1]+1, (tempRect[2]-tempRect[0])-2,(tempRect[3]-tempRect[1])-2, Color.red);
+					}
+					
+					videoPanel.setImage(imageOut);
+					MarvinImage.copyColorArray(imageIn, imageLastFrame);
 				}
 				
-				videoPanel.setImage(imageOut);
-				MarvinImage.copyColorArray(imageIn, imageLastFrame);
+				first=false;
 			}
-			
-			first=false;
+		}
+		catch(MarvinVideoInterfaceException e){
+			e.printStackTrace();
 		}
 	}
 	

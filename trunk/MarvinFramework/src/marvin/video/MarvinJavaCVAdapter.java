@@ -1,10 +1,12 @@
 package marvin.video;
 
+import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
 import marvin.image.MarvinImage;
 
 import com.googlecode.javacv.FrameGrabber;
+import com.googlecode.javacv.OpenCVFrameGrabber;
 import com.googlecode.javacv.VideoInputFrameGrabber;
 import com.googlecode.javacv.cpp.opencv_core.IplImage;
 
@@ -19,12 +21,12 @@ public class MarvinJavaCVAdapter implements MarvinVideoInterface{
 	private MarvinImage 	marvinImage;
 	
 	@Override
-	public void connect(int deviceIndex) {
+	public void connect(int deviceIndex) throws MarvinVideoInterfaceException {
 		connect(deviceIndex, 640,480);
 	}
 	
 	@Override
-	public void connect(int deviceIndex, int width, int height) {
+	public void connect(int deviceIndex, int width, int height) throws MarvinVideoInterfaceException {
 		this.width = width;
 		this.height = height;
 		marvinImage = new MarvinImage(width, height);
@@ -38,12 +40,33 @@ public class MarvinJavaCVAdapter implements MarvinVideoInterface{
 			connected = true;
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			throw new MarvinVideoInterfaceException("Error while trying to connect to the device", e);
+		}
+	}
+	
+	
+	@Override
+	public void loadResource(String path) throws MarvinVideoInterfaceException{
+		try{
+			grabber= new OpenCVFrameGrabber(path);
+			
+			grabber.setImageWidth(width);
+			grabber.setImageHeight(height);
+			grabber.start();
+			BufferedImage bufImage = grabber.grab().getBufferedImage();
+			this.width = bufImage.getWidth();
+			this.height = bufImage.getHeight();
+			marvinImage = new MarvinImage(width, height);
+			intArray = new int[height*width*4];
+			connected = true;
+		}
+		catch(Exception e){
+			throw new MarvinVideoInterfaceException("Error while trying to load resource", e);
 		}
 	}
 	
 	@Override
-	public void disconnect() {
+	public void disconnect() throws MarvinVideoInterfaceException {
 		try{
 			grabber.stop();
 			connected = false;
@@ -64,7 +87,7 @@ public class MarvinJavaCVAdapter implements MarvinVideoInterface{
 	}
 
 	@Override
-	public MarvinImage getFrame() {
+	public MarvinImage getFrame() throws MarvinVideoInterfaceException{
 		
 		if(connected){
 			image=null;
@@ -76,8 +99,7 @@ public class MarvinJavaCVAdapter implements MarvinVideoInterface{
 			 return marvinImage;
 			}
 			catch(Exception e){
-				e.printStackTrace();
-				return null;
+				throw new MarvinVideoInterfaceException("Error while trying to grab a new frame", e);
 			}
 		}
 		return null;

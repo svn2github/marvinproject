@@ -93,10 +93,10 @@ public class MarvinColorModelConverter {
 		
 		for(int i=0; i<binaryArray.length; i++){
 			if(binaryArray[i]){
-				rgbArray[i] = 0x00000000;
+				rgbArray[i] = 0xFF000000;
 			}
 			else{
-				rgbArray[i] = 0x00FFFFFF;
+				rgbArray[i] = 0xFFFFFFFF;
 			}
 		}
 		return rgbArray;

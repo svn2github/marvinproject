@@ -45,7 +45,13 @@ public class Convolution extends MarvinAbstractImagePlugin{
 			
 			for(int y=0; y<imageIn.getHeight(); y++){
 				for(int x=0; x<imageIn.getWidth(); x++){
-					applyMatrix(x, y, matrix, imageIn, imageOut);
+					
+					if(y >= matrix.length/2 && y < imageIn.getHeight()-matrix.length/2 && x >= matrix[0].length/2 && x < imageIn.getWidth()-matrix[0].length/2){
+						applyMatrix(x, y, matrix, imageIn, imageOut);
+					}
+					else{
+						imageOut.setIntColor(x, y, 0xFF000000);
+					}
 				}
 			}
 		}
@@ -94,7 +100,7 @@ public class Convolution extends MarvinAbstractImagePlugin{
 		resultGreen = Math.abs(resultGreen);
 		resultBlue = Math.abs(resultBlue);
 		
-		// allow the combination of multiple appications
+		// allow the combination of multiple applications
 		resultRed 	+= imageOut.getIntComponent0(x,y);
 		resultGreen += imageOut.getIntComponent1(x,y);
 		resultBlue 	+= imageOut.getIntComponent2(x,y);

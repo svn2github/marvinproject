@@ -21,6 +21,7 @@ import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
 import marvin.video.MarvinJavaCVAdapter;
 import marvin.video.MarvinVideoInterface;
+import marvin.video.MarvinVideoInterfaceException;
 
 /**
  * Object tracking by color pattern
@@ -55,23 +56,29 @@ public class ObjectTracking extends JFrame implements Runnable{
 	private int[]					arrInitialRegion;
 	
 	public ObjectTracking(){
-		videoPanel = new MarvinImagePanel();
-		videoInterface = new MarvinJavaCVAdapter();
-		videoInterface.connect(1);
 		
-		imageWidth = videoInterface.getImageWidth();
-		imageHeight = videoInterface.getImageHeight();
-		
-		imageOut = new MarvinImage(imageWidth, imageHeight);
-		
-		loadGUI();
-		
-		pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.pattern.findColorPattern.jar");
-		
-		attributesOut = new MarvinAttributes(null);
-
-		thread = new Thread(this);
-		thread.start();
+		try{
+			videoPanel = new MarvinImagePanel();
+			videoInterface = new MarvinJavaCVAdapter();
+			videoInterface.connect(1);
+			
+			imageWidth = videoInterface.getImageWidth();
+			imageHeight = videoInterface.getImageHeight();
+			
+			imageOut = new MarvinImage(imageWidth, imageHeight);
+			
+			loadGUI();
+			
+			pluginImage = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.pattern.findColorPattern.jar");
+			
+			attributesOut = new MarvinAttributes(null);
+	
+			thread = new Thread(this);
+			thread.start();
+		}
+		catch(MarvinVideoInterfaceException e){
+			e.printStackTrace();
+		}
 	}
 	
 	private void loadGUI(){	
@@ -103,34 +110,39 @@ public class ObjectTracking extends JFrame implements Runnable{
 		long time = System.currentTimeMillis();
 		int ticks=0;
 		
-		while(true){
-			
-			ticks++;
-			if(System.currentTimeMillis() - time > 1000){
-				System.out.println("FPS: "+ticks+"       ");
-				ticks=0;
-				time = System.currentTimeMillis();					
-			}
-			
-			imageIn = videoInterface.getFrame();
-			MarvinImage.copyColorArray(imageIn, imageOut);
-			
-			MarvinImage.copyColorArray(imageIn, imageOut);
-			
-			if(regionSelected){
-				pluginImage.setAttribute("differenceColorRange", sensibility);
-				pluginImage.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
+		try{
+			while(true){
 				
-				imageOut.drawRect
-				(
-					(Integer)attributesOut.get("regionPx"), 
-					(Integer)attributesOut.get("regionPy"),
-					(Integer)attributesOut.get("regionWidth"),
-					(Integer)attributesOut.get("regionHeight"),
-					Color.red
-				);
+				ticks++;
+				if(System.currentTimeMillis() - time > 1000){
+					System.out.println("FPS: "+ticks+"       ");
+					ticks=0;
+					time = System.currentTimeMillis();					
+				}
+				
+				imageIn = videoInterface.getFrame();
+				MarvinImage.copyColorArray(imageIn, imageOut);
+				
+				MarvinImage.copyColorArray(imageIn, imageOut);
+				
+				if(regionSelected){
+					pluginImage.setAttribute("differenceColorRange", sensibility);
+					pluginImage.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
+					
+					imageOut.drawRect
+					(
+						(Integer)attributesOut.get("regionPx"), 
+						(Integer)attributesOut.get("regionPy"),
+						(Integer)attributesOut.get("regionWidth"),
+						(Integer)attributesOut.get("regionHeight"),
+						Color.red
+					);
+				}
+				videoPanel.setImage(imageOut);
 			}
-			videoPanel.setImage(imageOut);
+		}
+		catch(MarvinVideoInterfaceException e){
+			e.printStackTrace();
 		}
 	}
 	

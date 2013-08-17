@@ -1,24 +1,26 @@
-package video.simpleVideoTest;
+package video.mediaFile;
+
 import javax.swing.JFrame;
+
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.video.MarvinJavaCVAdapter;
 import marvin.video.MarvinVideoInterface;
 import marvin.video.MarvinVideoInterfaceException;
 
-public class SimpleVideoTest extends JFrame implements Runnable{
-	
+public class MediaFileExample extends JFrame implements Runnable{
+
 	private MarvinVideoInterface 	videoAdapter;
 	private MarvinImage				image;
 	private MarvinImagePanel 		videoPanel;
 	
-	public SimpleVideoTest(){
-		super("Simple Video Test");
+	public MediaFileExample(){
+		super("Media File Example");
 	
 		try{
-			// Create the VideoAdapter and connect to the camera
+			// Create the VideoAdapter to load the video file
 			videoAdapter = new MarvinJavaCVAdapter();
-			videoAdapter.connect(1, 640, 480);
+			videoAdapter.loadResource("C:\\Users\\Gabriel\\Desktop\\intro_01.wmv");
 			
 			// Create VideoPanel
 			videoPanel = new MarvinImagePanel();
@@ -27,7 +29,7 @@ public class SimpleVideoTest extends JFrame implements Runnable{
 			// Start the thread for requesting the video frames 
 			new Thread(this).start();
 			
-			setSize(800,600);
+			setSize(videoAdapter.getImageWidth()+10,videoAdapter.getImageHeight()+80);
 			setVisible(true);
 		}
 		catch(MarvinVideoInterfaceException e){
@@ -36,8 +38,8 @@ public class SimpleVideoTest extends JFrame implements Runnable{
 	}
 	
 	public static void main(String[] args) {
-		SimpleVideoTest t = new SimpleVideoTest();
-		t.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		MediaFileExample m = new MediaFileExample();
+		m.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	@Override
@@ -54,5 +56,3 @@ public class SimpleVideoTest extends JFrame implements Runnable{
 		}
 	}
 }
-
-

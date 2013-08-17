@@ -50,6 +50,7 @@ import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinPluginLoader;
 import marvin.video.MarvinJavaCVAdapter;
 import marvin.video.MarvinVideoInterface;
+import marvin.video.MarvinVideoInterfaceException;
 
 /**
  * Subtract the background and combine other image.
@@ -85,42 +86,46 @@ public class ChromaKey extends JFrame implements Runnable{
 	private int 					colorRange=30;
 	
 	public ChromaKey(){
-		
-		videoPanel = new MarvinImagePanel();
-		videoInterface = new MarvinJavaCVAdapter();
-		videoInterface.connect(1);
-		
-		imageWidth = videoInterface.getImageWidth();
-		imageHeight = videoInterface.getImageHeight();
-		
-		imageOut = new MarvinImage(imageWidth, imageHeight);
-		
-		loadGUI();
-		
-		pluginChroma = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.subtract.jar");
-		pluginCombine = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.combine.combineByMask.jar");
-		
-		MarvinImage l_imageParadise = MarvinImageIO.loadImage("./res/paradise.jpg");
-		Integer cameraWidth = videoInterface.getImageWidth();
-		Integer cameraHeight = videoInterface.getImageHeight();
-		 		
-		MarvinImagePlugin pluginScale = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.transform.scale.jar");
-		pluginScale.setAttribute("newWidth", cameraWidth);
-		pluginScale.setAttribute("newHeight", cameraHeight);
-		
-		MarvinImage l_imageParadiseResize = new MarvinImage(1,1); 
-		pluginScale.process(l_imageParadise, l_imageParadiseResize);
-		l_imageParadise = l_imageParadiseResize;
-		
-		pluginCombine.setAttribute("combinationImage", l_imageParadise);
-		pluginCombine.setAttribute("colorMask", new Color(0,0,255));
-		
-		imageBackground = new MarvinImage(cameraWidth, cameraHeight);
-		
-		thread = new Thread(this);
-		thread.start();
-		playing = true;
-		removeBackground = false;
+		try{
+			videoPanel = new MarvinImagePanel();
+			videoInterface = new MarvinJavaCVAdapter();
+			videoInterface.connect(1);
+			
+			imageWidth = videoInterface.getImageWidth();
+			imageHeight = videoInterface.getImageHeight();
+			
+			imageOut = new MarvinImage(imageWidth, imageHeight);
+			
+			loadGUI();
+			
+			pluginChroma = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.subtract.jar");
+			pluginCombine = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.combine.combineByMask.jar");
+			
+			MarvinImage l_imageParadise = MarvinImageIO.loadImage("./res/paradise.jpg");
+			Integer cameraWidth = videoInterface.getImageWidth();
+			Integer cameraHeight = videoInterface.getImageHeight();
+			 		
+			MarvinImagePlugin pluginScale = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.transform.scale.jar");
+			pluginScale.setAttribute("newWidth", cameraWidth);
+			pluginScale.setAttribute("newHeight", cameraHeight);
+			
+			MarvinImage l_imageParadiseResize = new MarvinImage(1,1); 
+			pluginScale.process(l_imageParadise, l_imageParadiseResize);
+			l_imageParadise = l_imageParadiseResize;
+			
+			pluginCombine.setAttribute("combinationImage", l_imageParadise);
+			pluginCombine.setAttribute("colorMask", new Color(0,0,255));
+			
+			imageBackground = new MarvinImage(cameraWidth, cameraHeight);
+			
+			thread = new Thread(this);
+			thread.start();
+			playing = true;
+			removeBackground = false;
+		}
+		catch(MarvinVideoInterfaceException e){
+			e.printStackTrace();
+		}
 	}
 	
 	private void loadGUI(){
@@ -161,22 +166,27 @@ public class ChromaKey extends JFrame implements Runnable{
 	}
 	
 	public void run(){
-		while(true){			
-			if(playing)
-			{	
-				imageIn = videoInterface.getFrame();
-				MarvinImage.copyColorArray(imageIn, imageOut);
-				
-				if(removeBackground){
-					pluginChroma.setAttribute("colorRange", colorRange);
-					pluginChroma.process(imageIn, imageOut);
-					pluginCombine.process(imageOut, imageOut);					
-				}
-				else{
+		try{
+			while(true){			
+				if(playing)
+				{	
+					imageIn = videoInterface.getFrame();
 					MarvinImage.copyColorArray(imageIn, imageOut);
+					
+					if(removeBackground){
+						pluginChroma.setAttribute("colorRange", colorRange);
+						pluginChroma.process(imageIn, imageOut);
+						pluginCombine.process(imageOut, imageOut);					
+					}
+					else{
+						MarvinImage.copyColorArray(imageIn, imageOut);
+					}
+					videoPanel.setImage(imageOut);
 				}
-				videoPanel.setImage(imageOut);
 			}
+		}
+		catch(MarvinVideoInterfaceException e){
+			e.printStackTrace();
 		}
 	}
 	
@@ -188,9 +198,14 @@ public class ChromaKey extends JFrame implements Runnable{
 	private class ButtonHandler implements ActionListener{
 		public void actionPerformed(ActionEvent a_event){
 			if(a_event.getSource() == buttonCaptureBackground){
-				MarvinImage.copyColorArray(videoInterface.getFrame(), imageBackground);
-				pluginChroma.setAttribute("backgroundImage", imageBackground);
-				buttonStart.setEnabled(true);
+				try{
+					MarvinImage.copyColorArray(videoInterface.getFrame(), imageBackground);
+					pluginChroma.setAttribute("backgroundImage", imageBackground);
+					buttonStart.setEnabled(true);
+				}
+				catch(MarvinVideoInterfaceException e){
+					e.printStackTrace();
+				}
 			}
 			else if(a_event.getSource() == buttonStart){
 				removeBackground = true;

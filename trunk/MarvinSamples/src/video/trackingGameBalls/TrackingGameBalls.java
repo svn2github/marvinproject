@@ -22,6 +22,7 @@ import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
 import marvin.video.MarvinJavaCVAdapter;
 import marvin.video.MarvinVideoInterface;
+import marvin.video.MarvinVideoInterfaceException;
 
 /**
  * Tracking game sample
@@ -83,36 +84,41 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 	
 	
 	public TrackingGameBalls(){
-		videoPanel = new MarvinImagePanel();
-		
-		videoInterface = new MarvinJavaCVAdapter();
-		videoInterface.connect(1);
-		
-		imageWidth = videoInterface.getImageWidth();
-		imageHeight = videoInterface.getImageHeight();
-		
-		imageOut = new MarvinImage(imageWidth, imageHeight);
-		
-		imageHat = MarvinImageIO.loadImage("./res/hat.png");
-		imageBall = MarvinImageIO.loadImage("./res/ball.png");
-		loadGUI();
-		
-		arrBall = new Ball[5]; 
-		for(int l_i=0; l_i<5; l_i++){
-			arrBall[l_i] = new Ball();
-			arrBall[l_i].used = false;
+		try{
+			videoPanel = new MarvinImagePanel();
+			
+			videoInterface = new MarvinJavaCVAdapter();
+			videoInterface.connect(1);
+			
+			imageWidth = videoInterface.getImageWidth();
+			imageHeight = videoInterface.getImageHeight();
+			
+			imageOut = new MarvinImage(imageWidth, imageHeight);
+			
+			imageHat = MarvinImageIO.loadImage("./res/hat.png");
+			imageBall = MarvinImageIO.loadImage("./res/ball.png");
+			loadGUI();
+			
+			arrBall = new Ball[5]; 
+			for(int l_i=0; l_i<5; l_i++){
+				arrBall[l_i] = new Ball();
+				arrBall[l_i].used = false;
+			}
+			
+			pluginColorPattern = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.pattern.findColorPattern.jar");
+			text				= MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.render.text.jar");
+			text.setAttribute("fontFile", MarvinImageIO.loadImage("./res/font.png"));
+			text.setAttribute("color", 0xFFFFFFFF);
+			
+			
+			attributesOut = new MarvinAttributes(null);
+					
+			thread = new Thread(this);
+			thread.start();	
 		}
-		
-		pluginColorPattern = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.pattern.findColorPattern.jar");
-		text				= MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.render.text.jar");
-		text.setAttribute("fontFile", MarvinImageIO.loadImage("./res/font.png"));
-		text.setAttribute("color", 0xFFFFFFFF);
-		
-		
-		attributesOut = new MarvinAttributes(null);
-				
-		thread = new Thread(this);
-		thread.start();
+		catch(MarvinVideoInterfaceException e){
+			e.printStackTrace();
+		}
 	}
 	
 	private void loadGUI(){	
@@ -197,37 +203,42 @@ public class TrackingGameBalls extends JFrame implements Runnable{
 		long time = System.currentTimeMillis();
 		int ticks=0;
 		
-		while(true){
-			
-			ticks++;
-			if(System.currentTimeMillis() - time > 1000){
-				System.out.println("FPS: "+ticks+"       ");
-				ticks=0;
-				time = System.currentTimeMillis();					
+		try{
+			while(true){
+				
+				ticks++;
+				if(System.currentTimeMillis() - time > 1000){
+					System.out.println("FPS: "+ticks+"       ");
+					ticks=0;
+					time = System.currentTimeMillis();					
+				}
+				
+				imageIn = videoInterface.getFrame();
+				MarvinImage.copyColorArray(imageIn, imageOut);	
+							
+				MarvinImage.copyColorArray(imageIn, imageOut);
+				
+				if(regionSelected){
+					pluginColorPattern.setAttribute("differenceColorRange", sensibility);
+					pluginColorPattern.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
+					regionPx 		= (Integer)attributesOut.get("regionPx");
+					regionPy 		= (Integer)attributesOut.get("regionPy");
+					gameLoop();				
+				}
+				else{
+					combineImage(imageHat,300,200);
+				}
+				
+				
+				text.setAttribute("y", 5);
+				text.setAttribute("text", "POINTS:"+playerPoints);
+				text.process(imageOut, imageOut);
+				
+				videoPanel.setImage(imageOut);
 			}
-			
-			imageIn = videoInterface.getFrame();
-			MarvinImage.copyColorArray(imageIn, imageOut);	
-						
-			MarvinImage.copyColorArray(imageIn, imageOut);
-			
-			if(regionSelected){
-				pluginColorPattern.setAttribute("differenceColorRange", sensibility);
-				pluginColorPattern.process(imageIn, imageOut, attributesOut, MarvinImageMask.NULL_MASK, false);
-				regionPx 		= (Integer)attributesOut.get("regionPx");
-				regionPy 		= (Integer)attributesOut.get("regionPy");
-				gameLoop();				
-			}
-			else{
-				combineImage(imageHat,300,200);
-			}
-			
-			
-			text.setAttribute("y", 5);
-			text.setAttribute("text", "POINTS:"+playerPoints);
-			text.process(imageOut, imageOut);
-			
-			videoPanel.setImage(imageOut);
+		}
+		catch(MarvinVideoInterfaceException e){
+			e.printStackTrace();
 		}
 	}
 	
