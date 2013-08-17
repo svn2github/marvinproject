@@ -1,3 +1,14 @@
+/**
+Marvin Project <2007-2013>
+http://www.marvinproject.org
+
+License information:
+http://marvinproject.sourceforge.net/en/license.html
+
+Discussion group:
+https://groups.google.com/forum/#!forum/marvin-project
+*/
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
