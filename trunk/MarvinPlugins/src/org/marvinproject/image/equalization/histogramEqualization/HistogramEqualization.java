@@ -9,7 +9,7 @@ Discussion group:
 https://groups.google.com/forum/#!forum/marvin-project
 */
 
-package org.marvinproject.image.color.histogramEqualization;
+package org.marvinproject.image.equalization.histogramEqualization;
 
 import marvin.gui.MarvinAttributesPanel;
 import marvin.image.MarvinImage;
@@ -83,7 +83,7 @@ public class HistogramEqualization extends MarvinAbstractImagePlugin{
 				red = (int)((((double)cdfRed[red]-minRed)/(numberOfPixels-minRed)) * 255);
 				green = (int)((((double)cdfGreen[green]-minGreen)/(numberOfPixels-minGreen)) * 255);
 				blue = (int)((((double)cdfBlue[blue]-minBlue)/(numberOfPixels-minBlue)) * 255);
-				imageOut.setIntColor(x, y, red, green, blue);
+				imageOut.setIntColor(x, y, imageIn.getAlphaComponent(x,  y), red, green, blue);
 			}
 		}
 	}
