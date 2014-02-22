@@ -107,8 +107,23 @@ public class MarvinImage implements Cloneable {
 		return numComponents;
 	}
 	
-	public MarvinImage crop(int x, int y, int w, int h){		 
-		return(new MarvinImage(image.getSubimage(x, y, w, h)));
+	public MarvinImage subimage(int x, int y, int width, int height){
+		MarvinImage ret = new MarvinImage(width, height);
+		ret.setColorModel(this.getColorModel());
+		
+		for(int i=y; i<y+height; i++){
+			for(int j=x; j<x+width; j++){
+				switch(colorModel){
+					case COLOR_MODEL_RGB:
+						ret.setIntColor(j-x, i-y, this.getIntColor(j,i));
+						break;
+					case COLOR_MODEL_BINARY:
+						ret.setBinaryColor(j-x, i-y, this.getBinaryColor(j,i));
+						break;
+				}
+			}
+		}
+		return ret;
 	}
 	
 	public void updateColorArray(){
@@ -366,17 +381,34 @@ public class MarvinImage implements Cloneable {
 	}
 	
 	public BufferedImage getBufferedImageNoAlpha(){
+		int pixels;
+		int[] pixelData;
+		BufferedImage image;
 		
 		// Only for RGB images
-		if(colorModel == COLOR_MODEL_RGB){
-			int pixels = width*height;
-			int[] pixelData = new int[pixels];
-			for(int i=0; i<pixels; i++){
-				pixelData[i] = arrIntColor[i] & 0x00FFFFFF;
-			}
-			BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-			image.setRGB(0, 0, width, height, pixelData,0,width);
-			return image;
+		switch(colorModel){
+			case COLOR_MODEL_RGB:
+				pixels = width*height;
+				pixelData = new int[pixels];
+				for(int i=0; i<pixels; i++){
+					pixelData[i] = arrIntColor[i] & 0x00FFFFFF;
+				}
+				image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+				image.setRGB(0, 0, width, height, pixelData,0,width);
+				return image;
+			case COLOR_MODEL_BINARY:
+				pixels = width*height;
+				pixelData = new int[pixels];
+				for(int i=0; i<pixels; i++){
+					if(arrBinaryColor[i]){
+						pixelData[i] = 0x00000000;
+					} else {
+						pixelData[i] = 0x00FFFFFF;
+					}
+				}
+				image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+				image.setRGB(0, 0, width, height, pixelData,0,width);
+				return image;
 		}
 		return null;
 	}
@@ -645,6 +677,12 @@ public class MarvinImage implements Cloneable {
 		for(int i=y; i<y+h; i++){
 			setIntColor(x, i, color);
 			setIntColor(x+(w-1), i, color);
+		}
+	}
+	
+	public void drawRect(int x, int y, int w, int h, int length, Color c){
+		for(int i=0; i<length; i++){
+			drawRect(x+i, y+i, w-(i*2), h-(i*2), Color.green);
 		}
 	}
 	
