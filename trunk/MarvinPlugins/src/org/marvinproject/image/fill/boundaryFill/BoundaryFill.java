@@ -32,6 +32,7 @@ public class BoundaryFill extends MarvinAbstractImagePlugin{
 		setAttribute("color", Color.red.getRGB());
 		setAttribute("tile", null);
 		setAttribute("image", null);
+		setAttribute("threshold", 0);
 		
 		
 	}
@@ -51,17 +52,21 @@ public class BoundaryFill extends MarvinAbstractImagePlugin{
     			l_pointW,
     			l_pointE;
     
-    	MarvinImage.copyColorArray(imgIn, imgOut);
+    	//MarvinImage.copyColorArray(imgIn, imgOut);
     	
     	int x = (Integer)getAttribute("x");
     	int y = (Integer)getAttribute("y");
     	MarvinImage tileImage = (MarvinImage)(getAttribute("tile"));
+    	int threshold = (Integer)getAttribute("threshold");
     	
     	if(!imgOut.isValidPosition(x, y)){
     		return;
     	}
     	
     	int targetColor = imgIn.getIntColor(x, y);
+    	int targetRed = imgIn.getIntComponent0(x, y);
+    	int targetGreen = imgIn.getIntComponent1(x, y);
+    	int targetBlue = imgIn.getIntComponent2(x, y);
     	int newColor = (Integer)getAttribute("color");
     	
     	boolean fillMask[][] = new boolean[imgOut.getWidth()][imgOut.getHeight()];
@@ -78,7 +83,7 @@ public class BoundaryFill extends MarvinAbstractImagePlugin{
     		
     		// west
     		while(true){
-    			if(l_pointW.x-1 >= 0 && imgOut.getIntColor(l_pointW.x-1, l_pointW.y) == targetColor && !fillMask[l_pointW.x-1][l_pointW.y]){
+    			if(l_pointW.x-1 >= 0 && match(imgIn, l_pointW.x-1, l_pointW.y, targetRed, targetGreen, targetBlue, threshold) && !fillMask[l_pointW.x-1][l_pointW.y]){
     				l_pointW.x--;
     			}
     			else{
@@ -88,7 +93,7 @@ public class BoundaryFill extends MarvinAbstractImagePlugin{
     		
     		// east
     		while(true){
-    			if(l_pointE.x+1 < imgOut.getWidth() && imgOut.getIntColor(l_pointE.x+1, l_pointE.y) == targetColor && !fillMask[l_pointE.x+1][l_pointE.y]){
+    			if(l_pointE.x+1 < imgIn.getWidth() && match(imgIn, l_pointE.x+1, l_pointE.y, targetRed, targetGreen, targetBlue, threshold) && !fillMask[l_pointE.x+1][l_pointE.y]){
     				l_pointE.x++;
     			}
     			else{
@@ -102,10 +107,10 @@ public class BoundaryFill extends MarvinAbstractImagePlugin{
     			//drawPixel(imgOut, l_px, l_point.y, newColor, tileImage);
     			fillMask[l_px][l_point.y] = true;
     			
-    			if(l_point.y-1 >= 0 && imgOut.getIntColor(l_px, l_point.y-1) == targetColor && !fillMask[l_px][l_point.y-1]){
+    			if(l_point.y-1 >= 0 && match(imgIn, l_px, l_point.y-1, targetRed, targetGreen, targetBlue, threshold) && !fillMask[l_px][l_point.y-1]){
     				l_list.add(new Point(l_px, l_point.y-1));
     			}
-    			if(l_point.y+1 < imgOut.getHeight() && imgOut.getIntColor(l_px, l_point.y+1) == targetColor && !fillMask[l_px][l_point.y+1]){
+    			if(l_point.y+1 < imgOut.getHeight() && match(imgIn, l_px, l_point.y+1, targetRed, targetGreen, targetBlue, threshold) && !fillMask[l_px][l_point.y+1]){
     				l_list.add(new Point(l_px, l_point.y+1));
     			}
     		}
@@ -129,6 +134,11 @@ public class BoundaryFill extends MarvinAbstractImagePlugin{
     		}
     	}
     }
+	
+	private boolean match(MarvinImage image, int x, int y, int targetRed, int targetGreen, int targetBlue, int threshold){
+		int diff = Math.abs(image.getIntComponent0(x, y) - targetRed) + Math.abs(image.getIntComponent1(x, y) - targetGreen) + Math.abs(image.getIntComponent2(x, y) - targetBlue);
+		return (diff <= threshold);
+	}
 	
 	@Override
 	public MarvinAttributesPanel getAttributesPanel(){ return null; }

@@ -44,7 +44,7 @@ public class Emboss extends MarvinAbstractImagePlugin
 		for (int x = 0; x < a_imageIn.getWidth(); x++) {
 			for (int y = 0; y < a_imageIn.getHeight(); y++) {
 				if(l_arrMask != null && !l_arrMask[x][y]){
-					a_imageOut.setIntColor(x, y, a_imageIn.getIntColor(x, y));
+					a_imageOut.setIntColor(x, y, 255, a_imageIn.getIntColor(x, y));
 					continue;
 				}
 				             
@@ -78,7 +78,7 @@ public class Emboss extends MarvinAbstractImagePlugin
 	
 		         int grayLevel = Math.max (Math.min (128 + diff, 255),0);
 	
-		        a_imageOut.setIntColor(x, y, grayLevel, grayLevel, grayLevel);
+		        a_imageOut.setIntColor(x, y, 255, grayLevel, grayLevel, grayLevel);
 			}
 		}
 	}
