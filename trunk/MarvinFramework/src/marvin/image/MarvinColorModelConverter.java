@@ -54,10 +54,10 @@ public class MarvinColorModelConverter {
 		for(int y=0; y<img.getHeight(); y++){
 			for(int x=0; x<img.getWidth(); x++){
 				if(img.getBinaryColor(x, y)){
-					resultImage.setIntColor(x, y, 0,0,0);
+					resultImage.setIntColor(x, y, 255, 0,0,0);
 				}
 				else{
-					resultImage.setIntColor(x, y, 255,255,255);
+					resultImage.setIntColor(x, y, 255, 255,255,255);
 				}
 			}
 		}
