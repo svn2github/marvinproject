@@ -11,6 +11,8 @@ https://groups.google.com/forum/#!forum/marvin-project
 
 package marvin.plugin;
 
+import java.util.List;
+
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
@@ -74,5 +76,16 @@ public abstract class MarvinAbstractImagePlugin extends MarvinAbstractPlugin imp
 		MarvinImage imgOut
 	){
 		process(imgIn, imgOut, null, MarvinImageMask.NULL_MASK, false);
-	}	
+	}
+	
+	/**
+	 * Interface for algorithms that use multiple images as input. This method has to be
+	 * overridden by plug-ins that need that behavior.
+	 */
+	public void process
+	(
+		List<MarvinImage> imagesIn,
+		MarvinImage imageOut
+	){ /* An interface to be overridden */}
+	
 }

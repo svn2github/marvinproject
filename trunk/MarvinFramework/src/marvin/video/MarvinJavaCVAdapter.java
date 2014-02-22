@@ -31,6 +31,10 @@ public class MarvinJavaCVAdapter implements MarvinVideoInterface{
 	private int[]			intArray;
 	private MarvinImage 	marvinImage;
 	
+	private enum MODE{DEVICE, FILE};
+	
+	private MODE			mode;
+	
 	@Override
 	public void connect(int deviceIndex) throws MarvinVideoInterfaceException {
 		connect(deviceIndex, 640,480);
@@ -38,10 +42,12 @@ public class MarvinJavaCVAdapter implements MarvinVideoInterface{
 	
 	@Override
 	public void connect(int deviceIndex, int width, int height) throws MarvinVideoInterfaceException {
+		mode = MODE.DEVICE;
 		this.width = width;
 		this.height = height;
 		marvinImage = new MarvinImage(width, height);
 		intArray = new int[height*width*4];
+		
 		
 		try{
 			grabber= new VideoInputFrameGrabber(deviceIndex);
@@ -58,6 +64,7 @@ public class MarvinJavaCVAdapter implements MarvinVideoInterface{
 	
 	@Override
 	public void loadResource(String path) throws MarvinVideoInterfaceException{
+		mode = MODE.FILE;
 		try{
 			grabber= new OpenCVFrameGrabber(path);
 			
@@ -104,10 +111,12 @@ public class MarvinJavaCVAdapter implements MarvinVideoInterface{
 			image=null;
 			try
 			{
-			 image=grabber.grab();
-			 convertToIntArray(image, intArray);
-			 marvinImage.setIntColorArray(intArray);
-			 return marvinImage;
+				if(mode == MODE.DEVICE || grabber.getFrameNumber() < grabber.getLengthInFrames()-1){
+					 image=grabber.grab();
+					 convertToIntArray(image, intArray);
+					 marvinImage.setIntColorArray(intArray);
+					 return marvinImage;
+				}
 			}
 			catch(Exception e){
 				throw new MarvinVideoInterfaceException("Error while trying to grab a new frame", e);

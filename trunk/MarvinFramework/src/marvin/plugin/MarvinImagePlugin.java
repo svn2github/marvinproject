@@ -11,6 +11,8 @@ https://groups.google.com/forum/#!forum/marvin-project
 
 package marvin.plugin;
 
+import java.util.List;
+
 import marvin.gui.MarvinAttributesPanel;
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
@@ -70,6 +72,15 @@ public interface MarvinImagePlugin extends MarvinPlugin
 	(
 		MarvinImage imgIn, 
 		MarvinImage imgOut
+	);
+	
+	/**
+	 * Interface for algorithms that use multiple images as input.
+	 */
+	public void process
+	(
+		List<MarvinImage> imagesIn,
+		MarvinImage imageOut
 	);
 	
 	
