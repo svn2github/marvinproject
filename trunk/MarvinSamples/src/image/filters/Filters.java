@@ -11,22 +11,24 @@ https://groups.google.com/forum/#!forum/marvin-project
 
 package image.filters;
 
+import static marvin.MarvinPluginCollection.grayScale;
+import static marvin.MarvinPluginCollection.invertColors;
+import static marvin.MarvinPluginCollection.sepia;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.nio.ByteBuffer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import marvin.MarvinPluginCollection;
 import marvin.gui.MarvinImagePanel;
 import marvin.image.MarvinImage;
-import marvin.image.MarvinImageMask;
 import marvin.io.MarvinImageIO;
 import marvin.plugin.MarvinImagePlugin;
-import marvin.util.MarvinPluginLoader;
 
 /**
  * Filter application sample
@@ -51,7 +53,6 @@ public class Filters extends JFrame
 	public Filters()
 	{
 		super("Filters Sample");
-		
 		// Create Graphical Interface
 		ButtonHandler buttonHandler = new ButtonHandler();
 		buttonGray = new JButton("Gray");
@@ -101,17 +102,13 @@ public class Filters extends JFrame
 		public void actionPerformed(ActionEvent a_event){
 			image = backupImage.clone();
 			if(a_event.getSource() == buttonGray){
-				imagePlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.grayScale.jar");
-				imagePlugin.process(image, image);
+				grayScale(image);
 			}
 			else if(a_event.getSource() == buttonSepia){
-				imagePlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.sepia.jar");
-				imagePlugin.setAttribute("hsIntensidade", 50);				
-				imagePlugin.process(image, image);
+				sepia(image, 50);
 			}
 			else if(a_event.getSource() == buttonInvert){
-				imagePlugin = MarvinPluginLoader.loadImagePlugin("org.marvinproject.image.color.invert.jar");
-				imagePlugin.process(image, image);
+				invertColors(image);
 			}
 			image.update();
 			imagePanel.setImage(image);
