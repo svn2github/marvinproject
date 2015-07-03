@@ -111,12 +111,10 @@ public class Circles extends MarvinAbstractImagePlugin
 
 	private double getSquareIntensity(int a_x, int a_y, MarvinImage image){
 		double l_totalValue=0;
-		double l_pixels=0;
 		for(int y=0; y<circleWidth; y++){
 			for(int x=0; x<circleWidth; x++)
 			{
 				if(a_x+x > 0 && a_x+x < image.getWidth() &&  a_y+y> 0 && a_y+y < image.getHeight()){
-					l_pixels++;
 					l_totalValue+= 255-(image.getIntComponent0(a_x+x,a_y+y));
 				}
 			}

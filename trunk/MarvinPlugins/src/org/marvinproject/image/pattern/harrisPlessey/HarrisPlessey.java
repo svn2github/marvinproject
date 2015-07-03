@@ -17,12 +17,13 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import marvin.gui.MarvinAttributesPanel;
-import marvin.gui.MarvinFilterWindow;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
 import marvin.performance.MarvinPerformanceMeter;
 import marvin.plugin.MarvinAbstractImagePlugin;
+import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinAttributes;
+import marvin.util.MarvinPluginLoader;
 
 /**
  * Absolute interst point
@@ -75,8 +76,11 @@ public class HarrisPlessey extends MarvinAbstractImagePlugin{
 	private boolean padrao;
 	private boolean modoAnalise;
 	
+	private MarvinImagePlugin crop;
+	
 	public void load(){
 		performanceMeter = new MarvinPerformanceMeter();
+		crop = MarvinPluginLoader.loadImagePlugin("package org.marvinproject.image.segmentation.crop");
 	}
 
 	public MarvinAttributesPanel getAttributesPanel(){return null;}
@@ -294,7 +298,12 @@ public class HarrisPlessey extends MarvinAbstractImagePlugin{
 					{
 
 						a_imageOut.setIntColor(x, y, 255,0,0);
-						MarvinImage imgTmp = a_imageIn.crop(x, y, 40, 40);
+						crop.setAttribute("x", x);
+						crop.setAttribute("y", y);
+						crop.setAttribute("width", 40);
+						crop.setAttribute("height", 40);
+						MarvinImage imgTmp = a_imageIn.clone();
+						crop.process(a_imageIn, imgTmp);
 						if(!a_previewMode){
 							try{
 								if(modoAnalise)
