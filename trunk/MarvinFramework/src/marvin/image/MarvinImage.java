@@ -698,7 +698,9 @@ public class MarvinImage implements Cloneable {
 		int color = c.getRGB();
 		for(int i=x; i<x+w; i++){
 			for(int j=y; j<y+h; j++){
-				setIntColor(i,j,color);
+				if(i < width && j < height){
+					setIntColor(i,j,color);
+				}
 			}
 		}
 	}

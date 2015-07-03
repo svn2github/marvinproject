@@ -23,6 +23,10 @@ public interface MarvinVideoInterface {
 	void loadResource(String path) 							throws MarvinVideoInterfaceException;
 	void disconnect() 										throws MarvinVideoInterfaceException;
 	
+	// Video file
+	int getFrameNumber();
+	void setFrameNumber(int number)							throws MarvinVideoInterfaceException;
+	
 	// Image Width / Height
 	int getImageWidth();
 	int getImageHeight();

@@ -67,7 +67,6 @@ public class MarvinJavaCVAdapter implements MarvinVideoInterface{
 		mode = MODE.FILE;
 		try{
 			grabber= new OpenCVFrameGrabber(path);
-			
 			grabber.setImageWidth(width);
 			grabber.setImageHeight(height);
 			grabber.start();
@@ -103,7 +102,7 @@ public class MarvinJavaCVAdapter implements MarvinVideoInterface{
 	public int getImageHeight(){
 		return this.height;
 	}
-
+	
 	@Override
 	public MarvinImage getFrame() throws MarvinVideoInterfaceException{
 		
@@ -131,4 +130,26 @@ public class MarvinJavaCVAdapter implements MarvinVideoInterface{
 			arr[ii] = 0xFF000000 + (buffer.get(bi+2) << 16) + (buffer.get(bi+1) << 8) + buffer.get(bi);
 		}
 	}
+
+	@Override
+	public int getFrameNumber() {
+		if(connected){
+			return grabber.getFrameNumber();
+		}
+		return -1;
+	}
+
+	@Override
+	public void setFrameNumber(int number) throws MarvinVideoInterfaceException {
+		if(connected){
+			try{
+				grabber.setFrameNumber(number);
+			}
+			catch(Exception e){
+				throw new MarvinVideoInterfaceException("Error while setting frame number", e);
+			}
+		}
+	}
+	
+	
 }

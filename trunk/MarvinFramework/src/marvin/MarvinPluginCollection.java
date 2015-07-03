@@ -5,6 +5,7 @@ import java.util.List;
 
 import marvin.image.MarvinImage;
 import marvin.image.MarvinImageMask;
+import marvin.image.MarvinSegment;
 import marvin.plugin.MarvinImagePlugin;
 import marvin.util.MarvinAttributes;
 import marvin.util.MarvinPluginLoader;
@@ -22,6 +23,7 @@ public class MarvinPluginCollection {
 										determineSceneBackground,
 										emboss,
 										flip,
+										floodfillSegmentation,
 										gaussianBlur,
 										grayScale,
 										grayScaleQuantization,
@@ -169,6 +171,16 @@ public class MarvinPluginCollection {
 		emboss.process(imageIn, imageOut, mask);
 	}
 	
+	/*==============================================================================================
+	  | FLOODFILL SEGMENTATION
+	  ==============================================================================================*/	
+	public static MarvinSegment[] floodfillSegmentation(MarvinImage imageIn){
+		floodfillSegmentation = checkAndLoadImagePlugin(emboss, "org.marvinproject.image.segmentation.floodfillSegmentation");
+		MarvinAttributes output = new MarvinAttributes();
+		floodfillSegmentation.process(imageIn, null, output);
+		return (MarvinSegment[])output.get("segments");
+	}
+
 	/*==============================================================================================
 	  | GAUSSIAN BLUR
 	  ==============================================================================================*/
@@ -355,6 +367,25 @@ public class MarvinPluginCollection {
 		roberts = checkAndLoadImagePlugin(roberts, "org.marvinproject.image.edge.roberts");
 		roberts.process(imageIn, imageOut, mask);
 	}
+	
+	/*==============================================================================================
+	  | SCALE
+	  ==============================================================================================*/
+	public static void scale(MarvinImage imageIn, MarvinImage imageOut, int width, int height){
+		scale = checkAndLoadImagePlugin(roberts, "org.marvinproject.image.transform.scale");
+		scale.setAttribute("newWidth", width);
+		scale.setAttribute("newHeight", height);
+		scale.process(imageIn, imageOut);
+	}
+	
+	public static void scale(MarvinImage imageIn, MarvinImage imageOut, int width){
+		int cWidth = imageIn.getWidth();
+		int cHeight = imageIn.getHeight();
+		double cFactor = (double)cHeight/cWidth;
+		int newHeight= (int)(cFactor*width);
+		scale(imageIn, imageOut, width, newHeight);
+	}
+	
 	
 	/*==============================================================================================
 	  | SEPIA
